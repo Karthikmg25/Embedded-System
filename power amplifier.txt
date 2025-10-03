@@ -2,6 +2,6 @@
 
 
 power amplifiers are used to boost the power level of signals.they are mostly used in audio communication systems.
-it converts the dc input poer poer into usefull ac output power and controlls it using the input voltage.the 
+it converts the dc input poer poer into usefull ac output power and provides a high power output signal.the 
 efficiency of a power amplifier lies in its ability to perform this conversion.its used at the last stage of 
 amplification where its connected with the loudspeaker.it preffers power saving rather than providing leniarity.
