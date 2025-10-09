@@ -18,6 +18,8 @@ int product(int a,int b)
 }
 float div(float a,float b)
 {
+   if(b== '0')
+      printf("ERROR");
    return (a/b);
 
 }
