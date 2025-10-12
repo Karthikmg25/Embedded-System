@@ -1,5 +1,5 @@
 #include<stdio.h>
-void rightpattern2(int n)
+void pyramid(int n)
 {
     for(int i=0;i<n;i++)
     {
@@ -19,5 +19,5 @@ void main()
     printf("enter the limit ");
     scanf("%d",&a);
     printf("\n");
-    rightpattern2(a);
+    pyramid(a);
 }
