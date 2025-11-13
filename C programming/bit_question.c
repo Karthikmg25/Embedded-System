@@ -36,8 +36,4 @@ void main()
     printf("\nbinary of the toggled number         : "); binary(tog);
     printf("\n toggled number                      : %d",tog);
     
-
-   
-   
-
 }
