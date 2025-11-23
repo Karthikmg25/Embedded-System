@@ -2,7 +2,7 @@
 
 <item itemtype="Subcircuit" CircId="L293-1" mainComp="false" Show_id="true" Show_Val="false" Pos="-168,-92" rotation="0" hflip="-1" vflip="1" label="L293-1" idLabPos="0,-20" labelrot="0" valLabPos="-16,20" valLabRot="0" Input_High_V="2.5 V" Input_Low_V="2.5 V" Input_Imped="1e+09 Ω" Out_High_V="5 V" Out_Low_V="0 V" Out_Imped="40 Ω" Tpd_ps="10 ns" Tr_ps="3 ns" Tf_ps="4 ns" Logic_Symbol="true" />
 
-<item itemtype="MCU" CircId="mega328-4" mainComp="false" Show_id="true" Show_Val="false" Pos="-84,-108" rotation="0" hflip="1" vflip="1" label="mega328-4" idLabPos="0,-20" labelrot="0" valLabPos="-16,20" valLabRot="0" Frequency="16 MHz" Program="../dcmotor_INPUT/dcmotor_INPUT/Debug/dcmotor_INPUT.hex" Auto_Load="false" saveEepr="true" Logic_Symbol="false" Rst_enabled="false" Ext_Osc="false" Wdt_enabled="false" Clk_Out="false" MainMcu="true" SerialMon="-1" />
+<item itemtype="MCU" CircId="mega328-4" mainComp="false" Show_id="true" Show_Val="false" Pos="-84,-108" rotation="0" hflip="1" vflip="1" label="mega328-4" idLabPos="0,-20" labelrot="0" valLabPos="-16,20" valLabRot="0" Frequency="16 MHz" Program="../dcmotor_INPUT/dcmotor_INPUT/Debug/dcmotor_INPUT.hex" Auto_Load="false" saveEepr="true" Rst_enabled="false" Ext_Osc="false" Wdt_enabled="false" Clk_Out="false" MainMcu="true" SerialMon="-1" />
 
 <item itemtype="Fixed Voltage" CircId="Fixed Voltage-7" mainComp="false" Show_id="false" Show_Val="false" Pos="268,-224" rotation="0" hflip="-1" vflip="1" label="Fixed Voltage-7" idLabPos="-64,-24" labelrot="0" valLabPos="-16,8" valLabRot="0" Voltage="5 V" Out="true" />
 
@@ -14,7 +14,7 @@
 
 <item itemtype="Resistor" CircId="Resistor-13" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="116,24" rotation="90" hflip="1" vflip="1" label="Resistor-13" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="10 kΩ" />
 
-<item itemtype="Voltage Source" CircId="Voltage Source-17" mainComp="false" ShowProp="MaxValue" Show_id="false" Show_Val="true" Pos="-188,48" rotation="0" hflip="1" vflip="1" label="Voltage Source-17" idLabPos="-32,-48" labelrot="0" valLabPos="-8,30" valLabRot="0" Running="true" Value_Volt="4.94 V" MaxValue="6.19 V" MinValue="-3.81 V" />
+<item itemtype="Voltage Source" CircId="Voltage Source-17" mainComp="false" ShowProp="MaxValue" Show_id="false" Show_Val="true" Pos="-188,48" rotation="0" hflip="1" vflip="1" label="Voltage Source-17" idLabPos="-32,-48" labelrot="0" valLabPos="-8,30" valLabRot="0" Running="true" Value_Volt="5.6 V" MaxValue="6.19 V" MinValue="-3.81 V" />
 
 <item itemtype="DcMotor" CircId="DcMotor-21" mainComp="false" Show_id="true" Show_Val="false" Pos="-308,-92" rotation="0" hflip="-1" vflip="1" label="DcMotor-21" idLabPos="-22,-48" labelrot="0" valLabPos="-14,36" valLabRot="0" RPM_Nominal="60 _RPM" Volt_Nominal="5 V" Resistance="100 Ω" />
 

@@ -1,0 +1,356 @@
+
+traffic_interruption.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  00800100  0000020e  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         000001ba  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  0000020e  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000240  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000058  00000000  00000000  0000027c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   0000096a  00000000  00000000  000002d4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000006c9  00000000  00000000  00000c3e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000003f4  00000000  00000000  00001307  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000094  00000000  00000000  000016fc  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000003d1  00000000  00000000  00001790  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000246  00000000  00000000  00001b61  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000048  00000000  00000000  00001da7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   8:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  10:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  14:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  18:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  1c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  20:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  24:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  2c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  30:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  34:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  38:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  3c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  40:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  44:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  48:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  4c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  50:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  54:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  58:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  5c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  60:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  64:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+  74:	0e 94 92 00 	call	0x124	; 0x124 <main>
+  78:	0c 94 db 00 	jmp	0x1b6	; 0x1b6 <_exit>
+
+0000007c <__bad_interrupt>:
+  7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000080 <green>:
+#define F_CPU 16000000UL
+#include <avr/io.h>
+#include<util/delay.h>
+void green()
+{
+	PORTD|=(1<<PORTD1);//set PD1 as HIGH
+  80:	8b b1       	in	r24, 0x0b	; 11
+  82:	82 60       	ori	r24, 0x02	; 2
+  84:	8b b9       	out	0x0b, r24	; 11
+	PORTD&=~((1<<PORTD2)|(1<<PORTD3));//set PD2 and PD3 as LOW
+  86:	8b b1       	in	r24, 0x0b	; 11
+  88:	83 7f       	andi	r24, 0xF3	; 243
+  8a:	8b b9       	out	0x0b, r24	; 11
+  8c:	08 95       	ret
+
+0000008e <orange>:
+}
+void orange()
+{
+	PORTD|=(1<<PORTD2);//set PD2 as HIGH
+  8e:	8b b1       	in	r24, 0x0b	; 11
+  90:	84 60       	ori	r24, 0x04	; 4
+  92:	8b b9       	out	0x0b, r24	; 11
+	PORTD&=~((1<<PORTD1)|(1<<PORTD3));//set PD1 and PD3 as LOW
+  94:	8b b1       	in	r24, 0x0b	; 11
+  96:	85 7f       	andi	r24, 0xF5	; 245
+  98:	8b b9       	out	0x0b, r24	; 11
+  9a:	08 95       	ret
+
+0000009c <red>:
+}
+void red()
+{
+	PORTD|=(1<<PORTD3);//set PD3 as HIGH
+  9c:	8b b1       	in	r24, 0x0b	; 11
+  9e:	88 60       	ori	r24, 0x08	; 8
+  a0:	8b b9       	out	0x0b, r24	; 11
+	PORTD&=~((1<<PORTD2)|(1<<PORTD1));//set PD1 and PD2 as LOW
+  a2:	8b b1       	in	r24, 0x0b	; 11
+  a4:	89 7f       	andi	r24, 0xF9	; 249
+  a6:	8b b9       	out	0x0b, r24	; 11
+  a8:	08 95       	ret
+
+000000aa <clockwise>:
+}
+void clockwise()
+{
+	PORTD|=(1<<PORTD5);//set PD5 as HIGH
+  aa:	8b b1       	in	r24, 0x0b	; 11
+  ac:	80 62       	ori	r24, 0x20	; 32
+  ae:	8b b9       	out	0x0b, r24	; 11
+	PORTD&=~(1<<PORTD6);//set PD6 as LOW
+  b0:	8b b1       	in	r24, 0x0b	; 11
+  b2:	8f 7b       	andi	r24, 0xBF	; 191
+  b4:	8b b9       	out	0x0b, r24	; 11
+  b6:	08 95       	ret
+
+000000b8 <anti_clockwise>:
+	
+}
+void anti_clockwise()
+{
+	PORTD|=(1<<PORTD6);//set PD6 as HIGH
+  b8:	8b b1       	in	r24, 0x0b	; 11
+  ba:	80 64       	ori	r24, 0x40	; 64
+  bc:	8b b9       	out	0x0b, r24	; 11
+	PORTD&=~(1<<PORTD5);//set PD5 as LOW
+  be:	8b b1       	in	r24, 0x0b	; 11
+  c0:	8f 7d       	andi	r24, 0xDF	; 223
+  c2:	8b b9       	out	0x0b, r24	; 11
+  c4:	08 95       	ret
+
+000000c6 <stop>:
+	
+}
+void stop()
+{
+	PORTD&=~((1<<PORTD5)|(1<<PORTD6));//set both PD6 and PD5 as LOW
+  c6:	8b b1       	in	r24, 0x0b	; 11
+  c8:	8f 79       	andi	r24, 0x9F	; 159
+  ca:	8b b9       	out	0x0b, r24	; 11
+  cc:	08 95       	ret
+
+000000ce <interruption>:
+	
+}
+void interruption()
+{
+	red();           //light red LED
+  ce:	0e 94 4e 00 	call	0x9c	; 0x9c <red>
+	clockwise();     //rotate the motor clockwise.
+  d2:	0e 94 55 00 	call	0xaa	; 0xaa <clockwise>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  d6:	2a ea       	ldi	r18, 0xAA	; 170
+  d8:	36 ee       	ldi	r19, 0xE6	; 230
+  da:	86 e9       	ldi	r24, 0x96	; 150
+  dc:	91 e0       	ldi	r25, 0x01	; 1
+  de:	21 50       	subi	r18, 0x01	; 1
+  e0:	30 40       	sbci	r19, 0x00	; 0
+  e2:	80 40       	sbci	r24, 0x00	; 0
+  e4:	90 40       	sbci	r25, 0x00	; 0
+  e6:	d9 f7       	brne	.-10     	; 0xde <interruption+0x10>
+  e8:	00 00       	nop
+	_delay_ms(10000);//for 10 seconds
+	stop();          //stop motor
+  ea:	0e 94 63 00 	call	0xc6	; 0xc6 <stop>
+  ee:	24 e5       	ldi	r18, 0x54	; 84
+  f0:	3d ec       	ldi	r19, 0xCD	; 205
+  f2:	8d e2       	ldi	r24, 0x2D	; 45
+  f4:	93 e0       	ldi	r25, 0x03	; 3
+  f6:	21 50       	subi	r18, 0x01	; 1
+  f8:	30 40       	sbci	r19, 0x00	; 0
+  fa:	80 40       	sbci	r24, 0x00	; 0
+  fc:	90 40       	sbci	r25, 0x00	; 0
+  fe:	d9 f7       	brne	.-10     	; 0xf6 <interruption+0x28>
+ 100:	00 c0       	rjmp	.+0      	; 0x102 <interruption+0x34>
+ 102:	00 c0       	rjmp	.+0      	; 0x104 <interruption+0x36>
+ 104:	00 00       	nop
+	
+	_delay_ms(20000);//wait for 20 seconds
+	
+	anti_clockwise();//rotate the motor anti clockwise.
+ 106:	0e 94 5c 00 	call	0xb8	; 0xb8 <anti_clockwise>
+ 10a:	2a ea       	ldi	r18, 0xAA	; 170
+ 10c:	36 ee       	ldi	r19, 0xE6	; 230
+ 10e:	86 e9       	ldi	r24, 0x96	; 150
+ 110:	91 e0       	ldi	r25, 0x01	; 1
+ 112:	21 50       	subi	r18, 0x01	; 1
+ 114:	30 40       	sbci	r19, 0x00	; 0
+ 116:	80 40       	sbci	r24, 0x00	; 0
+ 118:	90 40       	sbci	r25, 0x00	; 0
+ 11a:	d9 f7       	brne	.-10     	; 0x112 <interruption+0x44>
+ 11c:	00 00       	nop
+	_delay_ms(10000);//for 10 seconds
+	stop();          //stop motor
+ 11e:	0e 94 63 00 	call	0xc6	; 0xc6 <stop>
+ 122:	08 95       	ret
+
+00000124 <main>:
+	
+}
+int main(void)
+{
+	DDRD|=(1<<DDD1)|(1<<DDD2)|(1<<DDD3)|(1<<DDD5)|(1<<DDD6);//set PD1,PD2,PD3,PD5,PD6 as OUTPUTs
+ 124:	8a b1       	in	r24, 0x0a	; 10
+ 126:	8e 66       	ori	r24, 0x6E	; 110
+ 128:	8a b9       	out	0x0a, r24	; 10
+    DDRB&=~(1<<DDB5);//set PB5 as INPUT
+ 12a:	84 b1       	in	r24, 0x04	; 4
+ 12c:	8f 7d       	andi	r24, 0xDF	; 223
+ 12e:	84 b9       	out	0x04, r24	; 4
+    PORTB|=(1<<PORTB5);//enable pull up on PB5
+ 130:	85 b1       	in	r24, 0x05	; 5
+ 132:	80 62       	ori	r24, 0x20	; 32
+ 134:	85 b9       	out	0x05, r24	; 5
+    while (1) 
+    {
+
+			green();               // light green LED for 4 seconds
+ 136:	0e 94 40 00 	call	0x80	; 0x80 <green>
+ 13a:	80 e0       	ldi	r24, 0x00	; 0
+ 13c:	90 e0       	ldi	r25, 0x00	; 0
+ 13e:	0c c0       	rjmp	.+24     	; 0x158 <main+0x34>
+ 140:	ef e9       	ldi	r30, 0x9F	; 159
+ 142:	ff e0       	ldi	r31, 0x0F	; 15
+ 144:	31 97       	sbiw	r30, 0x01	; 1
+ 146:	f1 f7       	brne	.-4      	; 0x144 <main+0x20>
+ 148:	00 c0       	rjmp	.+0      	; 0x14a <main+0x26>
+ 14a:	00 00       	nop
+			                       // instead of using continuous delays,break it using loops
+			for(int i=0;i<4000;i++)// use loops so that interrupt checking can be done during every milliseconds,
+			{                      // else button press will be ignored and won't be checked because of constant delay
+				_delay_ms(1);
+				if(!(PINB&(1<<PINB5)))// if PB5(button) pressed,
+ 14c:	1d 99       	sbic	0x03, 5	; 3
+ 14e:	03 c0       	rjmp	.+6      	; 0x156 <main+0x32>
+				{
+					interruption();   // interruption happens
+ 150:	0e 94 67 00 	call	0xce	; 0xce <interruption>
+					break;           // break from loop after interruption to avoid further delays
+ 154:	05 c0       	rjmp	.+10     	; 0x160 <main+0x3c>
+    while (1) 
+    {
+
+			green();               // light green LED for 4 seconds
+			                       // instead of using continuous delays,break it using loops
+			for(int i=0;i<4000;i++)// use loops so that interrupt checking can be done during every milliseconds,
+ 156:	01 96       	adiw	r24, 0x01	; 1
+ 158:	80 3a       	cpi	r24, 0xA0	; 160
+ 15a:	ff e0       	ldi	r31, 0x0F	; 15
+ 15c:	9f 07       	cpc	r25, r31
+ 15e:	84 f3       	brlt	.-32     	; 0x140 <main+0x1c>
+					interruption();   // interruption happens
+					break;           // break from loop after interruption to avoid further delays
+				}
+			}
+				
+			orange();// light orange LED for 4 seconds
+ 160:	0e 94 47 00 	call	0x8e	; 0x8e <orange>
+			
+			for(int i=0;i<4000;i++)
+ 164:	80 e0       	ldi	r24, 0x00	; 0
+ 166:	90 e0       	ldi	r25, 0x00	; 0
+ 168:	0c c0       	rjmp	.+24     	; 0x182 <main+0x5e>
+ 16a:	ef e9       	ldi	r30, 0x9F	; 159
+ 16c:	ff e0       	ldi	r31, 0x0F	; 15
+ 16e:	31 97       	sbiw	r30, 0x01	; 1
+ 170:	f1 f7       	brne	.-4      	; 0x16e <main+0x4a>
+ 172:	00 c0       	rjmp	.+0      	; 0x174 <main+0x50>
+ 174:	00 00       	nop
+			{                      
+				_delay_ms(1);
+				if(!(PINB&(1<<PINB5)))// if PB5(button) pressed,
+ 176:	1d 99       	sbic	0x03, 5	; 3
+ 178:	03 c0       	rjmp	.+6      	; 0x180 <main+0x5c>
+				{
+					interruption();
+ 17a:	0e 94 67 00 	call	0xce	; 0xce <interruption>
+					break;
+ 17e:	05 c0       	rjmp	.+10     	; 0x18a <main+0x66>
+				}
+			}
+				
+			orange();// light orange LED for 4 seconds
+			
+			for(int i=0;i<4000;i++)
+ 180:	01 96       	adiw	r24, 0x01	; 1
+ 182:	80 3a       	cpi	r24, 0xA0	; 160
+ 184:	ff e0       	ldi	r31, 0x0F	; 15
+ 186:	9f 07       	cpc	r25, r31
+ 188:	84 f3       	brlt	.-32     	; 0x16a <main+0x46>
+				{
+					interruption();
+					break;
+				}
+			}
+			red();// light red LED for 4 seconds
+ 18a:	0e 94 4e 00 	call	0x9c	; 0x9c <red>
+			
+			for(int i=0;i<4000;i++)
+ 18e:	80 e0       	ldi	r24, 0x00	; 0
+ 190:	90 e0       	ldi	r25, 0x00	; 0
+ 192:	0c c0       	rjmp	.+24     	; 0x1ac <main+0x88>
+ 194:	ef e9       	ldi	r30, 0x9F	; 159
+ 196:	ff e0       	ldi	r31, 0x0F	; 15
+ 198:	31 97       	sbiw	r30, 0x01	; 1
+ 19a:	f1 f7       	brne	.-4      	; 0x198 <main+0x74>
+ 19c:	00 c0       	rjmp	.+0      	; 0x19e <main+0x7a>
+ 19e:	00 00       	nop
+			{
+				_delay_ms(1);
+				if(!(PINB&(1<<PINB5)))// if PB5(button) pressed,
+ 1a0:	1d 99       	sbic	0x03, 5	; 3
+ 1a2:	03 c0       	rjmp	.+6      	; 0x1aa <main+0x86>
+				{
+					interruption();
+ 1a4:	0e 94 67 00 	call	0xce	; 0xce <interruption>
+				    break;
+ 1a8:	c6 cf       	rjmp	.-116    	; 0x136 <main+0x12>
+					break;
+				}
+			}
+			red();// light red LED for 4 seconds
+			
+			for(int i=0;i<4000;i++)
+ 1aa:	01 96       	adiw	r24, 0x01	; 1
+ 1ac:	80 3a       	cpi	r24, 0xA0	; 160
+ 1ae:	ff e0       	ldi	r31, 0x0F	; 15
+ 1b0:	9f 07       	cpc	r25, r31
+ 1b2:	84 f3       	brlt	.-32     	; 0x194 <main+0x70>
+ 1b4:	c0 cf       	rjmp	.-128    	; 0x136 <main+0x12>
+
+000001b6 <_exit>:
+ 1b6:	f8 94       	cli
+
+000001b8 <__stop_program>:
+ 1b8:	ff cf       	rjmp	.-2      	; 0x1b8 <__stop_program>
