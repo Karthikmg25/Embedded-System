@@ -1,0 +1,144 @@
+
+timer0_delay_prescaling.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  00800100  00000118  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         000000c4  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  00000118  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000148  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000028  00000000  00000000  00000184  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000006b7  00000000  00000000  000001ac  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000633  00000000  00000000  00000863  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000241  00000000  00000000  00000e96  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000034  00000000  00000000  000010d8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000367  00000000  00000000  0000110c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000024  00000000  00000000  00001473  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000018  00000000  00000000  00001497  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   8:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  10:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  14:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  18:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  1c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  20:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  24:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  2c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  30:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  34:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  38:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  3c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  40:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  44:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  48:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  4c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  50:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  54:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  58:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  5c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  60:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  64:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+  74:	0e 94 56 00 	call	0xac	; 0xac <main>
+  78:	0c 94 60 00 	jmp	0xc0	; 0xc0 <_exit>
+
+0000007c <__bad_interrupt>:
+  7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000080 <delay_1s>:
+#define F_CPU 16000000UL
+#include <avr/io.h>
+void delay_1s()
+{
+	
+	TCNT0=0;//start count from 0
+  80:	16 bc       	out	0x26, r1	; 38
+	TCCR0A&=~((1<<WGM00)|(1<<WGM01));//set normal mode
+  82:	84 b5       	in	r24, 0x24	; 36
+  84:	8c 7f       	andi	r24, 0xFC	; 252
+  86:	84 bd       	out	0x24, r24	; 36
+	TCCR0B|=(1<<CS01)|(1<<CS00);//set pre scalar 64, CLK frequency/64=250000
+  88:	85 b5       	in	r24, 0x25	; 37
+  8a:	83 60       	ori	r24, 0x03	; 3
+  8c:	85 bd       	out	0x25, r24	; 37
+	for(int i=0;i<976;i++)// run loop for 976 times to create a delay of 976*.001024= 1second
+  8e:	20 e0       	ldi	r18, 0x00	; 0
+  90:	30 e0       	ldi	r19, 0x00	; 0
+  92:	07 c0       	rjmp	.+14     	; 0xa2 <delay_1s+0x22>
+	{
+		while(!(TIFR0&(1<<TOV0)));// creates delay of 256*0.000004= 0.001024 seconds
+  94:	a8 9b       	sbis	0x15, 0	; 21
+  96:	fe cf       	rjmp	.-4      	; 0x94 <delay_1s+0x14>
+		TIFR0|=(1<<TOV0);//set flag to clear
+  98:	85 b3       	in	r24, 0x15	; 21
+  9a:	81 60       	ori	r24, 0x01	; 1
+  9c:	85 bb       	out	0x15, r24	; 21
+{
+	
+	TCNT0=0;//start count from 0
+	TCCR0A&=~((1<<WGM00)|(1<<WGM01));//set normal mode
+	TCCR0B|=(1<<CS01)|(1<<CS00);//set pre scalar 64, CLK frequency/64=250000
+	for(int i=0;i<976;i++)// run loop for 976 times to create a delay of 976*.001024= 1second
+  9e:	2f 5f       	subi	r18, 0xFF	; 255
+  a0:	3f 4f       	sbci	r19, 0xFF	; 255
+  a2:	20 3d       	cpi	r18, 0xD0	; 208
+  a4:	83 e0       	ldi	r24, 0x03	; 3
+  a6:	38 07       	cpc	r19, r24
+  a8:	ac f3       	brlt	.-22     	; 0x94 <delay_1s+0x14>
+	{
+		while(!(TIFR0&(1<<TOV0)));// creates delay of 256*0.000004= 0.001024 seconds
+		TIFR0|=(1<<TOV0);//set flag to clear
+	}
+}
+  aa:	08 95       	ret
+
+000000ac <main>:
+
+int main(void)
+{
+    DDRD|=(1<<DDD5);//set PD5 as output
+  ac:	8a b1       	in	r24, 0x0a	; 10
+  ae:	80 62       	ori	r24, 0x20	; 32
+  b0:	8a b9       	out	0x0a, r24	; 10
+    while (1) 
+    {
+		PORTD^=(1<<PORTD5);//toggle
+  b2:	9b b1       	in	r25, 0x0b	; 11
+  b4:	80 e2       	ldi	r24, 0x20	; 32
+  b6:	89 27       	eor	r24, r25
+  b8:	8b b9       	out	0x0b, r24	; 11
+		delay_1s();//delay for 1 second
+  ba:	0e 94 40 00 	call	0x80	; 0x80 <delay_1s>
+  be:	f9 cf       	rjmp	.-14     	; 0xb2 <main+0x6>
+
+000000c0 <_exit>:
+  c0:	f8 94       	cli
+
+000000c2 <__stop_program>:
+  c2:	ff cf       	rjmp	.-2      	; 0xc2 <__stop_program>
