@@ -17,8 +17,8 @@ void fast_pwm()
 	TCCR0A|=(1<<COM0B1);
 	TCCR0A&=~(1<<COM0B0);// set non inverting PWM on output pin OC0b- PD5
 	
-	TCCR0B|=(1<<CS00);// normal clock frequency
-	TCCR0B&=~((1<<CS01)|(1<<CS02));//no pre scaling, PWM frequency= 16Mhz/256 =62.5Khz
+	TCCR0B&=~(1<<CS02);// normal clock frequency
+	TCCR0B|=((1<<CS01)|(1<<CS00));//no pre scaling, PWM frequency= 16Mhz/256 =62.5Khz
 	
 	
 }
@@ -33,12 +33,14 @@ int main(void)
 		for(int i=0;i<256;i++)
 		{
 			OCR0B=i;//vary duty cycle from 0 to 255
-			_delay_ms(100);//delay for visibility
+			_delay_ms(70);//delay for visibility
 		}
-		for(int i=255;i>=0;i--)
+		for(unsigned int i=255;i>=0;i--)
 		{
 			OCR0B=i;//vary duty cycle from 255 to 0
-			_delay_ms(100);
+			_delay_ms(70);
+			
+			
 		}
 	}
 }

@@ -3,29 +3,29 @@ dc_motor.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000162  2**0
+  0 .data         00000000  00800100  00800100  00000150  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000010e  00000000  00000000  00000054  2**1
+  1 .text         000000fc  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000162  2**0
+  2 .comment      00000030  00000000  00000000  00000150  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000194  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000180  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000038  00000000  00000000  000001d0  2**0
+  4 .debug_aranges 00000038  00000000  00000000  000001bc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000810  00000000  00000000  00000208  2**0
+  5 .debug_info   000007d8  00000000  00000000  000001f4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000069c  00000000  00000000  00000a18  2**0
+  6 .debug_abbrev 00000681  00000000  00000000  000009cc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000002f4  00000000  00000000  000010b4  2**0
+  7 .debug_line   000002d2  00000000  00000000  0000104d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000054  00000000  00000000  000013a8  2**2
+  8 .debug_frame  00000054  00000000  00000000  00001320  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000038b  00000000  00000000  000013fc  2**0
+  9 .debug_str    0000038b  00000000  00000000  00001374  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000000d8  00000000  00000000  00001787  2**0
+ 10 .debug_loc    000000d8  00000000  00000000  000016ff  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000028  00000000  00000000  0000185f  2**0
+ 11 .debug_ranges 00000028  00000000  00000000  000017d7  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -65,16 +65,16 @@ Disassembly of section .text:
   6e:	d8 e0       	ldi	r29, 0x08	; 8
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
-  74:	0e 94 55 00 	call	0xaa	; 0xaa <main>
-  78:	0c 94 85 00 	jmp	0x10a	; 0x10a <_exit>
+  74:	0e 94 70 00 	call	0xe0	; 0xe0 <main>
+  78:	0c 94 7c 00 	jmp	0xf8	; 0xf8 <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000080 <cw>:
-#define F_CPU 16000000UL
-#include <avr/io.h>
+#include<avr/io.h>
 #include<util/delay.h>
+
 void cw()
 {
 	PORTD|=(1<<PORTD1); // setting PD1 as HIGH and PD2 as LOW
@@ -85,106 +85,100 @@ void cw()
   86:	8b b1       	in	r24, 0x0b	; 11
   88:	8b 7f       	andi	r24, 0xFB	; 251
   8a:	8b b9       	out	0x0b, r24	; 11
-  8c:	08 95       	ret
-
-0000008e <ccw>:
-}
-void ccw()
-{
-	PORTD&=~(1<<PORTD1); // setting PD1 as LOW and PD2 as HIGH
-  8e:	8b b1       	in	r24, 0x0b	; 11
-  90:	8d 7f       	andi	r24, 0xFD	; 253
-  92:	8b b9       	out	0x0b, r24	; 11
-	PORTD|=(1<<PORTD2);
-  94:	8b b1       	in	r24, 0x0b	; 11
-  96:	84 60       	ori	r24, 0x04	; 4
-  98:	8b b9       	out	0x0b, r24	; 11
-  9a:	08 95       	ret
-
-0000009c <stp>:
-}
-void stp()
-{
-	PORTD&=~(1<<PORTD1); // setting PD1 and PD2 as LOW
-  9c:	8b b1       	in	r24, 0x0b	; 11
-  9e:	8d 7f       	andi	r24, 0xFD	; 253
-  a0:	8b b9       	out	0x0b, r24	; 11
-	PORTD&=~(1<<PORTD2);
-  a2:	8b b1       	in	r24, 0x0b	; 11
-  a4:	8b 7f       	andi	r24, 0xFB	; 251
-  a6:	8b b9       	out	0x0b, r24	; 11
-  a8:	08 95       	ret
-
-000000aa <main>:
-}
-int main(void)
-{
-	DDRD|=(1<<DDD1)|(1<<DDD2); // setting PD1 and PD2 as OUTPUTs
-  aa:	8a b1       	in	r24, 0x0a	; 10
-  ac:	86 60       	ori	r24, 0x06	; 6
-  ae:	8a b9       	out	0x0a, r24	; 10
-	while (1)
-	{
-		cw();                 // PD1=HIGH , PD2=LOW for 5 seconds
-  b0:	0e 94 40 00 	call	0x80	; 0x80 <cw>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  b4:	2f ef       	ldi	r18, 0xFF	; 255
-  b6:	83 e2       	ldi	r24, 0x23	; 35
-  b8:	94 ef       	ldi	r25, 0xF4	; 244
-  ba:	21 50       	subi	r18, 0x01	; 1
-  bc:	80 40       	sbci	r24, 0x00	; 0
-  be:	90 40       	sbci	r25, 0x00	; 0
-  c0:	e1 f7       	brne	.-8      	; 0xba <main+0x10>
-  c2:	00 c0       	rjmp	.+0      	; 0xc4 <main+0x1a>
-  c4:	00 00       	nop
-		_delay_ms(5000);
+  8c:	2f ef       	ldi	r18, 0xFF	; 255
+  8e:	83 e2       	ldi	r24, 0x23	; 35
+  90:	94 ef       	ldi	r25, 0xF4	; 244
+  92:	21 50       	subi	r18, 0x01	; 1
+  94:	80 40       	sbci	r24, 0x00	; 0
+  96:	90 40       	sbci	r25, 0x00	; 0
+  98:	e1 f7       	brne	.-8      	; 0x92 <cw+0x12>
+  9a:	00 c0       	rjmp	.+0      	; 0x9c <cw+0x1c>
+  9c:	00 00       	nop
+  9e:	08 95       	ret
+
+000000a0 <ccw>:
+	_delay_ms(5000);
+}
+void ccw()
+{
+	PORTD&=~(1<<PORTD1); // setting PD1 as LOW and PD2 as HIGH
+  a0:	8b b1       	in	r24, 0x0b	; 11
+  a2:	8d 7f       	andi	r24, 0xFD	; 253
+  a4:	8b b9       	out	0x0b, r24	; 11
+	PORTD|=(1<<PORTD2);
+  a6:	8b b1       	in	r24, 0x0b	; 11
+  a8:	84 60       	ori	r24, 0x04	; 4
+  aa:	8b b9       	out	0x0b, r24	; 11
+  ac:	2f ef       	ldi	r18, 0xFF	; 255
+  ae:	83 e2       	ldi	r24, 0x23	; 35
+  b0:	94 ef       	ldi	r25, 0xF4	; 244
+  b2:	21 50       	subi	r18, 0x01	; 1
+  b4:	80 40       	sbci	r24, 0x00	; 0
+  b6:	90 40       	sbci	r25, 0x00	; 0
+  b8:	e1 f7       	brne	.-8      	; 0xb2 <ccw+0x12>
+  ba:	00 c0       	rjmp	.+0      	; 0xbc <ccw+0x1c>
+  bc:	00 00       	nop
+  be:	08 95       	ret
+
+000000c0 <stp>:
+	_delay_ms(5000);
+}
+void stp()
+{
+	PORTD&=~(1<<PORTD1); // setting PD1 and PD2 as LOW
+  c0:	8b b1       	in	r24, 0x0b	; 11
+  c2:	8d 7f       	andi	r24, 0xFD	; 253
+  c4:	8b b9       	out	0x0b, r24	; 11
+	PORTD&=~(1<<PORTD2);
+  c6:	8b b1       	in	r24, 0x0b	; 11
+  c8:	8b 7f       	andi	r24, 0xFB	; 251
+  ca:	8b b9       	out	0x0b, r24	; 11
+  cc:	2f ef       	ldi	r18, 0xFF	; 255
+  ce:	8b e7       	ldi	r24, 0x7B	; 123
+  d0:	92 e9       	ldi	r25, 0x92	; 146
+  d2:	21 50       	subi	r18, 0x01	; 1
+  d4:	80 40       	sbci	r24, 0x00	; 0
+  d6:	90 40       	sbci	r25, 0x00	; 0
+  d8:	e1 f7       	brne	.-8      	; 0xd2 <stp+0x12>
+  da:	00 c0       	rjmp	.+0      	; 0xdc <stp+0x1c>
+  dc:	00 00       	nop
+  de:	08 95       	ret
+
+000000e0 <main>:
+	_delay_ms(3000);
+}
+int main(void)
+{
+	DDRD|=(1<<DDD1)|(1<<DDD2); // setting PD1 and PD2 as OUTPUTs
+  e0:	8a b1       	in	r24, 0x0a	; 10
+  e2:	86 60       	ori	r24, 0x06	; 6
+  e4:	8a b9       	out	0x0a, r24	; 10
+	while (1)
+	{
+		cw();                 // PD1=HIGH , PD2=LOW for 5 seconds
+  e6:	0e 94 40 00 	call	0x80	; 0x80 <cw>
+		
 		
 		stp();                // both LOW for 3 seconds
-  c6:	0e 94 4e 00 	call	0x9c	; 0x9c <stp>
-  ca:	2f ef       	ldi	r18, 0xFF	; 255
-  cc:	8b e7       	ldi	r24, 0x7B	; 123
-  ce:	92 e9       	ldi	r25, 0x92	; 146
-  d0:	21 50       	subi	r18, 0x01	; 1
-  d2:	80 40       	sbci	r24, 0x00	; 0
-  d4:	90 40       	sbci	r25, 0x00	; 0
-  d6:	e1 f7       	brne	.-8      	; 0xd0 <main+0x26>
-  d8:	00 c0       	rjmp	.+0      	; 0xda <main+0x30>
-  da:	00 00       	nop
-		_delay_ms(3000);
+  ea:	0e 94 60 00 	call	0xc0	; 0xc0 <stp>
+		
 		
 		ccw();                // PD1=LOW , PD2=HIGH for 5 seconds
-  dc:	0e 94 47 00 	call	0x8e	; 0x8e <ccw>
-  e0:	2f ef       	ldi	r18, 0xFF	; 255
-  e2:	83 e2       	ldi	r24, 0x23	; 35
-  e4:	94 ef       	ldi	r25, 0xF4	; 244
-  e6:	21 50       	subi	r18, 0x01	; 1
-  e8:	80 40       	sbci	r24, 0x00	; 0
-  ea:	90 40       	sbci	r25, 0x00	; 0
-  ec:	e1 f7       	brne	.-8      	; 0xe6 <main+0x3c>
-  ee:	00 c0       	rjmp	.+0      	; 0xf0 <main+0x46>
-  f0:	00 00       	nop
-		_delay_ms(5000);
+  ee:	0e 94 50 00 	call	0xa0	; 0xa0 <ccw>
+		
 		
 		stp();                // both LOW for 3 seconds
-  f2:	0e 94 4e 00 	call	0x9c	; 0x9c <stp>
-  f6:	2f ef       	ldi	r18, 0xFF	; 255
-  f8:	8b e7       	ldi	r24, 0x7B	; 123
-  fa:	92 e9       	ldi	r25, 0x92	; 146
-  fc:	21 50       	subi	r18, 0x01	; 1
-  fe:	80 40       	sbci	r24, 0x00	; 0
- 100:	90 40       	sbci	r25, 0x00	; 0
- 102:	e1 f7       	brne	.-8      	; 0xfc <main+0x52>
- 104:	00 c0       	rjmp	.+0      	; 0x106 <main+0x5c>
- 106:	00 00       	nop
- 108:	d3 cf       	rjmp	.-90     	; 0xb0 <main+0x6>
+  f2:	0e 94 60 00 	call	0xc0	; 0xc0 <stp>
+  f6:	f7 cf       	rjmp	.-18     	; 0xe6 <main+0x6>
 
-0000010a <_exit>:
- 10a:	f8 94       	cli
+000000f8 <_exit>:
+  f8:	f8 94       	cli
 
-0000010c <__stop_program>:
- 10c:	ff cf       	rjmp	.-2      	; 0x10c <__stop_program>
+000000fa <__stop_program>:
+  fa:	ff cf       	rjmp	.-2      	; 0xfa <__stop_program>

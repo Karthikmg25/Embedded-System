@@ -3,29 +3,29 @@ timer0_pwmfast_varying_brightness.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000148  2**0
+  0 .data         00000000  00800100  00800100  00000142  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000000f4  00000000  00000000  00000054  2**1
+  1 .text         000000ee  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000148  2**0
+  2 .comment      00000030  00000000  00000000  00000142  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000178  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000174  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000028  00000000  00000000  000001b4  2**0
+  4 .debug_aranges 00000028  00000000  00000000  000001b0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000789  00000000  00000000  000001dc  2**0
+  5 .debug_info   00000789  00000000  00000000  000001d8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000006a8  00000000  00000000  00000965  2**0
+  6 .debug_abbrev 000006a8  00000000  00000000  00000961  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000002d4  00000000  00000000  0000100d  2**0
+  7 .debug_line   000002c9  00000000  00000000  00001009  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000034  00000000  00000000  000012e4  2**2
+  8 .debug_frame  00000034  00000000  00000000  000012d4  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000003c6  00000000  00000000  00001318  2**0
+  9 .debug_str    000003c6  00000000  00000000  00001308  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000000b4  00000000  00000000  000016de  2**0
+ 10 .debug_loc    000000b4  00000000  00000000  000016ce  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000018  00000000  00000000  00001792  2**0
+ 11 .debug_ranges 00000018  00000000  00000000  00001782  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -66,7 +66,7 @@ Disassembly of section .text:
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
   74:	0e 94 50 00 	call	0xa0	; 0xa0 <main>
-  78:	0c 94 78 00 	jmp	0xf0	; 0xf0 <_exit>
+  78:	0c 94 75 00 	jmp	0xea	; 0xea <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -93,13 +93,13 @@ void fast_pwm()
   8e:	8f 7e       	andi	r24, 0xEF	; 239
   90:	84 bd       	out	0x24, r24	; 36
 	
-	TCCR0B|=(1<<CS00);// normal clock frequency
+	TCCR0B&=~(1<<CS02);// normal clock frequency
   92:	85 b5       	in	r24, 0x25	; 37
-  94:	81 60       	ori	r24, 0x01	; 1
+  94:	8b 7f       	andi	r24, 0xFB	; 251
   96:	85 bd       	out	0x25, r24	; 37
-	TCCR0B&=~((1<<CS01)|(1<<CS02));//no pre scaling, PWM frequency= 16Mhz/256 =62.5Khz
+	TCCR0B|=((1<<CS01)|(1<<CS00));//no pre scaling, PWM frequency= 16Mhz/256 =62.5Khz
   98:	85 b5       	in	r24, 0x25	; 37
-  9a:	89 7f       	andi	r24, 0xF9	; 249
+  9a:	83 60       	ori	r24, 0x03	; 3
   9c:	85 bd       	out	0x25, r24	; 37
   9e:	08 95       	ret
 
@@ -131,8 +131,8 @@ int main(void)
 
 	__builtin_avr_delay_cycles(__ticks_dc);
   b2:	2f ef       	ldi	r18, 0xFF	; 255
-  b4:	31 ee       	ldi	r19, 0xE1	; 225
-  b6:	44 e0       	ldi	r20, 0x04	; 4
+  b4:	3a e6       	ldi	r19, 0x6A	; 106
+  b6:	43 e0       	ldi	r20, 0x03	; 3
   b8:	21 50       	subi	r18, 0x01	; 1
   ba:	30 40       	sbci	r19, 0x00	; 0
   bc:	40 40       	sbci	r20, 0x00	; 0
@@ -152,36 +152,33 @@ int main(void)
   cc:	8c f3       	brlt	.-30     	; 0xb0 <main+0x10>
   ce:	8f ef       	ldi	r24, 0xFF	; 255
   d0:	90 e0       	ldi	r25, 0x00	; 0
-  d2:	0b c0       	rjmp	.+22     	; 0xea <main+0x4a>
 			OCR0B=i;//vary duty cycle from 0 to 255
-			_delay_ms(100);//delay for visibility
+			_delay_ms(70);//delay for visibility
 		}
-		for(int i=255;i>=0;i--)
+		for(unsigned int i=255;i>=0;i--)
 		{
 			OCR0B=i;//vary duty cycle from 255 to 0
-  d4:	88 bd       	out	0x28, r24	; 40
-  d6:	2f ef       	ldi	r18, 0xFF	; 255
-  d8:	31 ee       	ldi	r19, 0xE1	; 225
-  da:	44 e0       	ldi	r20, 0x04	; 4
-  dc:	21 50       	subi	r18, 0x01	; 1
-  de:	30 40       	sbci	r19, 0x00	; 0
-  e0:	40 40       	sbci	r20, 0x00	; 0
-  e2:	e1 f7       	brne	.-8      	; 0xdc <main+0x3c>
-  e4:	00 c0       	rjmp	.+0      	; 0xe6 <main+0x46>
-  e6:	00 00       	nop
+  d2:	88 bd       	out	0x28, r24	; 40
+  d4:	2f ef       	ldi	r18, 0xFF	; 255
+  d6:	3a e6       	ldi	r19, 0x6A	; 106
+  d8:	43 e0       	ldi	r20, 0x03	; 3
+  da:	21 50       	subi	r18, 0x01	; 1
+  dc:	30 40       	sbci	r19, 0x00	; 0
+  de:	40 40       	sbci	r20, 0x00	; 0
+  e0:	e1 f7       	brne	.-8      	; 0xda <main+0x3a>
+  e2:	00 c0       	rjmp	.+0      	; 0xe4 <main+0x44>
+  e4:	00 00       	nop
 		for(int i=0;i<256;i++)
 		{
 			OCR0B=i;//vary duty cycle from 0 to 255
-			_delay_ms(100);//delay for visibility
+			_delay_ms(70);//delay for visibility
 		}
-		for(int i=255;i>=0;i--)
-  e8:	01 97       	sbiw	r24, 0x01	; 1
-  ea:	99 23       	and	r25, r25
-  ec:	9c f7       	brge	.-26     	; 0xd4 <main+0x34>
-  ee:	dd cf       	rjmp	.-70     	; 0xaa <main+0xa>
+		for(unsigned int i=255;i>=0;i--)
+  e6:	01 97       	sbiw	r24, 0x01	; 1
+  e8:	f4 cf       	rjmp	.-24     	; 0xd2 <main+0x32>
 
-000000f0 <_exit>:
-  f0:	f8 94       	cli
+000000ea <_exit>:
+  ea:	f8 94       	cli
 
-000000f2 <__stop_program>:
-  f2:	ff cf       	rjmp	.-2      	; 0xf2 <__stop_program>
+000000ec <__stop_program>:
+  ec:	ff cf       	rjmp	.-2      	; 0xec <__stop_program>

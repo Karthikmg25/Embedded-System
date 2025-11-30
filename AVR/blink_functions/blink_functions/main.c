@@ -11,16 +11,19 @@ void cw()
 {
 	PORTD|=(1<<PORTD1); // setting PD1 as HIGH and PD2 as LOW
 	PORTD&=~(1<<PORTD2);
+	_delay_ms(5000);
 }
 void ccw()
 {
 	PORTD&=~(1<<PORTD1); // setting PD1 as LOW and PD2 as HIGH
 	PORTD|=(1<<PORTD2);
+	_delay_ms(5000);
 }
 void stp()
 {
 	PORTD&=~(1<<PORTD1); // setting PD1 and PD2 as LOW
 	PORTD&=~(1<<PORTD2);
+	_delay_ms(3000);
 }
 int main(void)
 {
@@ -28,16 +31,16 @@ int main(void)
     while (1) 
     {
 		cw();                 // PD1=HIGH , PD2=LOW for 5 seconds
-		_delay_ms(5000);
+		
 		
 		stp();                // both LOW for 3 seconds
-		_delay_ms(3000);
+		
 		
 		ccw();                // PD1=LOW , PD2=HIGH for 5 seconds
-		_delay_ms(5000);      
+      
 		
 		stp();                // both LOW for 3 seconds
-		_delay_ms(3000);
+		
 		
     }
 }
