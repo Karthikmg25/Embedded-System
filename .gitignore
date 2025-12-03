@@ -1,0 +1,3 @@
+# Ignore Atmel / Microchip Studio IDE cache folders
+.vs/
+**/.vs/
