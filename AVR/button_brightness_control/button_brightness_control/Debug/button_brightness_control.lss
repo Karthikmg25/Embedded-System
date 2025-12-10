@@ -1,0 +1,199 @@
+
+button_brightness_control.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  00800100  00000176  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         00000102  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000001  00800100  00800100  00000176  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000176  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001a8  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000038  00000000  00000000  000001e4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   000006ea  00000000  00000000  0000021c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 0000064b  00000000  00000000  00000906  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000259  00000000  00000000  00000f51  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000064  00000000  00000000  000011ac  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00000390  00000000  00000000  00001210  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    0000003c  00000000  00000000  000015a0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000028  00000000  00000000  000015dc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 62 00 	jmp	0xc4	; 0xc4 <__vector_1>
+   8:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+   c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  10:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  14:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  18:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  1c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  20:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  24:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  28:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  2c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  30:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  34:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  38:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  3c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  40:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  44:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  48:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  4c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  50:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  54:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  58:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  5c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  60:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  64:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_clear_bss>:
+  74:	21 e0       	ldi	r18, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	01 c0       	rjmp	.+2      	; 0x7e <.do_clear_bss_start>
+
+0000007c <.do_clear_bss_loop>:
+  7c:	1d 92       	st	X+, r1
+
+0000007e <.do_clear_bss_start>:
+  7e:	a1 30       	cpi	r26, 0x01	; 1
+  80:	b2 07       	cpc	r27, r18
+  82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
+  84:	0e 94 73 00 	call	0xe6	; 0xe6 <main>
+  88:	0c 94 7f 00 	jmp	0xfe	; 0xfe <_exit>
+
+0000008c <__bad_interrupt>:
+  8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000090 <PWM_setup>:
+
+volatile uint8_t duty_cycle;
+
+void PWM_setup()
+{
+	TCCR0A|=(1<<WGM01)|(1<<WGM00);// set up fast PWm
+  90:	84 b5       	in	r24, 0x24	; 36
+  92:	83 60       	ori	r24, 0x03	; 3
+  94:	84 bd       	out	0x24, r24	; 36
+	
+	TCCR0A|=(1<<COM0B1)|(1<<COM0B0);// set non inverting PWM on OC0B-PD5
+  96:	84 b5       	in	r24, 0x24	; 36
+  98:	80 63       	ori	r24, 0x30	; 48
+  9a:	84 bd       	out	0x24, r24	; 36
+	
+	TCCR0B|=(1<<CS01);// set prescalar 8 for PWM frequency 7.8KHz
+  9c:	85 b5       	in	r24, 0x25	; 37
+  9e:	82 60       	ori	r24, 0x02	; 2
+  a0:	85 bd       	out	0x25, r24	; 37
+	
+	DDRD|=(1<<DDD5);// set PD5 as output
+  a2:	8a b1       	in	r24, 0x0a	; 10
+  a4:	80 62       	ori	r24, 0x20	; 32
+  a6:	8a b9       	out	0x0a, r24	; 10
+  a8:	08 95       	ret
+
+000000aa <ext_interrupt_setup>:
+	
+}
+
+void ext_interrupt_setup()
+{
+	EICRA|=(1<<ISC00)|(1<<ISC01);// set mode as rising edge
+  aa:	e9 e6       	ldi	r30, 0x69	; 105
+  ac:	f0 e0       	ldi	r31, 0x00	; 0
+  ae:	80 81       	ld	r24, Z
+  b0:	83 60       	ori	r24, 0x03	; 3
+  b2:	80 83       	st	Z, r24
+	
+	EIMSK|=(1<<INT0);// enable INT0
+  b4:	8d b3       	in	r24, 0x1d	; 29
+  b6:	81 60       	ori	r24, 0x01	; 1
+  b8:	8d bb       	out	0x1d, r24	; 29
+	
+	sei();// enable global interrupts
+  ba:	78 94       	sei
+	
+	DDRD&=~(1<<DDD2);// set PD2-INT0 as input
+  bc:	8a b1       	in	r24, 0x0a	; 10
+  be:	8b 7f       	andi	r24, 0xFB	; 251
+  c0:	8a b9       	out	0x0a, r24	; 10
+  c2:	08 95       	ret
+
+000000c4 <__vector_1>:
+	
+}
+
+ISR(INT0_vect)
+{
+  c4:	1f 92       	push	r1
+  c6:	0f 92       	push	r0
+  c8:	0f b6       	in	r0, 0x3f	; 63
+  ca:	0f 92       	push	r0
+  cc:	11 24       	eor	r1, r1
+  ce:	8f 93       	push	r24
+	duty_cycle+=50;// increment by 50 on each interrupt
+  d0:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+  d4:	8e 5c       	subi	r24, 0xCE	; 206
+  d6:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+	
+}
+  da:	8f 91       	pop	r24
+  dc:	0f 90       	pop	r0
+  de:	0f be       	out	0x3f, r0	; 63
+  e0:	0f 90       	pop	r0
+  e2:	1f 90       	pop	r1
+  e4:	18 95       	reti
+
+000000e6 <main>:
+int main(void)
+{
+    PWM_setup();
+  e6:	0e 94 48 00 	call	0x90	; 0x90 <PWM_setup>
+	
+	ext_interrupt_setup();
+  ea:	0e 94 55 00 	call	0xaa	; 0xaa <ext_interrupt_setup>
+	
+	duty_cycle=0;// initialize as zero
+  ee:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
+	
+    while (1) 
+    {
+	      if(duty_cycle>255)
+  f2:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+		  {
+			 duty_cycle=0;// revert back to 0 
+		  }
+	      
+			
+			OCR0B=duty_cycle;// vary duty cycle based on interrupt
+  f6:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+  fa:	88 bd       	out	0x28, r24	; 40
+  fc:	fa cf       	rjmp	.-12     	; 0xf2 <main+0xc>
+
+000000fe <_exit>:
+  fe:	f8 94       	cli
+
+00000100 <__stop_program>:
+ 100:	ff cf       	rjmp	.-2      	; 0x100 <__stop_program>
