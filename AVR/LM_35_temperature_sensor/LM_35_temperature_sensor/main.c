@@ -192,7 +192,10 @@ int main(void)
 		
 		lcd_float(temp);// print temperature
 		
+		lcd_data(0xDF);// printing custom character
+		lcd_string(" C");
 		_delay_ms(500);// ADC stable readings
+		
     }
 }
 
