@@ -1,0 +1,1012 @@
+
+uart_state_control.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000060  00800100  0000053e  000005d2  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000053e  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000014  00800160  00800160  00000632  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000632  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000664  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 000000e8  00000000  00000000  000006a0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00000fe2  00000000  00000000  00000788  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000932  00000000  00000000  0000176a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000701  00000000  00000000  0000209c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000264  00000000  00000000  000027a0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000004dc  00000000  00000000  00002a04  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    0000063a  00000000  00000000  00002ee0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 000000c8  00000000  00000000  0000351a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+   8:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+   c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  10:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  14:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  18:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  1c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  20:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  24:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  28:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  2c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  30:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  34:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  38:	0c 94 64 00 	jmp	0xc8	; 0xc8 <__vector_14>
+  3c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  40:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  44:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  48:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  4c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  50:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  54:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  58:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  5c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  60:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  64:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_copy_data>:
+  74:	11 e0       	ldi	r17, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	ee e3       	ldi	r30, 0x3E	; 62
+  7c:	f5 e0       	ldi	r31, 0x05	; 5
+  7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
+  80:	05 90       	lpm	r0, Z+
+  82:	0d 92       	st	X+, r0
+  84:	a0 36       	cpi	r26, 0x60	; 96
+  86:	b1 07       	cpc	r27, r17
+  88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
+
+0000008a <__do_clear_bss>:
+  8a:	21 e0       	ldi	r18, 0x01	; 1
+  8c:	a0 e6       	ldi	r26, 0x60	; 96
+  8e:	b1 e0       	ldi	r27, 0x01	; 1
+  90:	01 c0       	rjmp	.+2      	; 0x94 <.do_clear_bss_start>
+
+00000092 <.do_clear_bss_loop>:
+  92:	1d 92       	st	X+, r1
+
+00000094 <.do_clear_bss_start>:
+  94:	a4 37       	cpi	r26, 0x74	; 116
+  96:	b2 07       	cpc	r27, r18
+  98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
+  9a:	0e 94 82 01 	call	0x304	; 0x304 <main>
+  9e:	0c 94 9d 02 	jmp	0x53a	; 0x53a <_exit>
+
+000000a2 <__bad_interrupt>:
+  a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000a6 <timer_set_up>:
+
+volatile uint32_t count=0;
+
+void timer_set_up()
+{
+	TCCR0A|=(1<<WGM01);// set CTC mode
+  a6:	84 b5       	in	r24, 0x24	; 36
+  a8:	82 60       	ori	r24, 0x02	; 2
+  aa:	84 bd       	out	0x24, r24	; 36
+	TCNT0=0;
+  ac:	16 bc       	out	0x26, r1	; 38
+	OCR0A=249;// count to 249, making 250 counts, compare match happens at 250*4us= 1 ms
+  ae:	89 ef       	ldi	r24, 0xF9	; 249
+  b0:	87 bd       	out	0x27, r24	; 39
+	TCCR0B|=(1<<CS01)|(1<<CS00);// set prescalar 64, F_CPU= 250KHz, 1 pulse= 4us
+  b2:	85 b5       	in	r24, 0x25	; 37
+  b4:	83 60       	ori	r24, 0x03	; 3
+  b6:	85 bd       	out	0x25, r24	; 37
+  b8:	08 95       	ret
+
+000000ba <timer_interrupt_enable>:
+	
+}
+void timer_interrupt_enable()
+{
+	TIMSK0|=(1<<OCIE0A);// interrupt enable
+  ba:	ee e6       	ldi	r30, 0x6E	; 110
+  bc:	f0 e0       	ldi	r31, 0x00	; 0
+  be:	80 81       	ld	r24, Z
+  c0:	82 60       	ori	r24, 0x02	; 2
+  c2:	80 83       	st	Z, r24
+	
+	sei();// enable global interrupt
+  c4:	78 94       	sei
+  c6:	08 95       	ret
+
+000000c8 <__vector_14>:
+}
+
+ISR(TIMER0_COMPA_vect)
+{
+  c8:	1f 92       	push	r1
+  ca:	0f 92       	push	r0
+  cc:	0f b6       	in	r0, 0x3f	; 63
+  ce:	0f 92       	push	r0
+  d0:	11 24       	eor	r1, r1
+  d2:	8f 93       	push	r24
+  d4:	9f 93       	push	r25
+  d6:	af 93       	push	r26
+  d8:	bf 93       	push	r27
+	count++;// increments each millisecond
+  da:	80 91 70 01 	lds	r24, 0x0170	; 0x800170 <count>
+  de:	90 91 71 01 	lds	r25, 0x0171	; 0x800171 <count+0x1>
+  e2:	a0 91 72 01 	lds	r26, 0x0172	; 0x800172 <count+0x2>
+  e6:	b0 91 73 01 	lds	r27, 0x0173	; 0x800173 <count+0x3>
+  ea:	01 96       	adiw	r24, 0x01	; 1
+  ec:	a1 1d       	adc	r26, r1
+  ee:	b1 1d       	adc	r27, r1
+  f0:	80 93 70 01 	sts	0x0170, r24	; 0x800170 <count>
+  f4:	90 93 71 01 	sts	0x0171, r25	; 0x800171 <count+0x1>
+  f8:	a0 93 72 01 	sts	0x0172, r26	; 0x800172 <count+0x2>
+  fc:	b0 93 73 01 	sts	0x0173, r27	; 0x800173 <count+0x3>
+}
+ 100:	bf 91       	pop	r27
+ 102:	af 91       	pop	r26
+ 104:	9f 91       	pop	r25
+ 106:	8f 91       	pop	r24
+ 108:	0f 90       	pop	r0
+ 10a:	0f be       	out	0x3f, r0	; 63
+ 10c:	0f 90       	pop	r0
+ 10e:	1f 90       	pop	r1
+ 110:	18 95       	reti
+
+00000112 <millis>:
+
+uint32_t millis()
+{
+	uint32_t millis;
+	
+	cli();// disable interrupt
+ 112:	f8 94       	cli
+	millis=count;// read value
+ 114:	60 91 70 01 	lds	r22, 0x0170	; 0x800170 <count>
+ 118:	70 91 71 01 	lds	r23, 0x0171	; 0x800171 <count+0x1>
+ 11c:	80 91 72 01 	lds	r24, 0x0172	; 0x800172 <count+0x2>
+ 120:	90 91 73 01 	lds	r25, 0x0173	; 0x800173 <count+0x3>
+	sei();// resume interrupt
+ 124:	78 94       	sei
+	      // SAFE READING
+	return millis;
+}
+ 126:	08 95       	ret
+
+00000128 <WHITE_ON>:
+void WHITE_ON()
+{
+	PORTC|=(1<<WHITE);
+ 128:	88 b1       	in	r24, 0x08	; 8
+ 12a:	84 60       	ori	r24, 0x04	; 4
+ 12c:	88 b9       	out	0x08, r24	; 8
+	PORTC&=~((1<<BLUE)|(1<<YELLOW));// WHITE ON others off
+ 12e:	88 b1       	in	r24, 0x08	; 8
+ 130:	8c 7f       	andi	r24, 0xFC	; 252
+ 132:	88 b9       	out	0x08, r24	; 8
+ 134:	08 95       	ret
+
+00000136 <BLUE_ON>:
+}
+void BLUE_ON()
+{
+	PORTC|=(1<<BLUE);
+ 136:	88 b1       	in	r24, 0x08	; 8
+ 138:	82 60       	ori	r24, 0x02	; 2
+ 13a:	88 b9       	out	0x08, r24	; 8
+	PORTC&=~((1<<WHITE)|(1<<YELLOW));// BLUE ON others off
+ 13c:	88 b1       	in	r24, 0x08	; 8
+ 13e:	8a 7f       	andi	r24, 0xFA	; 250
+ 140:	88 b9       	out	0x08, r24	; 8
+ 142:	08 95       	ret
+
+00000144 <YELLOW_ON>:
+}
+void YELLOW_ON()
+{
+	PORTC|=(1<<YELLOW);
+ 144:	88 b1       	in	r24, 0x08	; 8
+ 146:	81 60       	ori	r24, 0x01	; 1
+ 148:	88 b9       	out	0x08, r24	; 8
+	PORTC&=~((1<<WHITE)|(1<<BLUE));// BLUE ON others off
+ 14a:	88 b1       	in	r24, 0x08	; 8
+ 14c:	89 7f       	andi	r24, 0xF9	; 249
+ 14e:	88 b9       	out	0x08, r24	; 8
+ 150:	08 95       	ret
+
+00000152 <blink_white>:
+}
+void blink_white(uint16_t time)
+{
+ 152:	0f 93       	push	r16
+ 154:	1f 93       	push	r17
+ 156:	cf 93       	push	r28
+ 158:	df 93       	push	r29
+ 15a:	ec 01       	movw	r28, r24
+	static uint32_t prev_time=0;// initialize only once and keep value between function calls
+	
+	PORTC&=~((1<<BLUE)|(1<<YELLOW));// OFF others
+ 15c:	88 b1       	in	r24, 0x08	; 8
+ 15e:	8c 7f       	andi	r24, 0xFC	; 252
+ 160:	88 b9       	out	0x08, r24	; 8
+	
+	if(millis()-prev_time>time)
+ 162:	0e 94 89 00 	call	0x112	; 0x112 <millis>
+ 166:	00 91 6c 01 	lds	r16, 0x016C	; 0x80016c <prev_time.2056>
+ 16a:	10 91 6d 01 	lds	r17, 0x016D	; 0x80016d <prev_time.2056+0x1>
+ 16e:	20 91 6e 01 	lds	r18, 0x016E	; 0x80016e <prev_time.2056+0x2>
+ 172:	30 91 6f 01 	lds	r19, 0x016F	; 0x80016f <prev_time.2056+0x3>
+ 176:	ab 01       	movw	r20, r22
+ 178:	bc 01       	movw	r22, r24
+ 17a:	40 1b       	sub	r20, r16
+ 17c:	51 0b       	sbc	r21, r17
+ 17e:	62 0b       	sbc	r22, r18
+ 180:	73 0b       	sbc	r23, r19
+ 182:	ce 01       	movw	r24, r28
+ 184:	a0 e0       	ldi	r26, 0x00	; 0
+ 186:	b0 e0       	ldi	r27, 0x00	; 0
+ 188:	84 17       	cp	r24, r20
+ 18a:	95 07       	cpc	r25, r21
+ 18c:	a6 07       	cpc	r26, r22
+ 18e:	b7 07       	cpc	r27, r23
+ 190:	70 f4       	brcc	.+28     	; 0x1ae <blink_white+0x5c>
+	{
+		PORTC^=(1<<WHITE);// toggle
+ 192:	98 b1       	in	r25, 0x08	; 8
+ 194:	84 e0       	ldi	r24, 0x04	; 4
+ 196:	89 27       	eor	r24, r25
+ 198:	88 b9       	out	0x08, r24	; 8
+		prev_time=millis();
+ 19a:	0e 94 89 00 	call	0x112	; 0x112 <millis>
+ 19e:	60 93 6c 01 	sts	0x016C, r22	; 0x80016c <prev_time.2056>
+ 1a2:	70 93 6d 01 	sts	0x016D, r23	; 0x80016d <prev_time.2056+0x1>
+ 1a6:	80 93 6e 01 	sts	0x016E, r24	; 0x80016e <prev_time.2056+0x2>
+ 1aa:	90 93 6f 01 	sts	0x016F, r25	; 0x80016f <prev_time.2056+0x3>
+	}
+}
+ 1ae:	df 91       	pop	r29
+ 1b0:	cf 91       	pop	r28
+ 1b2:	1f 91       	pop	r17
+ 1b4:	0f 91       	pop	r16
+ 1b6:	08 95       	ret
+
+000001b8 <blink_blue>:
+void blink_blue(uint16_t time)
+{
+ 1b8:	0f 93       	push	r16
+ 1ba:	1f 93       	push	r17
+ 1bc:	cf 93       	push	r28
+ 1be:	df 93       	push	r29
+ 1c0:	ec 01       	movw	r28, r24
+	static uint32_t prev_time=0;// initialize only once and keep value between function calls
+	
+	PORTC&=~((1<<WHITE)|(1<<YELLOW));// OFF others
+ 1c2:	88 b1       	in	r24, 0x08	; 8
+ 1c4:	8a 7f       	andi	r24, 0xFA	; 250
+ 1c6:	88 b9       	out	0x08, r24	; 8
+	
+	if(millis()-prev_time>time)
+ 1c8:	0e 94 89 00 	call	0x112	; 0x112 <millis>
+ 1cc:	00 91 68 01 	lds	r16, 0x0168	; 0x800168 <prev_time.2060>
+ 1d0:	10 91 69 01 	lds	r17, 0x0169	; 0x800169 <prev_time.2060+0x1>
+ 1d4:	20 91 6a 01 	lds	r18, 0x016A	; 0x80016a <prev_time.2060+0x2>
+ 1d8:	30 91 6b 01 	lds	r19, 0x016B	; 0x80016b <prev_time.2060+0x3>
+ 1dc:	ab 01       	movw	r20, r22
+ 1de:	bc 01       	movw	r22, r24
+ 1e0:	40 1b       	sub	r20, r16
+ 1e2:	51 0b       	sbc	r21, r17
+ 1e4:	62 0b       	sbc	r22, r18
+ 1e6:	73 0b       	sbc	r23, r19
+ 1e8:	ce 01       	movw	r24, r28
+ 1ea:	a0 e0       	ldi	r26, 0x00	; 0
+ 1ec:	b0 e0       	ldi	r27, 0x00	; 0
+ 1ee:	84 17       	cp	r24, r20
+ 1f0:	95 07       	cpc	r25, r21
+ 1f2:	a6 07       	cpc	r26, r22
+ 1f4:	b7 07       	cpc	r27, r23
+ 1f6:	70 f4       	brcc	.+28     	; 0x214 <blink_blue+0x5c>
+	{
+		PORTC^=(1<<BLUE);// toggle
+ 1f8:	98 b1       	in	r25, 0x08	; 8
+ 1fa:	82 e0       	ldi	r24, 0x02	; 2
+ 1fc:	89 27       	eor	r24, r25
+ 1fe:	88 b9       	out	0x08, r24	; 8
+		prev_time=millis();
+ 200:	0e 94 89 00 	call	0x112	; 0x112 <millis>
+ 204:	60 93 68 01 	sts	0x0168, r22	; 0x800168 <prev_time.2060>
+ 208:	70 93 69 01 	sts	0x0169, r23	; 0x800169 <prev_time.2060+0x1>
+ 20c:	80 93 6a 01 	sts	0x016A, r24	; 0x80016a <prev_time.2060+0x2>
+ 210:	90 93 6b 01 	sts	0x016B, r25	; 0x80016b <prev_time.2060+0x3>
+	}
+}
+ 214:	df 91       	pop	r29
+ 216:	cf 91       	pop	r28
+ 218:	1f 91       	pop	r17
+ 21a:	0f 91       	pop	r16
+ 21c:	08 95       	ret
+
+0000021e <blink_yellow>:
+void blink_yellow(uint16_t time)
+{
+ 21e:	0f 93       	push	r16
+ 220:	1f 93       	push	r17
+ 222:	cf 93       	push	r28
+ 224:	df 93       	push	r29
+ 226:	ec 01       	movw	r28, r24
+	static uint32_t prev_time=0;// initialize only once and keep value between function calls
+	
+	PORTC&=~((1<<WHITE)|(1<<BLUE));// OFF others
+ 228:	88 b1       	in	r24, 0x08	; 8
+ 22a:	89 7f       	andi	r24, 0xF9	; 249
+ 22c:	88 b9       	out	0x08, r24	; 8
+	
+	if(millis()-prev_time>time)
+ 22e:	0e 94 89 00 	call	0x112	; 0x112 <millis>
+ 232:	00 91 64 01 	lds	r16, 0x0164	; 0x800164 <prev_time.2064>
+ 236:	10 91 65 01 	lds	r17, 0x0165	; 0x800165 <prev_time.2064+0x1>
+ 23a:	20 91 66 01 	lds	r18, 0x0166	; 0x800166 <prev_time.2064+0x2>
+ 23e:	30 91 67 01 	lds	r19, 0x0167	; 0x800167 <prev_time.2064+0x3>
+ 242:	ab 01       	movw	r20, r22
+ 244:	bc 01       	movw	r22, r24
+ 246:	40 1b       	sub	r20, r16
+ 248:	51 0b       	sbc	r21, r17
+ 24a:	62 0b       	sbc	r22, r18
+ 24c:	73 0b       	sbc	r23, r19
+ 24e:	ce 01       	movw	r24, r28
+ 250:	a0 e0       	ldi	r26, 0x00	; 0
+ 252:	b0 e0       	ldi	r27, 0x00	; 0
+ 254:	84 17       	cp	r24, r20
+ 256:	95 07       	cpc	r25, r21
+ 258:	a6 07       	cpc	r26, r22
+ 25a:	b7 07       	cpc	r27, r23
+ 25c:	70 f4       	brcc	.+28     	; 0x27a <blink_yellow+0x5c>
+	{
+		PORTC^=(1<<YELLOW);// toggle
+ 25e:	98 b1       	in	r25, 0x08	; 8
+ 260:	81 e0       	ldi	r24, 0x01	; 1
+ 262:	89 27       	eor	r24, r25
+ 264:	88 b9       	out	0x08, r24	; 8
+		prev_time=millis();
+ 266:	0e 94 89 00 	call	0x112	; 0x112 <millis>
+ 26a:	60 93 64 01 	sts	0x0164, r22	; 0x800164 <prev_time.2064>
+ 26e:	70 93 65 01 	sts	0x0165, r23	; 0x800165 <prev_time.2064+0x1>
+ 272:	80 93 66 01 	sts	0x0166, r24	; 0x800166 <prev_time.2064+0x2>
+ 276:	90 93 67 01 	sts	0x0167, r25	; 0x800167 <prev_time.2064+0x3>
+	}
+}
+ 27a:	df 91       	pop	r29
+ 27c:	cf 91       	pop	r28
+ 27e:	1f 91       	pop	r17
+ 280:	0f 91       	pop	r16
+ 282:	08 95       	ret
+
+00000284 <blink_all>:
+void blink_all(uint16_t time)
+{
+ 284:	0f 93       	push	r16
+ 286:	1f 93       	push	r17
+ 288:	cf 93       	push	r28
+ 28a:	df 93       	push	r29
+ 28c:	ec 01       	movw	r28, r24
+	static uint32_t prev_time=0;// initialize only once and keep value between function calls
+	
+	if(millis()-prev_time>time)
+ 28e:	0e 94 89 00 	call	0x112	; 0x112 <millis>
+ 292:	00 91 60 01 	lds	r16, 0x0160	; 0x800160 <__data_end>
+ 296:	10 91 61 01 	lds	r17, 0x0161	; 0x800161 <__data_end+0x1>
+ 29a:	20 91 62 01 	lds	r18, 0x0162	; 0x800162 <__data_end+0x2>
+ 29e:	30 91 63 01 	lds	r19, 0x0163	; 0x800163 <__data_end+0x3>
+ 2a2:	ab 01       	movw	r20, r22
+ 2a4:	bc 01       	movw	r22, r24
+ 2a6:	40 1b       	sub	r20, r16
+ 2a8:	51 0b       	sbc	r21, r17
+ 2aa:	62 0b       	sbc	r22, r18
+ 2ac:	73 0b       	sbc	r23, r19
+ 2ae:	ce 01       	movw	r24, r28
+ 2b0:	a0 e0       	ldi	r26, 0x00	; 0
+ 2b2:	b0 e0       	ldi	r27, 0x00	; 0
+ 2b4:	84 17       	cp	r24, r20
+ 2b6:	95 07       	cpc	r25, r21
+ 2b8:	a6 07       	cpc	r26, r22
+ 2ba:	b7 07       	cpc	r27, r23
+ 2bc:	70 f4       	brcc	.+28     	; 0x2da <blink_all+0x56>
+	{
+		PORTC^=((1<<WHITE)|(1<<BLUE)|(1<<YELLOW));// toggle
+ 2be:	98 b1       	in	r25, 0x08	; 8
+ 2c0:	87 e0       	ldi	r24, 0x07	; 7
+ 2c2:	89 27       	eor	r24, r25
+ 2c4:	88 b9       	out	0x08, r24	; 8
+		prev_time=millis();
+ 2c6:	0e 94 89 00 	call	0x112	; 0x112 <millis>
+ 2ca:	60 93 60 01 	sts	0x0160, r22	; 0x800160 <__data_end>
+ 2ce:	70 93 61 01 	sts	0x0161, r23	; 0x800161 <__data_end+0x1>
+ 2d2:	80 93 62 01 	sts	0x0162, r24	; 0x800162 <__data_end+0x2>
+ 2d6:	90 93 63 01 	sts	0x0163, r25	; 0x800163 <__data_end+0x3>
+	}
+	
+}
+ 2da:	df 91       	pop	r29
+ 2dc:	cf 91       	pop	r28
+ 2de:	1f 91       	pop	r17
+ 2e0:	0f 91       	pop	r16
+ 2e2:	08 95       	ret
+
+000002e4 <all_off>:
+void all_off()
+{
+	
+		PORTC&=~((1<<BLUE)|(1<<WHITE)|(1<<YELLOW));// off all
+ 2e4:	88 b1       	in	r24, 0x08	; 8
+ 2e6:	88 7f       	andi	r24, 0xF8	; 248
+ 2e8:	88 b9       	out	0x08, r24	; 8
+ 2ea:	08 95       	ret
+
+000002ec <all_on>:
+	
+}
+void all_on()
+{
+	
+	PORTC|=((1<<BLUE)|(1<<WHITE)|(1<<YELLOW));// om all
+ 2ec:	88 b1       	in	r24, 0x08	; 8
+ 2ee:	87 60       	ori	r24, 0x07	; 7
+ 2f0:	88 b9       	out	0x08, r24	; 8
+ 2f2:	08 95       	ret
+
+000002f4 <new_cmd_received>:
+	
+}
+uint8_t new_cmd_received()
+{
+	uint8_t status;
+	status= UCSR0A&(1<<RXC0);
+ 2f4:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+	if(status) return 1;// return 1 if new data/bye is arrived
+ 2f8:	88 23       	and	r24, r24
+ 2fa:	14 f4       	brge	.+4      	; 0x300 <new_cmd_received+0xc>
+ 2fc:	81 e0       	ldi	r24, 0x01	; 1
+ 2fe:	08 95       	ret
+	else
+	return 0;
+ 300:	80 e0       	ldi	r24, 0x00	; 0
+}
+ 302:	08 95       	ret
+
+00000304 <main>:
+int main(void)
+{
+ 304:	cf 93       	push	r28
+ 306:	df 93       	push	r29
+ 308:	cd b7       	in	r28, 0x3d	; 61
+ 30a:	de b7       	in	r29, 0x3e	; 62
+ 30c:	6e 97       	sbiw	r28, 0x1e	; 30
+ 30e:	0f b6       	in	r0, 0x3f	; 63
+ 310:	f8 94       	cli
+ 312:	de bf       	out	0x3e, r29	; 62
+ 314:	0f be       	out	0x3f, r0	; 63
+ 316:	cd bf       	out	0x3d, r28	; 61
+	DDRC|=(1<<WHITE)|(1<<BLUE)|(1<<YELLOW);// set LEDs as outputs
+ 318:	87 b1       	in	r24, 0x07	; 7
+ 31a:	87 60       	ori	r24, 0x07	; 7
+ 31c:	87 b9       	out	0x07, r24	; 7
+	
+    uart_init();
+ 31e:	0e 94 3f 02 	call	0x47e	; 0x47e <uart_init>
+	
+	timer_set_up();
+ 322:	0e 94 53 00 	call	0xa6	; 0xa6 <timer_set_up>
+	
+	timer_interrupt_enable();
+ 326:	0e 94 5d 00 	call	0xba	; 0xba <timer_interrupt_enable>
+	enum STATE {white,blue,yellow,w_blink,b_blink,y_blink,all_blink,off,on};// LED states
+	enum STATE state=off;//  initialize the state as off
+		
+	char cmd[30];
+		
+		TX_string("Enter the state\n");
+ 32a:	80 e0       	ldi	r24, 0x00	; 0
+ 32c:	91 e0       	ldi	r25, 0x01	; 1
+ 32e:	0e 94 56 02 	call	0x4ac	; 0x4ac <TX_string>
+	timer_set_up();
+	
+	timer_interrupt_enable();
+	
+	enum STATE {white,blue,yellow,w_blink,b_blink,y_blink,all_blink,off,on};// LED states
+	enum STATE state=off;//  initialize the state as off
+ 332:	17 e0       	ldi	r17, 0x07	; 7
+		TX_string("Enter the state\n");
+    while (1) 
+    {
+		
+		
+		if(new_cmd_received())// use RX_string() only if new data arrives,  it would block the entire main loop if there is no new command
+ 334:	0e 94 7a 01 	call	0x2f4	; 0x2f4 <new_cmd_received>
+ 338:	88 23       	and	r24, r24
+ 33a:	81 f0       	breq	.+32     	; 0x35c <main+0x58>
+		{
+			RX_string(cmd,sizeof(cmd));
+ 33c:	6e e1       	ldi	r22, 0x1E	; 30
+ 33e:	ce 01       	movw	r24, r28
+ 340:	01 96       	adiw	r24, 0x01	; 1
+ 342:	0e 94 6a 02 	call	0x4d4	; 0x4d4 <RX_string>
+			TX_string("Current state : ");
+ 346:	81 e1       	ldi	r24, 0x11	; 17
+ 348:	91 e0       	ldi	r25, 0x01	; 1
+ 34a:	0e 94 56 02 	call	0x4ac	; 0x4ac <TX_string>
+			TX_string(cmd);
+ 34e:	ce 01       	movw	r24, r28
+ 350:	01 96       	adiw	r24, 0x01	; 1
+ 352:	0e 94 56 02 	call	0x4ac	; 0x4ac <TX_string>
+			TX_char('\n');
+ 356:	8a e0       	ldi	r24, 0x0A	; 10
+ 358:	0e 94 4f 02 	call	0x49e	; 0x49e <TX_char>
+		}
+		
+		
+		
+		if(!strcmp(cmd,"WHITE"))// if command is WHITE
+ 35c:	68 e2       	ldi	r22, 0x28	; 40
+ 35e:	71 e0       	ldi	r23, 0x01	; 1
+ 360:	ce 01       	movw	r24, r28
+ 362:	01 96       	adiw	r24, 0x01	; 1
+ 364:	0e 94 94 02 	call	0x528	; 0x528 <strcmp>
+ 368:	89 2b       	or	r24, r25
+ 36a:	09 f4       	brne	.+2      	; 0x36e <main+0x6a>
+ 36c:	41 c0       	rjmp	.+130    	; 0x3f0 <main+0xec>
+		{
+			state=white;
+		}
+		else
+		if(!strcmp(cmd,"BLUE"))// if command is BLUE
+ 36e:	64 e3       	ldi	r22, 0x34	; 52
+ 370:	71 e0       	ldi	r23, 0x01	; 1
+ 372:	ce 01       	movw	r24, r28
+ 374:	01 96       	adiw	r24, 0x01	; 1
+ 376:	0e 94 94 02 	call	0x528	; 0x528 <strcmp>
+ 37a:	89 2b       	or	r24, r25
+ 37c:	d9 f1       	breq	.+118    	; 0x3f4 <main+0xf0>
+		{
+			state=blue;
+		}
+		else
+		if(!strcmp(cmd,"YELLOW"))// if command is BLINK
+ 37e:	6f e3       	ldi	r22, 0x3F	; 63
+ 380:	71 e0       	ldi	r23, 0x01	; 1
+ 382:	ce 01       	movw	r24, r28
+ 384:	01 96       	adiw	r24, 0x01	; 1
+ 386:	0e 94 94 02 	call	0x528	; 0x528 <strcmp>
+ 38a:	89 2b       	or	r24, r25
+ 38c:	a9 f1       	breq	.+106    	; 0x3f8 <main+0xf4>
+		{
+			state=yellow;
+		}
+		else
+		if(!strcmp(cmd,"BLINK WHITE"))// if command is BLINK WHITE
+ 38e:	62 e2       	ldi	r22, 0x22	; 34
+ 390:	71 e0       	ldi	r23, 0x01	; 1
+ 392:	ce 01       	movw	r24, r28
+ 394:	01 96       	adiw	r24, 0x01	; 1
+ 396:	0e 94 94 02 	call	0x528	; 0x528 <strcmp>
+ 39a:	89 2b       	or	r24, r25
+ 39c:	79 f1       	breq	.+94     	; 0x3fc <main+0xf8>
+		{
+			state=w_blink;
+		}
+		else
+		if(!strcmp(cmd,"BLINK BLUE"))// if command is BLINK BLUE
+ 39e:	6e e2       	ldi	r22, 0x2E	; 46
+ 3a0:	71 e0       	ldi	r23, 0x01	; 1
+ 3a2:	ce 01       	movw	r24, r28
+ 3a4:	01 96       	adiw	r24, 0x01	; 1
+ 3a6:	0e 94 94 02 	call	0x528	; 0x528 <strcmp>
+ 3aa:	89 2b       	or	r24, r25
+ 3ac:	49 f1       	breq	.+82     	; 0x400 <__EEPROM_REGION_LENGTH__>
+		{
+			state=b_blink;
+		}
+		else
+		if(!strcmp(cmd,"BLINK YELLOW"))// if command is BLINK YELLOW
+ 3ae:	69 e3       	ldi	r22, 0x39	; 57
+ 3b0:	71 e0       	ldi	r23, 0x01	; 1
+ 3b2:	ce 01       	movw	r24, r28
+ 3b4:	01 96       	adiw	r24, 0x01	; 1
+ 3b6:	0e 94 94 02 	call	0x528	; 0x528 <strcmp>
+ 3ba:	89 2b       	or	r24, r25
+ 3bc:	19 f1       	breq	.+70     	; 0x404 <__EEPROM_REGION_LENGTH__+0x4>
+		{
+			state=y_blink;
+		}
+		else
+		if(!strcmp(cmd,"ALL OFF"))// if command is ALL OFF 
+ 3be:	66 e4       	ldi	r22, 0x46	; 70
+ 3c0:	71 e0       	ldi	r23, 0x01	; 1
+ 3c2:	ce 01       	movw	r24, r28
+ 3c4:	01 96       	adiw	r24, 0x01	; 1
+ 3c6:	0e 94 94 02 	call	0x528	; 0x528 <strcmp>
+ 3ca:	89 2b       	or	r24, r25
+ 3cc:	e9 f0       	breq	.+58     	; 0x408 <__EEPROM_REGION_LENGTH__+0x8>
+		{
+				state=off;
+		}
+		else
+		if(!strcmp(cmd,"ALL ON"))// if command is ALL ON
+ 3ce:	6e e4       	ldi	r22, 0x4E	; 78
+ 3d0:	71 e0       	ldi	r23, 0x01	; 1
+ 3d2:	ce 01       	movw	r24, r28
+ 3d4:	01 96       	adiw	r24, 0x01	; 1
+ 3d6:	0e 94 94 02 	call	0x528	; 0x528 <strcmp>
+ 3da:	89 2b       	or	r24, r25
+ 3dc:	b9 f0       	breq	.+46     	; 0x40c <__EEPROM_REGION_LENGTH__+0xc>
+		{
+			state=on;
+		}
+		else
+		if(!strcmp(cmd,"ALL BLINK"))// if command is ALL BLINK
+ 3de:	65 e5       	ldi	r22, 0x55	; 85
+ 3e0:	71 e0       	ldi	r23, 0x01	; 1
+ 3e2:	ce 01       	movw	r24, r28
+ 3e4:	01 96       	adiw	r24, 0x01	; 1
+ 3e6:	0e 94 94 02 	call	0x528	; 0x528 <strcmp>
+ 3ea:	89 2b       	or	r24, r25
+ 3ec:	89 f0       	breq	.+34     	; 0x410 <__EEPROM_REGION_LENGTH__+0x10>
+ 3ee:	11 c0       	rjmp	.+34     	; 0x412 <__EEPROM_REGION_LENGTH__+0x12>
+		
+		
+		
+		if(!strcmp(cmd,"WHITE"))// if command is WHITE
+		{
+			state=white;
+ 3f0:	10 e0       	ldi	r17, 0x00	; 0
+ 3f2:	0f c0       	rjmp	.+30     	; 0x412 <__EEPROM_REGION_LENGTH__+0x12>
+		}
+		else
+		if(!strcmp(cmd,"BLUE"))// if command is BLUE
+		{
+			state=blue;
+ 3f4:	11 e0       	ldi	r17, 0x01	; 1
+ 3f6:	0d c0       	rjmp	.+26     	; 0x412 <__EEPROM_REGION_LENGTH__+0x12>
+		}
+		else
+		if(!strcmp(cmd,"YELLOW"))// if command is BLINK
+		{
+			state=yellow;
+ 3f8:	12 e0       	ldi	r17, 0x02	; 2
+ 3fa:	0b c0       	rjmp	.+22     	; 0x412 <__EEPROM_REGION_LENGTH__+0x12>
+		}
+		else
+		if(!strcmp(cmd,"BLINK WHITE"))// if command is BLINK WHITE
+		{
+			state=w_blink;
+ 3fc:	13 e0       	ldi	r17, 0x03	; 3
+ 3fe:	09 c0       	rjmp	.+18     	; 0x412 <__EEPROM_REGION_LENGTH__+0x12>
+		}
+		else
+		if(!strcmp(cmd,"BLINK BLUE"))// if command is BLINK BLUE
+		{
+			state=b_blink;
+ 400:	14 e0       	ldi	r17, 0x04	; 4
+ 402:	07 c0       	rjmp	.+14     	; 0x412 <__EEPROM_REGION_LENGTH__+0x12>
+		}
+		else
+		if(!strcmp(cmd,"BLINK YELLOW"))// if command is BLINK YELLOW
+		{
+			state=y_blink;
+ 404:	15 e0       	ldi	r17, 0x05	; 5
+ 406:	05 c0       	rjmp	.+10     	; 0x412 <__EEPROM_REGION_LENGTH__+0x12>
+		}
+		else
+		if(!strcmp(cmd,"ALL OFF"))// if command is ALL OFF 
+		{
+				state=off;
+ 408:	17 e0       	ldi	r17, 0x07	; 7
+ 40a:	03 c0       	rjmp	.+6      	; 0x412 <__EEPROM_REGION_LENGTH__+0x12>
+		}
+		else
+		if(!strcmp(cmd,"ALL ON"))// if command is ALL ON
+		{
+			state=on;
+ 40c:	18 e0       	ldi	r17, 0x08	; 8
+ 40e:	01 c0       	rjmp	.+2      	; 0x412 <__EEPROM_REGION_LENGTH__+0x12>
+		}
+		else
+		if(!strcmp(cmd,"ALL BLINK"))// if command is ALL BLINK
+		{
+			state=all_blink;
+ 410:	16 e0       	ldi	r17, 0x06	; 6
+		}
+			
+			if(state==white)// if state is WHITE
+ 412:	11 11       	cpse	r17, r1
+ 414:	03 c0       	rjmp	.+6      	; 0x41c <__EEPROM_REGION_LENGTH__+0x1c>
+			{
+				WHITE_ON();// on white, off others
+ 416:	0e 94 94 00 	call	0x128	; 0x128 <WHITE_ON>
+ 41a:	8c cf       	rjmp	.-232    	; 0x334 <main+0x30>
+			}
+			
+			else
+			if(state==blue)// if state is BLUE
+ 41c:	11 30       	cpi	r17, 0x01	; 1
+ 41e:	19 f4       	brne	.+6      	; 0x426 <__EEPROM_REGION_LENGTH__+0x26>
+			{
+				BLUE_ON();// on blue, off others
+ 420:	0e 94 9b 00 	call	0x136	; 0x136 <BLUE_ON>
+ 424:	87 cf       	rjmp	.-242    	; 0x334 <main+0x30>
+			}
+			else
+			if(state==yellow)// if state is YELLOW
+ 426:	12 30       	cpi	r17, 0x02	; 2
+ 428:	19 f4       	brne	.+6      	; 0x430 <__EEPROM_REGION_LENGTH__+0x30>
+			{
+				YELLOW_ON();// on blue, off other
+ 42a:	0e 94 a2 00 	call	0x144	; 0x144 <YELLOW_ON>
+ 42e:	82 cf       	rjmp	.-252    	; 0x334 <main+0x30>
+			}
+			else
+			if(state==w_blink)// if state is BLINK WHITE
+ 430:	13 30       	cpi	r17, 0x03	; 3
+ 432:	29 f4       	brne	.+10     	; 0x43e <__EEPROM_REGION_LENGTH__+0x3e>
+			{
+				blink_white(300);// blink each 300ms
+ 434:	8c e2       	ldi	r24, 0x2C	; 44
+ 436:	91 e0       	ldi	r25, 0x01	; 1
+ 438:	0e 94 a9 00 	call	0x152	; 0x152 <blink_white>
+ 43c:	7b cf       	rjmp	.-266    	; 0x334 <main+0x30>
+			}
+			else
+			if(state==b_blink)// if state is BLINK BLUE
+ 43e:	14 30       	cpi	r17, 0x04	; 4
+ 440:	29 f4       	brne	.+10     	; 0x44c <__EEPROM_REGION_LENGTH__+0x4c>
+			{
+				blink_blue(300);// blink each 300ms
+ 442:	8c e2       	ldi	r24, 0x2C	; 44
+ 444:	91 e0       	ldi	r25, 0x01	; 1
+ 446:	0e 94 dc 00 	call	0x1b8	; 0x1b8 <blink_blue>
+ 44a:	74 cf       	rjmp	.-280    	; 0x334 <main+0x30>
+			}
+			else
+			if(state==y_blink)// if state is BLINK YELLOW
+ 44c:	15 30       	cpi	r17, 0x05	; 5
+ 44e:	29 f4       	brne	.+10     	; 0x45a <__EEPROM_REGION_LENGTH__+0x5a>
+			{
+				blink_yellow(300);// blink each 300ms
+ 450:	8c e2       	ldi	r24, 0x2C	; 44
+ 452:	91 e0       	ldi	r25, 0x01	; 1
+ 454:	0e 94 0f 01 	call	0x21e	; 0x21e <blink_yellow>
+ 458:	6d cf       	rjmp	.-294    	; 0x334 <main+0x30>
+			}
+			else
+			if(state==off)// if state is OFF ALL
+ 45a:	17 30       	cpi	r17, 0x07	; 7
+ 45c:	19 f4       	brne	.+6      	; 0x464 <__EEPROM_REGION_LENGTH__+0x64>
+			{
+				all_off();// off all
+ 45e:	0e 94 72 01 	call	0x2e4	; 0x2e4 <all_off>
+ 462:	68 cf       	rjmp	.-304    	; 0x334 <main+0x30>
+			}
+			else
+			if(state==on)// if state is ON ALL
+ 464:	18 30       	cpi	r17, 0x08	; 8
+ 466:	19 f4       	brne	.+6      	; 0x46e <__EEPROM_REGION_LENGTH__+0x6e>
+			{
+				all_on();// on all
+ 468:	0e 94 76 01 	call	0x2ec	; 0x2ec <all_on>
+ 46c:	63 cf       	rjmp	.-314    	; 0x334 <main+0x30>
+			}
+				else
+				if(state==all_blink)// if state is ON ALL
+ 46e:	16 30       	cpi	r17, 0x06	; 6
+ 470:	09 f0       	breq	.+2      	; 0x474 <__EEPROM_REGION_LENGTH__+0x74>
+ 472:	60 cf       	rjmp	.-320    	; 0x334 <main+0x30>
+				{
+					blink_all(350);// blink all
+ 474:	8e e5       	ldi	r24, 0x5E	; 94
+ 476:	91 e0       	ldi	r25, 0x01	; 1
+ 478:	0e 94 42 01 	call	0x284	; 0x284 <blink_all>
+ 47c:	5b cf       	rjmp	.-330    	; 0x334 <main+0x30>
+
+0000047e <uart_init>:
+
+void uart_init()
+{
+	uint16_t br=103;// br= (F_CPU/(16*9600))-1 , for baud rate = 9600
+	
+	UBRR0H=br>>8;// upper 8 bits of br
+ 47e:	10 92 c5 00 	sts	0x00C5, r1	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7f80c5>
+	UBRR0L=br;// lower 8 bits of br
+ 482:	87 e6       	ldi	r24, 0x67	; 103
+ 484:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
+	
+	UCSR0B|=(1<<RXEN0)|(1<<TXEN0);// enable RX and TX
+ 488:	e1 ec       	ldi	r30, 0xC1	; 193
+ 48a:	f0 e0       	ldi	r31, 0x00	; 0
+ 48c:	80 81       	ld	r24, Z
+ 48e:	88 61       	ori	r24, 0x18	; 24
+ 490:	80 83       	st	Z, r24
+	
+	UCSR0C|=(1<<UCSZ01)|(1<<UCSZ00);// data format for 8N1- 8 data bits, no parity, 1 stop bit
+ 492:	e2 ec       	ldi	r30, 0xC2	; 194
+ 494:	f0 e0       	ldi	r31, 0x00	; 0
+ 496:	80 81       	ld	r24, Z
+ 498:	86 60       	ori	r24, 0x06	; 6
+ 49a:	80 83       	st	Z, r24
+ 49c:	08 95       	ret
+
+0000049e <TX_char>:
+}
+
+void TX_char(char c)// sending a character
+{
+	while(!(UCSR0A&(1<<UDRE0)));// wait until UDR0 is empty, else data overwrite
+ 49e:	90 91 c0 00 	lds	r25, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 4a2:	95 ff       	sbrs	r25, 5
+ 4a4:	fc cf       	rjmp	.-8      	; 0x49e <TX_char>
+	
+	UDR0=c;// writing data enables automatic transmission
+ 4a6:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 4aa:	08 95       	ret
+
+000004ac <TX_string>:
+}
+
+void TX_string(char *str)// sending a string
+{
+ 4ac:	cf 93       	push	r28
+ 4ae:	df 93       	push	r29
+ 4b0:	ec 01       	movw	r28, r24
+	while(*str)
+ 4b2:	03 c0       	rjmp	.+6      	; 0x4ba <TX_string+0xe>
+	{
+		TX_char(*str);// send each character
+ 4b4:	0e 94 4f 02 	call	0x49e	; 0x49e <TX_char>
+		
+		str++;
+ 4b8:	21 96       	adiw	r28, 0x01	; 1
+	UDR0=c;// writing data enables automatic transmission
+}
+
+void TX_string(char *str)// sending a string
+{
+	while(*str)
+ 4ba:	88 81       	ld	r24, Y
+ 4bc:	81 11       	cpse	r24, r1
+ 4be:	fa cf       	rjmp	.-12     	; 0x4b4 <TX_string+0x8>
+		TX_char(*str);// send each character
+		
+		str++;
+	}
+	
+}
+ 4c0:	df 91       	pop	r29
+ 4c2:	cf 91       	pop	r28
+ 4c4:	08 95       	ret
+
+000004c6 <RX_char>:
+char RX_char()// receiving a character
+{
+	while(!(UCSR0A&(1<<RXC0)));//wait until data receives
+ 4c6:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 4ca:	88 23       	and	r24, r24
+ 4cc:	e4 f7       	brge	.-8      	; 0x4c6 <RX_char>
+	
+	return UDR0;// return character
+ 4ce:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+}
+ 4d2:	08 95       	ret
+
+000004d4 <RX_string>:
+
+void RX_string(char *buf, uint8_t size)// receiving a string
+{
+ 4d4:	0f 93       	push	r16
+ 4d6:	1f 93       	push	r17
+ 4d8:	cf 93       	push	r28
+ 4da:	df 93       	push	r29
+ 4dc:	8c 01       	movw	r16, r24
+ 4de:	d6 2f       	mov	r29, r22
+	char c;
+	uint8_t i=0;// index
+ 4e0:	c0 e0       	ldi	r28, 0x00	; 0
+	
+	while(1)
+	{
+		c=RX_char();// receive character
+ 4e2:	0e 94 63 02 	call	0x4c6	; 0x4c6 <RX_char>
+		
+		if(c=='\n'|| c=='\r')
+ 4e6:	8a 30       	cpi	r24, 0x0A	; 10
+ 4e8:	11 f0       	breq	.+4      	; 0x4ee <RX_string+0x1a>
+ 4ea:	8d 30       	cpi	r24, 0x0D	; 13
+ 4ec:	29 f4       	brne	.+10     	; 0x4f8 <RX_string+0x24>
+		{
+			buf[i]='\0';// end of string
+ 4ee:	f8 01       	movw	r30, r16
+ 4f0:	ec 0f       	add	r30, r28
+ 4f2:	f1 1d       	adc	r31, r1
+ 4f4:	10 82       	st	Z, r1
+			break;
+ 4f6:	13 c0       	rjmp	.+38     	; 0x51e <RX_string+0x4a>
+		}
+		if(i<size-1)// prevent overflow of array
+ 4f8:	4c 2f       	mov	r20, r28
+ 4fa:	50 e0       	ldi	r21, 0x00	; 0
+ 4fc:	2d 2f       	mov	r18, r29
+ 4fe:	30 e0       	ldi	r19, 0x00	; 0
+ 500:	21 50       	subi	r18, 0x01	; 1
+ 502:	31 09       	sbc	r19, r1
+ 504:	42 17       	cp	r20, r18
+ 506:	53 07       	cpc	r21, r19
+ 508:	34 f4       	brge	.+12     	; 0x516 <RX_string+0x42>
+		{
+			buf[i]=c;
+ 50a:	f8 01       	movw	r30, r16
+ 50c:	ec 0f       	add	r30, r28
+ 50e:	f1 1d       	adc	r31, r1
+ 510:	80 83       	st	Z, r24
+			i++;
+ 512:	cf 5f       	subi	r28, 0xFF	; 255
+		else
+		{
+			buf[i]='\0';// if memory overflows
+			break;
+		}
+	}
+ 514:	e6 cf       	rjmp	.-52     	; 0x4e2 <RX_string+0xe>
+			buf[i]=c;
+			i++;
+		}
+		else
+		{
+			buf[i]='\0';// if memory overflows
+ 516:	f8 01       	movw	r30, r16
+ 518:	ec 0f       	add	r30, r28
+ 51a:	f1 1d       	adc	r31, r1
+ 51c:	10 82       	st	Z, r1
+			break;
+		}
+	}
+	
+}
+ 51e:	df 91       	pop	r29
+ 520:	cf 91       	pop	r28
+ 522:	1f 91       	pop	r17
+ 524:	0f 91       	pop	r16
+ 526:	08 95       	ret
+
+00000528 <strcmp>:
+ 528:	fb 01       	movw	r30, r22
+ 52a:	dc 01       	movw	r26, r24
+ 52c:	8d 91       	ld	r24, X+
+ 52e:	01 90       	ld	r0, Z+
+ 530:	80 19       	sub	r24, r0
+ 532:	01 10       	cpse	r0, r1
+ 534:	d9 f3       	breq	.-10     	; 0x52c <strcmp+0x4>
+ 536:	99 0b       	sbc	r25, r25
+ 538:	08 95       	ret
+
+0000053a <_exit>:
+ 53a:	f8 94       	cli
+
+0000053c <__stop_program>:
+ 53c:	ff cf       	rjmp	.-2      	; 0x53c <__stop_program>
