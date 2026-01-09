@@ -1,0 +1,521 @@
+
+spi_BMP_280.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         0000001c  00800100  000002e8  0000035c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         000002e8  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  00000378  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000003a8  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 000000b8  00000000  00000000  000003e4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000ee5  00000000  00000000  0000049c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000976  00000000  00000000  00001381  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000603  00000000  00000000  00001cf7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  000001c8  00000000  00000000  000022fc  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000489  00000000  00000000  000024c4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    0000064d  00000000  00000000  0000294d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000098  00000000  00000000  00002f9a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+   8:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+   c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  10:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  14:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  18:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  1c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  20:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  24:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  28:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  2c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  30:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  34:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  38:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  3c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  40:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  44:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  48:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  4c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  50:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  54:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  58:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  5c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  60:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  64:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_copy_data>:
+  74:	11 e0       	ldi	r17, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	e8 ee       	ldi	r30, 0xE8	; 232
+  7c:	f2 e0       	ldi	r31, 0x02	; 2
+  7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
+  80:	05 90       	lpm	r0, Z+
+  82:	0d 92       	st	X+, r0
+  84:	ac 31       	cpi	r26, 0x1C	; 28
+  86:	b1 07       	cpc	r27, r17
+  88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
+  8a:	0e 94 87 00 	call	0x10e	; 0x10e <main>
+  8e:	0c 94 72 01 	jmp	0x2e4	; 0x2e4 <_exit>
+
+00000092 <__bad_interrupt>:
+  92:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000096 <spi_init>:
+#include <util/delay.h>
+#include "uart.h"
+
+ void spi_init()
+ {
+	 DDRB|=(1<<MOSI)|(1<<SS)|(1<<SCK);
+  96:	84 b1       	in	r24, 0x04	; 4
+  98:	8c 62       	ori	r24, 0x2C	; 44
+  9a:	84 b9       	out	0x04, r24	; 4
+	 DDRB&=~(1<<MISO);// set MISO as input others as output
+  9c:	84 b1       	in	r24, 0x04	; 4
+  9e:	8f 7e       	andi	r24, 0xEF	; 239
+  a0:	84 b9       	out	0x04, r24	; 4
+	 
+	 SPCR|=(1<<SPE)|(1<<MSTR)|(1<<SPR0);// enable spi, set master mode, set prescalar 16
+  a2:	8c b5       	in	r24, 0x2c	; 44
+  a4:	81 65       	ori	r24, 0x51	; 81
+  a6:	8c bd       	out	0x2c, r24	; 44
+	 SPCR&=~((1<<CPOL)|(CPHA)|(1<<SPR1));
+  a8:	8c b5       	in	r24, 0x2c	; 44
+  aa:	85 7f       	andi	r24, 0xF5	; 245
+  ac:	8c bd       	out	0x2c, r24	; 44
+  ae:	08 95       	ret
+
+000000b0 <spi_transfer>:
+ }
+ uint8_t spi_transfer(uint8_t data)
+ {
+	 uint8_t d;
+	 SPDR=data;// writing data enables data transfer
+  b0:	8e bd       	out	0x2e, r24	; 46
+	 
+	 while(!(SPSR&(1<<SPIF)));// wait till data transfer is over
+  b2:	0d b4       	in	r0, 0x2d	; 45
+  b4:	07 fe       	sbrs	r0, 7
+  b6:	fd cf       	rjmp	.-6      	; 0xb2 <spi_transfer+0x2>
+	 
+	 d=SPDR;// read data after transfer, reading clears SPIF
+  b8:	8e b5       	in	r24, 0x2e	; 46
+	 
+	 return d;
+ }
+  ba:	08 95       	ret
+
+000000bc <SS_LOW>:
+
+void SS_LOW()
+{
+	PORTB&=~(1<<SS); 
+  bc:	85 b1       	in	r24, 0x05	; 5
+  be:	8b 7f       	andi	r24, 0xFB	; 251
+  c0:	85 b9       	out	0x05, r24	; 5
+  c2:	08 95       	ret
+
+000000c4 <SS_HIGH>:
+}
+void SS_HIGH()
+{
+	 PORTB|=(1<<SS);// de select slave
+  c4:	85 b1       	in	r24, 0x05	; 5
+  c6:	84 60       	ori	r24, 0x04	; 4
+  c8:	85 b9       	out	0x05, r24	; 5
+  ca:	08 95       	ret
+
+000000cc <BMP280_read>:
+}
+
+int8_t BMP280_read(uint8_t cmd)
+{
+  cc:	cf 93       	push	r28
+  ce:	c8 2f       	mov	r28, r24
+	uint8_t id;
+	
+	
+	SS_LOW();// select slave
+  d0:	0e 94 5e 00 	call	0xbc	; 0xbc <SS_LOW>
+	
+	spi_transfer(cmd);// send read command
+  d4:	8c 2f       	mov	r24, r28
+  d6:	0e 94 58 00 	call	0xb0	; 0xb0 <spi_transfer>
+	id=spi_transfer(0xAA);// send dummy byte to receive data
+  da:	8a ea       	ldi	r24, 0xAA	; 170
+  dc:	0e 94 58 00 	call	0xb0	; 0xb0 <spi_transfer>
+  e0:	c8 2f       	mov	r28, r24
+	
+	SS_HIGH();//de select slave
+  e2:	0e 94 62 00 	call	0xc4	; 0xc4 <SS_HIGH>
+	
+	return id;
+}
+  e6:	8c 2f       	mov	r24, r28
+  e8:	cf 91       	pop	r28
+  ea:	08 95       	ret
+
+000000ec <BMP_write>:
+
+void BMP_write(uint8_t cmd, uint8_t data)
+{
+  ec:	cf 93       	push	r28
+  ee:	df 93       	push	r29
+  f0:	d8 2f       	mov	r29, r24
+  f2:	c6 2f       	mov	r28, r22
+	SS_LOW();// select slave
+  f4:	0e 94 5e 00 	call	0xbc	; 0xbc <SS_LOW>
+	
+	spi_transfer(cmd);// send write command
+  f8:	8d 2f       	mov	r24, r29
+  fa:	0e 94 58 00 	call	0xb0	; 0xb0 <spi_transfer>
+	
+	spi_transfer(data);// send data to write
+  fe:	8c 2f       	mov	r24, r28
+ 100:	0e 94 58 00 	call	0xb0	; 0xb0 <spi_transfer>
+	
+	SS_HIGH();// de select slave
+ 104:	0e 94 62 00 	call	0xc4	; 0xc4 <SS_HIGH>
+	
+}
+ 108:	df 91       	pop	r29
+ 10a:	cf 91       	pop	r28
+ 10c:	08 95       	ret
+
+0000010e <main>:
+int main(void)
+{
+ 10e:	cf 93       	push	r28
+ 110:	df 93       	push	r29
+ 112:	00 d0       	rcall	.+0      	; 0x114 <main+0x6>
+ 114:	1f 92       	push	r1
+ 116:	cd b7       	in	r28, 0x3d	; 61
+ 118:	de b7       	in	r29, 0x3e	; 62
+	uint8_t sen_id;
+	uint8_t b[3];// array to store value
+	uint32_t value;// for 20 bit value
+	
+   uart_init();// UART for debugging
+ 11a:	0e 94 dc 00 	call	0x1b8	; 0x1b8 <uart_init>
+   spi_init();// initialize SPI
+ 11e:	0e 94 4b 00 	call	0x96	; 0x96 <spi_init>
+    	
+	  sen_id = BMP280_read(0xD0); // send command 0xD0 to read sensor id 
+ 122:	80 ed       	ldi	r24, 0xD0	; 208
+ 124:	0e 94 66 00 	call	0xcc	; 0xcc <BMP280_read>
+	    
+	TX_hex_num(sen_id);// output expected is 0x58 
+ 128:	0e 94 1f 01 	call	0x23e	; 0x23e <TX_hex_num>
+	TX_string("\nReceived the sensor id\n");
+ 12c:	80 e0       	ldi	r24, 0x00	; 0
+ 12e:	91 e0       	ldi	r25, 0x01	; 1
+ 130:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <TX_string>
+	
+	
+	
+	
+	BMP_write(0xF4 & 0x7F, 0x27);// configure control meas register(0xF4), 
+ 134:	67 e2       	ldi	r22, 0x27	; 39
+ 136:	84 e7       	ldi	r24, 0x74	; 116
+ 138:	0e 94 76 00 	call	0xec	; 0xec <BMP_write>
+	
+    while (1) 
+    {
+		SS_LOW();// select slave
+ 13c:	0e 94 5e 00 	call	0xbc	; 0xbc <SS_LOW>
+		
+		spi_transfer(0xFA|0x80);// send read command to data register 0xFA
+ 140:	8a ef       	ldi	r24, 0xFA	; 250
+ 142:	0e 94 58 00 	call	0xb0	; 0xb0 <spi_transfer>
+		
+		for(uint8_t i=0;i<3;i++)
+ 146:	10 e0       	ldi	r17, 0x00	; 0
+ 148:	0d c0       	rjmp	.+26     	; 0x164 <main+0x56>
+		{
+			b[i]=spi_transfer(0xAA);// send dummy bytes to receive data
+ 14a:	e1 2e       	mov	r14, r17
+ 14c:	f1 2c       	mov	r15, r1
+ 14e:	8a ea       	ldi	r24, 0xAA	; 170
+ 150:	0e 94 58 00 	call	0xb0	; 0xb0 <spi_transfer>
+ 154:	e1 e0       	ldi	r30, 0x01	; 1
+ 156:	f0 e0       	ldi	r31, 0x00	; 0
+ 158:	ec 0f       	add	r30, r28
+ 15a:	fd 1f       	adc	r31, r29
+ 15c:	ee 0d       	add	r30, r14
+ 15e:	ff 1d       	adc	r31, r15
+ 160:	80 83       	st	Z, r24
+    {
+		SS_LOW();// select slave
+		
+		spi_transfer(0xFA|0x80);// send read command to data register 0xFA
+		
+		for(uint8_t i=0;i<3;i++)
+ 162:	1f 5f       	subi	r17, 0xFF	; 255
+ 164:	13 30       	cpi	r17, 0x03	; 3
+ 166:	88 f3       	brcs	.-30     	; 0x14a <main+0x3c>
+		{
+			b[i]=spi_transfer(0xAA);// send dummy bytes to receive data
+		}
+		
+		SS_HIGH();// de select slave
+ 168:	0e 94 62 00 	call	0xc4	; 0xc4 <SS_HIGH>
+		
+		value=((uint32_t)(b[0]<<12))|((uint32_t)(b[1]<<4))|((uint32_t)(b[2]>>4));// b[0] is the upper 8 bits, b[1] as middle 8 bits and b[2] as lowest 4bits
+ 16c:	69 81       	ldd	r22, Y+1	; 0x01
+ 16e:	70 e0       	ldi	r23, 0x00	; 0
+ 170:	76 2f       	mov	r23, r22
+ 172:	66 27       	eor	r22, r22
+ 174:	72 95       	swap	r23
+ 176:	70 7f       	andi	r23, 0xF0	; 240
+ 178:	8a 81       	ldd	r24, Y+2	; 0x02
+ 17a:	20 e1       	ldi	r18, 0x10	; 16
+ 17c:	82 9f       	mul	r24, r18
+ 17e:	c0 01       	movw	r24, r0
+ 180:	11 24       	eor	r1, r1
+ 182:	68 2b       	or	r22, r24
+ 184:	79 2b       	or	r23, r25
+ 186:	cb 01       	movw	r24, r22
+ 188:	77 0f       	add	r23, r23
+ 18a:	aa 0b       	sbc	r26, r26
+ 18c:	bb 0b       	sbc	r27, r27
+ 18e:	2b 81       	ldd	r18, Y+3	; 0x03
+ 190:	22 95       	swap	r18
+ 192:	2f 70       	andi	r18, 0x0F	; 15
+ 194:	bc 01       	movw	r22, r24
+ 196:	cd 01       	movw	r24, r26
+ 198:	62 2b       	or	r22, r18
+		
+		TX_32bit_num(value);
+ 19a:	0e 94 00 01 	call	0x200	; 0x200 <TX_32bit_num>
+		TX_char('\n');
+ 19e:	8a e0       	ldi	r24, 0x0A	; 10
+ 1a0:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <TX_char>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 1a4:	8f ef       	ldi	r24, 0xFF	; 255
+ 1a6:	94 e3       	ldi	r25, 0x34	; 52
+ 1a8:	2c e0       	ldi	r18, 0x0C	; 12
+ 1aa:	81 50       	subi	r24, 0x01	; 1
+ 1ac:	90 40       	sbci	r25, 0x00	; 0
+ 1ae:	20 40       	sbci	r18, 0x00	; 0
+ 1b0:	e1 f7       	brne	.-8      	; 0x1aa <main+0x9c>
+ 1b2:	00 c0       	rjmp	.+0      	; 0x1b4 <main+0xa6>
+ 1b4:	00 00       	nop
+ 1b6:	c2 cf       	rjmp	.-124    	; 0x13c <main+0x2e>
+
+000001b8 <uart_init>:
+	char str[6];// 5 digits + '\0'
+	
+	itoa(num,str,10);// convert to string
+	
+	TX_string(str);// send string
+}
+ 1b8:	10 92 c5 00 	sts	0x00C5, r1	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7f80c5>
+ 1bc:	87 e6       	ldi	r24, 0x67	; 103
+ 1be:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
+ 1c2:	e1 ec       	ldi	r30, 0xC1	; 193
+ 1c4:	f0 e0       	ldi	r31, 0x00	; 0
+ 1c6:	80 81       	ld	r24, Z
+ 1c8:	88 61       	ori	r24, 0x18	; 24
+ 1ca:	80 83       	st	Z, r24
+ 1cc:	e2 ec       	ldi	r30, 0xC2	; 194
+ 1ce:	f0 e0       	ldi	r31, 0x00	; 0
+ 1d0:	80 81       	ld	r24, Z
+ 1d2:	86 60       	ori	r24, 0x06	; 6
+ 1d4:	80 83       	st	Z, r24
+ 1d6:	08 95       	ret
+
+000001d8 <TX_char>:
+ 1d8:	90 91 c0 00 	lds	r25, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 1dc:	95 ff       	sbrs	r25, 5
+ 1de:	fc cf       	rjmp	.-8      	; 0x1d8 <TX_char>
+ 1e0:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 1e4:	08 95       	ret
+
+000001e6 <TX_string>:
+ 1e6:	cf 93       	push	r28
+ 1e8:	df 93       	push	r29
+ 1ea:	ec 01       	movw	r28, r24
+ 1ec:	03 c0       	rjmp	.+6      	; 0x1f4 <TX_string+0xe>
+ 1ee:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <TX_char>
+ 1f2:	21 96       	adiw	r28, 0x01	; 1
+ 1f4:	88 81       	ld	r24, Y
+ 1f6:	81 11       	cpse	r24, r1
+ 1f8:	fa cf       	rjmp	.-12     	; 0x1ee <TX_string+0x8>
+ 1fa:	df 91       	pop	r29
+ 1fc:	cf 91       	pop	r28
+ 1fe:	08 95       	ret
+
+00000200 <TX_32bit_num>:
+void TX_32bit_num(uint32_t num)// sending larger numbers
+{
+ 200:	cf 93       	push	r28
+ 202:	df 93       	push	r29
+ 204:	cd b7       	in	r28, 0x3d	; 61
+ 206:	de b7       	in	r29, 0x3e	; 62
+ 208:	2f 97       	sbiw	r28, 0x0f	; 15
+ 20a:	0f b6       	in	r0, 0x3f	; 63
+ 20c:	f8 94       	cli
+ 20e:	de bf       	out	0x3e, r29	; 62
+ 210:	0f be       	out	0x3f, r0	; 63
+ 212:	cd bf       	out	0x3d, r28	; 61
+ 214:	dc 01       	movw	r26, r24
+ 216:	cb 01       	movw	r24, r22
+    } else if (__radix < 2 || __radix > 36) {
+	*__s = 0;
+	return __s;
+    } else {
+	extern char *__itoa_ncheck (int, char *, unsigned char);
+	return __itoa_ncheck (__val, __s, __radix);
+ 218:	4a e0       	ldi	r20, 0x0A	; 10
+ 21a:	be 01       	movw	r22, r28
+ 21c:	6f 5f       	subi	r22, 0xFF	; 255
+ 21e:	7f 4f       	sbci	r23, 0xFF	; 255
+ 220:	0e 94 3d 01 	call	0x27a	; 0x27a <__itoa_ncheck>
+	char str[15];// for 32 bit number
+	
+	itoa(num,str,10);// convert to string
+	
+	TX_string(str);// send string
+ 224:	ce 01       	movw	r24, r28
+ 226:	01 96       	adiw	r24, 0x01	; 1
+ 228:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <TX_string>
+}
+ 22c:	2f 96       	adiw	r28, 0x0f	; 15
+ 22e:	0f b6       	in	r0, 0x3f	; 63
+ 230:	f8 94       	cli
+ 232:	de bf       	out	0x3e, r29	; 62
+ 234:	0f be       	out	0x3f, r0	; 63
+ 236:	cd bf       	out	0x3d, r28	; 61
+ 238:	df 91       	pop	r29
+ 23a:	cf 91       	pop	r28
+ 23c:	08 95       	ret
+
+0000023e <TX_hex_num>:
+void TX_hex_num(uint8_t hex)
+{
+ 23e:	cf 93       	push	r28
+ 240:	df 93       	push	r29
+ 242:	00 d0       	rcall	.+0      	; 0x244 <TX_hex_num+0x6>
+ 244:	00 d0       	rcall	.+0      	; 0x246 <TX_hex_num+0x8>
+ 246:	1f 92       	push	r1
+ 248:	cd b7       	in	r28, 0x3d	; 61
+ 24a:	de b7       	in	r29, 0x3e	; 62
+ 24c:	40 e1       	ldi	r20, 0x10	; 16
+ 24e:	be 01       	movw	r22, r28
+ 250:	6f 5f       	subi	r22, 0xFF	; 255
+ 252:	7f 4f       	sbci	r23, 0xFF	; 255
+ 254:	90 e0       	ldi	r25, 0x00	; 0
+ 256:	0e 94 3d 01 	call	0x27a	; 0x27a <__itoa_ncheck>
+	char str[5];
+	itoa(hex,str,16);
+	TX_string("0x");
+ 25a:	89 e1       	ldi	r24, 0x19	; 25
+ 25c:	91 e0       	ldi	r25, 0x01	; 1
+ 25e:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <TX_string>
+	TX_string(str);
+ 262:	ce 01       	movw	r24, r28
+ 264:	01 96       	adiw	r24, 0x01	; 1
+ 266:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <TX_string>
+}
+ 26a:	0f 90       	pop	r0
+ 26c:	0f 90       	pop	r0
+ 26e:	0f 90       	pop	r0
+ 270:	0f 90       	pop	r0
+ 272:	0f 90       	pop	r0
+ 274:	df 91       	pop	r29
+ 276:	cf 91       	pop	r28
+ 278:	08 95       	ret
+
+0000027a <__itoa_ncheck>:
+ 27a:	bb 27       	eor	r27, r27
+ 27c:	4a 30       	cpi	r20, 0x0A	; 10
+ 27e:	31 f4       	brne	.+12     	; 0x28c <__itoa_ncheck+0x12>
+ 280:	99 23       	and	r25, r25
+ 282:	22 f4       	brpl	.+8      	; 0x28c <__itoa_ncheck+0x12>
+ 284:	bd e2       	ldi	r27, 0x2D	; 45
+ 286:	90 95       	com	r25
+ 288:	81 95       	neg	r24
+ 28a:	9f 4f       	sbci	r25, 0xFF	; 255
+ 28c:	0c 94 49 01 	jmp	0x292	; 0x292 <__utoa_common>
+
+00000290 <__utoa_ncheck>:
+ 290:	bb 27       	eor	r27, r27
+
+00000292 <__utoa_common>:
+ 292:	fb 01       	movw	r30, r22
+ 294:	55 27       	eor	r21, r21
+ 296:	aa 27       	eor	r26, r26
+ 298:	88 0f       	add	r24, r24
+ 29a:	99 1f       	adc	r25, r25
+ 29c:	aa 1f       	adc	r26, r26
+ 29e:	a4 17       	cp	r26, r20
+ 2a0:	10 f0       	brcs	.+4      	; 0x2a6 <__utoa_common+0x14>
+ 2a2:	a4 1b       	sub	r26, r20
+ 2a4:	83 95       	inc	r24
+ 2a6:	50 51       	subi	r21, 0x10	; 16
+ 2a8:	b9 f7       	brne	.-18     	; 0x298 <__utoa_common+0x6>
+ 2aa:	a0 5d       	subi	r26, 0xD0	; 208
+ 2ac:	aa 33       	cpi	r26, 0x3A	; 58
+ 2ae:	08 f0       	brcs	.+2      	; 0x2b2 <__utoa_common+0x20>
+ 2b0:	a9 5d       	subi	r26, 0xD9	; 217
+ 2b2:	a1 93       	st	Z+, r26
+ 2b4:	00 97       	sbiw	r24, 0x00	; 0
+ 2b6:	79 f7       	brne	.-34     	; 0x296 <__utoa_common+0x4>
+ 2b8:	b1 11       	cpse	r27, r1
+ 2ba:	b1 93       	st	Z+, r27
+ 2bc:	11 92       	st	Z+, r1
+ 2be:	cb 01       	movw	r24, r22
+ 2c0:	0c 94 62 01 	jmp	0x2c4	; 0x2c4 <strrev>
+
+000002c4 <strrev>:
+ 2c4:	dc 01       	movw	r26, r24
+ 2c6:	fc 01       	movw	r30, r24
+ 2c8:	67 2f       	mov	r22, r23
+ 2ca:	71 91       	ld	r23, Z+
+ 2cc:	77 23       	and	r23, r23
+ 2ce:	e1 f7       	brne	.-8      	; 0x2c8 <strrev+0x4>
+ 2d0:	32 97       	sbiw	r30, 0x02	; 2
+ 2d2:	04 c0       	rjmp	.+8      	; 0x2dc <strrev+0x18>
+ 2d4:	7c 91       	ld	r23, X
+ 2d6:	6d 93       	st	X+, r22
+ 2d8:	70 83       	st	Z, r23
+ 2da:	62 91       	ld	r22, -Z
+ 2dc:	ae 17       	cp	r26, r30
+ 2de:	bf 07       	cpc	r27, r31
+ 2e0:	c8 f3       	brcs	.-14     	; 0x2d4 <strrev+0x10>
+ 2e2:	08 95       	ret
+
+000002e4 <_exit>:
+ 2e4:	f8 94       	cli
+
+000002e6 <__stop_program>:
+ 2e6:	ff cf       	rjmp	.-2      	; 0x2e6 <__stop_program>
