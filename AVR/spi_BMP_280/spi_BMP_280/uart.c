@@ -84,8 +84,8 @@ void TX_32bit_num(uint32_t num)// sending larger numbers
 {
 	char str[15];// for 32 bit number
 	
-	itoa(num,str,10);// convert to string
-	
+	ultoa(num,str,10);// convert to string 
+	                  // ultoa converts 32bit unsigned values to string, itoa is applicable to int (16bit signed)
 	TX_string(str);// send string
 }
 void TX_hex_num(uint8_t hex)
@@ -111,13 +111,23 @@ uint16_t RX_num(char *str)// number receiving
 	}
 	return num;
 }
-void TX_float(float value)// float sending
+void TX_Float_send(float value)// float sending using integer,fraction part sending
 {
-	char buf[10];
+	uint16_t var;
+	var=value*100;
+	TX_num(var/100);// send integer part
+	TX_char('.');// send decimal point
+	if((var%100)<=9)
+	TX_char('0');// pad zero
+	TX_num(var%100);// send fraction part
+}
+
+void TX_float(float value)// float sending using detostrf
+{
+	char buf[15];
 	
 	dtostrf(value,0,2,buf);// convert float to a string
 	
 	TX_string(buf);// send the string
 	
 }
-

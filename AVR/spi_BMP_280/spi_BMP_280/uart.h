@@ -18,6 +18,7 @@ void TX_num(uint16_t num);
 void TX_hex_num(uint8_t hex);
 void TX_32bit_num(uint32_t num);
 void TX_float(float value);// float sending
+void TX_Float_send(float);
 char RX_char();
 void RX_string(char *str, uint8_t);
 uint16_t RX_num(char *str);
