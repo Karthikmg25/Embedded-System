@@ -1,0 +1,44 @@
+/*
+ * STM32F401RE.h
+ *
+ *  Created on: Jan 17, 2026
+ *      Author: hp
+ */
+
+#ifndef INC_STM32F401RE_H_
+#define INC_STM32F401RE_H_
+
+/*
+ * SRAM   96KB
+ * FLASH  512KB
+ * ROM    30KB
+ */
+
+/*
+ *  memory base address
+ */
+#define ROM_BASE_ADDRESS                0x1FFF 0000U         //
+#define SRAM_BASE_ADDRESS               0x2000 0000U
+#define FLASH_BASE_ADDRESS              0x0800 0000U
+
+/*
+ *  peripheral bus base address
+ */
+#define APB1_BASE_ADDRESS              0x4000 0000U
+#define APB2_BASE_ADDRESS              0x4001 0000U
+#define AHB1_BASE_ADDRESS              0x4002 0000U
+#define AHB2_BASE_ADDRESS              0x5000 0000U
+
+/*
+ *  base address of peripherals in APB1 bus
+ */
+/*
+ *  base address of peripherals in APB2 bus
+ */
+/*
+ *  base address of peripherals in AHB1 bus
+ */
+/*
+ *  base address of peripherals in AHB2 bus
+ */
+#endif /* INC_STM32F401RE_H_ */

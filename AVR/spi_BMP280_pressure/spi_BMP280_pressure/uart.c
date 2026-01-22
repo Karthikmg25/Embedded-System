@@ -111,7 +111,7 @@ uint16_t RX_num(char *str)// number receiving
 	}
 	return num;
 }
-void TX_Float_send(float value)// float sending using integer,fraction part sending
+void TX_Float_send(double value)// float sending using integer,fraction part sending
 {
 	uint32_t var;
 	var=value*100;
@@ -122,7 +122,7 @@ void TX_Float_send(float value)// float sending using integer,fraction part send
 	TX_32bit_num(var%100);// send fraction part
 }
 
-void TX_float(double value)// float sending using dtostrf
+void TX_float(float value)// float sending using dtostrf
 {
 	char buf[15];
 	

@@ -83,7 +83,7 @@ int main(void)
 	uint16_t dig_t1;
 	int16_t dig_t2,dig_t3;//temperature calibration values
 	uint8_t calib[6];//temperature calibration bytes, 6 bytes for three 16bit values
-	float var1,var2,temp;//temperature compensation formula variables
+	float var1,var2;//temperature compensation formula variables
 	
 	uint16_t dig_p1;
 	int16_t dig_p2,dig_p3,dig_p4,dig_p5,dig_p6,dig_p7,dig_p8,dig_p9;//pressure calibration values
@@ -126,15 +126,15 @@ int main(void)
 		}	
 	SS_HIGH();// de select after reading
 	
-	dig_p1=(uint16_t)(p_calib[1]<<8 | p_calib[0]);// p_calib[1] as MSB and p_calib[0] as LSB, do type cast to form values
-	dig_p2=((int16_t)p_calib[3]<<8)|(int16_t)p_calib[2];// p_calib[3] as MSB and p_calib[2] as LSB, do type cast to form values
-	dig_p3=((int16_t)p_calib[5]<<8)|(int16_t)p_calib[4];// p_calib[5] as MSB and p_calib[4] as LSB, do type cast to form values	
-	dig_p4=((int16_t)p_calib[7]<<8)|(int16_t)p_calib[6];// p_calib[7] as MSB and p_calib[6] as LSB, do type cast to form values
-	dig_p5=((int16_t)p_calib[9]<<8)|(int16_t)p_calib[8];// p_calib[9] as MSB and p_calib[8] as LSB, do type cast to form values
-	dig_p6=((int16_t)p_calib[11]<<8)|(int16_t)p_calib[10];// p_calib[11] as MSB and p_calib[10] as LSB, do type cast to form values
-	dig_p7=((int16_t)p_calib[13]<<8)|(int16_t)p_calib[12];// p_calib[13] as MSB and p_calib[12] as LSB, do type cast to form values
-	dig_p8=((int16_t)p_calib[15]<<8)|(int16_t)p_calib[14];// p_calib[15] as MSB and p_calib[14] as LSB, do type cast to form values
-	dig_p9=((int16_t)p_calib[17]<<8)|(int16_t)p_calib[16];// p_calib[17] as MSB and p_calib[16] as LSB, do type cast to form values
+	dig_p1=((uint16_t)p_calib[1]<<8|p_calib[0]);// p_calib[1] as MSB and p_calib[0] as LSB, do type cast to form values
+	dig_p2=((int16_t)p_calib[3]<<8)|p_calib[2];// p_calib[3] as MSB and p_calib[2] as LSB, do type cast to form values
+	dig_p3=((int16_t)p_calib[5]<<8)|p_calib[4];// p_calib[5] as MSB and p_calib[4] as LSB, do type cast to form values	
+	dig_p4=((uint16_t)p_calib[7]<<8 | p_calib[6]);// p_calib[7] as MSB and p_calib[6] as LSB, do type cast to form values
+	dig_p5=((int16_t)p_calib[9]<<8)|p_calib[8];// p_calib[9] as MSB and p_calib[8] as LSB, do type cast to form values
+	dig_p6=((int16_t)p_calib[11]<<8)|p_calib[10];// p_calib[11] as MSB and p_calib[10] as LSB, do type cast to form values
+	dig_p7=((int16_t)p_calib[13]<<8)|p_calib[12];// p_calib[13] as MSB and p_calib[12] as LSB, do type cast to form values
+	dig_p8=((int16_t)p_calib[15]<<8)|p_calib[14];// p_calib[15] as MSB and p_calib[14] as LSB, do type cast to form values
+	dig_p9=((int16_t)p_calib[17]<<8)|p_calib[16];// p_calib[17] as MSB and p_calib[16] as LSB, do type cast to form values
 	
 	
 	BMP_write(0xF4 & 0x7F, 0x27);// configure control meas register(0xF4), reading temperature, continuous mode
@@ -158,7 +158,6 @@ int main(void)
 		var1=((value/16384.0f)-(dig_t1/1024.0f))*dig_t2;// compensation formula for temperature
 		var2=((value/131072.0f)-(dig_t2/8192.0f))*dig_t3;
 		t_fine=var1+var2;
-		temp=t_fine/5120.0f;// actual temperature 
 		
 		SS_LOW();// select slave for reading pressure data
 		
@@ -175,13 +174,13 @@ int main(void)
 		                                                                       // compensation formula for pressure
 		p_var1=((double)t_fine/2.0f)-64000.0;
 		p_var2=p_var1*p_var1*((double)dig_p6/32768.0f);
-		p_var2=p_var2+p_var1*((double)dig_p5*2.0f);
-		p_var2=(p_var2/4.0f)*((double)dig_p4*65536.0f);	
-		p_var1=(double)dig_p3*p_var1*(p_var1/524288.0f)+((double)dig_p2*(p_var1/524288.0f));
+		p_var2=(p_var2/4.0f)+p_var1*((double)dig_p5*2.0f);
+		p_var2=(p_var2)+((double)dig_p4*65536.0f);	
+	    p_var1=(double)dig_p3*p_var1*(p_var1/524288.0f)+((double)dig_p2*(p_var1/524288.0f));
 		p_var1=(1.0f+p_var1/32768.0f)*(double)dig_p1;
 		
 		pressure=1048576.0f-(double)p_value;
-		pressure=pressure-(p_var2/4096.0f)*(6250.0f/p_var1);
+		pressure=(pressure-(p_var2/4096.0f))*(6250.0f/p_var1);
 		
 		p_var1=(double)dig_p9*pressure*(pressure/2147483648.0f);
 		p_var2=pressure*(double)dig_p8/32768.0f;
@@ -191,7 +190,13 @@ int main(void)
 		
 		
 		TX_string("\nPressure : ");
-		TX_float(pressure);
+		TX_Float_send(pressure);
+		TX_char('\n');
+		TX_num(dig_p4);
+		TX_char('\n');
+		TX_hex_num(p_calib[6]); TX_string(" ");
+		TX_hex_num(p_calib[7]);
+
 		
 		_delay_ms(500);
 	}
