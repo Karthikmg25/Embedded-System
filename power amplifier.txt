@@ -1,0 +1,13 @@
+                                                     Power amplifiers
+
+
+
+power amplifiers are used to boost the power level of signals.they are mostly used in audio communication systems.
+it converts the dc input power into usefull ac output power and provides a high power output signal.the 
+efficiency of a power amplifier lies in its ability to perform this conversion.its used at the last stage of 
+amplification where its connected with the loudspeaker.it preffers power saving rather than providing leniarity.
+Single ended power amplifiers are ineffient in terms of saving power,so most power amplifiers are double ended ,means
+they use two transistors.power amplifiers can be classified on the basis of region at which the transistor operates.
+it comes under class A if operating at active region,
+class B if operates at the cut off,
+class AB if operates just above the cut off and class C if operates below the cut off.

@@ -1,0 +1,23 @@
+<circuit version="1.1.0-SR1" rev="2005" stepSize="1000000" stepsPS="1000000" NLsteps="100000" reaStep="1000000" animate="0" >
+
+<item itemtype="Hd44780" CircId="Hd44780-3" mainComp="false" Show_id="true" Show_Val="false" Pos="-276,-28" rotation="0" hflip="1" vflip="1" label="Hd44780-3" idLabPos="70,-82" labelrot="0" valLabPos="-16,20" valLabRot="0" Rows="2" Cols="16" />
+
+<item itemtype="MCU" CircId="mega328-4" mainComp="false" Show_id="true" Show_Val="false" Pos="20,-92" rotation="0" hflip="1" vflip="1" label="mega328-4" idLabPos="0,-20" labelrot="0" valLabPos="-16,20" valLabRot="0" Frequency="16 MHz" Program="../LCD_interfacing/LCD_interfacing/Debug/LCD_interfacing.hex" Auto_Load="false" saveEepr="true" Rst_enabled="false" Ext_Osc="false" Wdt_enabled="false" Clk_Out="false" MainMcu="true" SerialMon="-1" />
+
+<item itemtype="Ground" CircId="Ground-5" mainComp="false" Show_id="false" Show_Val="false" Pos="-252,8" rotation="0" hflip="1" vflip="1" label="Ground-5" idLabPos="-16,8" labelrot="0" valLabPos="-16,20" valLabRot="0" />
+
+<item itemtype="Connector" uid="Connector-1" startpinid="Hd44780-3-PinRW" endpinid="Ground-5-Gnd" pointList="-252,-20,-252,-8" />
+
+<item itemtype="Connector" uid="Connector-7" startpinid="Hd44780-3-PinEn" endpinid="mega328-4-PORTB3" pointList="-244,-20,-244,40,72,40,72,4,60,4" />
+
+<item itemtype="Connector" uid="Connector-8" startpinid="mega328-4-PORTB4" endpinid="Hd44780-3-PinRS" pointList="60,-4,100,-4,100,100,-288,100,-288,-20,-260,-20" />
+
+<item itemtype="Connector" uid="Connector-9" startpinid="Hd44780-3-dataPin7" endpinid="mega328-4-PORTD7" pointList="-180,-20,-180,12,12,12" />
+
+<item itemtype="Connector" uid="Connector-10" startpinid="Hd44780-3-dataPin6" endpinid="mega328-4-PORTD6" pointList="-188,-20,-188,4,12,4" />
+
+<item itemtype="Connector" uid="Connector-11" startpinid="mega328-4-PORTD5" endpinid="Hd44780-3-dataPin5" pointList="12,-4,-196,-4,-196,-20" />
+
+<item itemtype="Connector" uid="Connector-12" startpinid="Hd44780-3-dataPin4" endpinid="mega328-4-PORTD4" pointList="-204,-20,-204,-12,4,-12,4,-44,12,-44" />
+
+</circuit>

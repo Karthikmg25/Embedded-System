@@ -1,0 +1,23 @@
+# IDE files
+.metadata/
+.vs/
+
+# Build folders
+Debug/
+Release/
+
+# AVR build output
+*.elf
+*.hex
+*.o
+*.map
+*.lss
+*.srec
+*.eep
+
+# Temp files
+*.log
+*.tmp
+# Ignore Atmel / Microchip Studio IDE cache folders
+.vs/
+**/.vs/
