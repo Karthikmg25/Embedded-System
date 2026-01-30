@@ -20,17 +20,17 @@
 /*
  *  memory base address
  */
-#define ROM_BASE_ADDR                0x1FFF 0000U
-#define SRAM_BASE_ADDR               0x2000 0000U
-#define FLASH_BASE_ADDR              0x0800 0000U
+#define ROM_BASE_ADDR                0x1FFF0000U
+#define SRAM_BASE_ADDR               0x20000000U
+#define FLASH_BASE_ADDR              0x08000000U
 
 /*
  *  peripheral bus base address
  */
-#define APB1_PERIPH_BASE_ADDR             0x4000 0000U
-#define APB2_PERIPH_BASE_ADDR             0x4001 0000U
-#define AHB1_PERIPH_BASE_ADDR             0x4002 0000U
-#define AHB2_PERIPH_BASE_ADDR             0x5000 0000U
+#define APB1_PERIPH_BASE_ADDR             0x40000000U
+#define APB2_PERIPH_BASE_ADDR             0x40010000U
+#define AHB1_PERIPH_BASE_ADDR             0x40020000U
+#define AHB2_PERIPH_BASE_ADDR             0x50000000U
 
 /*
  *  base address of peripherals in APB1 bus
@@ -80,7 +80,7 @@
 #define GPIOE_PERIPH_BASE_ADDR           (AHB1_PERIPH_BASE_ADDR+ 0x1000)
 #define GPIOH_PERIPH_BASE_ADDR           (AHB1_PERIPH_BASE_ADDR+ 0x1C00)
 #define CRC_PERIPH_BASE_ADDR             (AHB1_PERIPH_BASE_ADDR+ 0x3000)
-#define RRC_PERIPH_BASE_ADDR             (AHB1_PERIPH_BASE_ADDR+ 0x3800)
+#define RCC_PERIPH_BASE_ADDR             (AHB1_PERIPH_BASE_ADDR+ 0x3800)
 #define FIR_PERIPH_BASE_ADDR             (AHB1_PERIPH_BASE_ADDR+ 0x3C00)
 #define DMA1_PERIPH_BASE_ADDR            (AHB1_PERIPH_BASE_ADDR+ 0x6000)
 #define DMA2_PERIPH_BASE_ADDR            (AHB1_PERIPH_BASE_ADDR+ 0x6400)
@@ -112,12 +112,12 @@ typedef struct
 /*
  *   GPIO Pointers
  */
-#define GPIOA          (GPIO_Reg_t*)GPIOA_PERIPH_BASE_ADDR
-#define GPIOB          (GPIO_Reg_t*)GPIOB_PERIPH_BASE_ADDR
-#define GPIOC          (GPIO_Reg_t*)GPIOC_PERIPH_BASE_ADDR
-#define GPIOD          (GPIO_Reg_t*)GPIOD_PERIPH_BASE_ADDR
-#define GPIOE          (GPIO_Reg_t*)GPIOE_PERIPH_BASE_ADDR
-#define GPIOH          (GPIO_Reg_t*)GPIOH_PERIPH_BASE_ADDR
+#define GPIOA          ((GPIO_Reg_t*)GPIOA_PERIPH_BASE_ADDR)
+#define GPIOB          ((GPIO_Reg_t*)GPIOB_PERIPH_BASE_ADDR)
+#define GPIOC          ((GPIO_Reg_t*)GPIOC_PERIPH_BASE_ADDR)
+#define GPIOD          ((GPIO_Reg_t*)GPIOD_PERIPH_BASE_ADDR)
+#define GPIOE          ((GPIO_Reg_t*)GPIOE_PERIPH_BASE_ADDR)
+#define GPIOH          ((GPIO_Reg_t*)GPIOH_PERIPH_BASE_ADDR)
 
 
 /*
@@ -139,10 +139,10 @@ typedef struct
 /*
  *   SPI Pointers
  */
-#define SPI1               (SPI_Reg_t*)SPI1_PERIPH_BASE_ADDR
-#define SPI4               (SPI_Reg_t*)SPI4_PERIPH_BASE_ADDR
-#define SPI2_I2S2          (SPI_Reg_t*)SPI2_I2S2_PERIPH_BASE_ADDR
-#define SPI3_I2S3          (SPI_Reg_t*)SPI3_I2S3_PERIPH_BASE_ADDR
+#define SPI1               ((SPI_Reg_t*)SPI1_PERIPH_BASE_ADDR)
+#define SPI4               ((SPI_Reg_t*)SPI4_PERIPH_BASE_ADDR)
+#define SPI2_I2S2          ((SPI_Reg_t*)SPI2_I2S2_PERIPH_BASE_ADDR)
+#define SPI3_I2S3          ((SPI_Reg_t*)SPI3_I2S3_PERIPH_BASE_ADDR)
 
 
 /*
@@ -165,9 +165,9 @@ typedef struct
 /*
  *   I2C Pointers
  */
-#define I2C1               (I2C_Reg_t*)I2C1_PERIPH_BASE_ADDR
-#define I2C2               (I2C_Reg_t*)I2C2_PERIPH_BASE_ADDR
-#define I2C3               (I2C_Reg_t*)I2C3_PERIPH_BASE_ADDR
+#define I2C1               ((I2C_Reg_t*)I2C1_PERIPH_BASE_ADDR)
+#define I2C2               ((I2C_Reg_t*)I2C2_PERIPH_BASE_ADDR)
+#define I2C3               ((I2C_Reg_t*)I2C3_PERIPH_BASE_ADDR)
 
 
 /*
@@ -188,9 +188,9 @@ typedef struct
  *   USART Pointers
  */
 
-#define USART1               (USART_Reg_t*)USART1_PERIPH_BASE_ADDR
-#define USART2               (USART_Reg_t*)USART2_PERIPH_BASE_ADDR
-#define USART6               (USART_Reg_t*)USART6_PERIPH_BASE_ADDR
+#define USART1               ((USART_Reg_t*)USART1_PERIPH_BASE_ADDR)
+#define USART2               ((USART_Reg_t*)USART2_PERIPH_BASE_ADDR)
+#define USART6               ((USART_Reg_t*)USART6_PERIPH_BASE_ADDR)
 
 
 /*
@@ -235,7 +235,7 @@ typedef struct
 /*
  *   RCC Pointer
  */
-#define RCC              (RCC_Reg_t*)RCC_PERIPH_BASE_ADDR
+#define RCC              ((RCC_Reg_t*)RCC_PERIPH_BASE_ADDR)
 
 /*
  *   GPIO Clock Enable
@@ -259,10 +259,10 @@ typedef struct
 /*
  *   SPI Clock Enable
  */
-#define SP1_CLK_EN()  (RCC->APB2ENR|=(1<<12))// Set Bit12 for SPI1
-#define SPI4_CLK_EN() (RCC->APB2ENR|=(1<<13))// Set Bit13 for SPI4
-#define SP12_CLK_EN() (RCC->APB1ENR|=(1<<14))// Set Bit14 for SPI2
-#define SPI3_CLK_EN() (RCC->APB1ENR|=(1<<15))// Set Bit15 for SPI3
+#define SPI1_CLK_EN()  (RCC->APB2ENR|=(1<<12))// Set Bit12 for SPI1
+#define SPI4_CLK_EN()  (RCC->APB2ENR|=(1<<13))// Set Bit13 for SPI4
+#define SP12_CLK_EN()  (RCC->APB1ENR|=(1<<14))// Set Bit14 for SPI2
+#define SPI3_CLK_EN()  (RCC->APB1ENR|=(1<<15))// Set Bit15 for SPI3
 /*
  *   SPI Clock Disable
  */
@@ -333,17 +333,19 @@ typedef struct
 /*
  *   ADC Clock Enable
  */
-#define ADC1_CLK_EN() (RCC->APB2ENR|=(1<<8))//  Set Bit4 for ADC1
+#define ADC1_CLK_EN() (RCC->APB2ENR|=(1<<8))//  Set Bit8 for ADC1
 
 /*
  *   ADC Clock Disable
  */
-#define ADC1_CLK_DI() (RCC->APB2ENR&=~(1<<8))//  Clear Bit4 for ADC1
+#define ADC1_CLK_DI() (RCC->APB2ENR&=~(1<<8))//  Clear Bit8 for ADC1
 
 
 /*
- *    register definition
+ *    Generic Macros
  */
+#define ENABLE  1
+#define DISABLE 0
 
 
 #endif /* INC_STM32F401RE_H_ */
