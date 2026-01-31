@@ -35,7 +35,7 @@ typedef struct
 {
 	GPIO_Reg_t *pGPIOx;     // for GPIO register access
 
-	GPIO_PinConfig_t *pGPIO_PinConfig;// for GPIO configuration
+	GPIO_PinConfig_t pGPIO_PinConfig;// for GPIO configuration
 
 }GPIO_Handle_t;
 
@@ -78,7 +78,7 @@ void GPIO_Toggle_OutputPin(GPIO_Reg_t *pGPIOx, uint8_t PinNumber);
 #define GPIO_PIN_NO_15           15
 
 /*
- *  GPIO MODES
+ *  GPIO PIN MODES
  *
  */
 #define GPIO_MODE_IN          0
@@ -87,7 +87,7 @@ void GPIO_Toggle_OutputPin(GPIO_Reg_t *pGPIOx, uint8_t PinNumber);
 #define GPIO_MODE_ANALOG      3
 
 /*
- *  GPIO SPEED
+ *  GPIO PIN SPEED
  *
  */
 #define GPIO_SPEED_LOW            0
@@ -96,18 +96,18 @@ void GPIO_Toggle_OutputPin(GPIO_Reg_t *pGPIOx, uint8_t PinNumber);
 #define GPIO_SPEED_HIGH           3
 
 /*
- *  GPIO OUTPUT TYPE
+ *  GPIO PIN OUTPUT TYPE
  *
  */
-#define GPIO_OTYPE_PUSHPULL      0
-#define GPIO_OTYPE_OPENDRAIN     1
+#define GPIO_OP_TYPE_PUSHPULL      0
+#define GPIO_OP_TYPE_OPENDRAIN     1
 
 /*
- *  GPIO PULL-UP PULL-DOWN
+ *  GPIO PIN PULL-UP PULL-DOWN
  *
  */
-#define GPIO_PUPD_NO_PUPD      0
-#define GPIO_PUPD_PULLUP       1
-#define GPIO_PUPD_PULLDOWN     2
+#define GPIO_NO_PUPD           0
+#define GPIO_PIN_PULLUP        1
+#define GPIO_PIN_PULLDOWN      2
 
 #endif /* STM32F401RE_GPIO_DRIVER_H_ */
