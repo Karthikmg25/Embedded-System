@@ -35,7 +35,7 @@ typedef struct
 {
 	GPIO_Reg_t *pGPIOx;     // for GPIO register access
 
-	GPIO_PinConfig_t pGPIO_PinConfig;// for GPIO configuration
+	GPIO_PinConfig_t GPIO_PinConfig;// for GPIO configuration
 
 }GPIO_Handle_t;
 
@@ -109,5 +109,10 @@ void GPIO_Toggle_OutputPin(GPIO_Reg_t *pGPIOx, uint8_t PinNumber);
 #define GPIO_NO_PUPD           0
 #define GPIO_PIN_PULLUP        1
 #define GPIO_PIN_PULLDOWN      2
-
+/*
+ *  GPIO PIN SET / RESET
+ *
+ */
+#define GPIO_PIN_SET      1
+#define GPIO_PIN_CLEAR    0
 #endif /* STM32F401RE_GPIO_DRIVER_H_ */

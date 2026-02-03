@@ -18,6 +18,7 @@
 
 #include <stdint.h>
 #include "STM32F401RE.h"
+#include "stm32f401re_gpio_driver.h"
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
@@ -25,6 +26,18 @@
 
 int main(void)
 {
-    /* Loop forever */
+	GPIO_PinConfig_t config={0}; // initialize as 0 for avoiding garbage values for unused fields
+	config.GPIO_PinMode=GPIO_MODE_OUT;
+	config.GPIO_PinNumber=GPIO_PIN_NO_5 ;
+	config.GPIO_PinOPType=GPIO_OP_TYPE_PUSHPULL;
+
+	GPIO_Handle_t handle={0};
+	handle.GPIO_PinConfig= config;
+	handle.pGPIOx= GPIOA;
+
+   GPIO_Init(&handle);
+
+   GPIO_Write_OutputPin(GPIOA, 5, 1);
+	/* Loop forever */
 	for(;;);
 }

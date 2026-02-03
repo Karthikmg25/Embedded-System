@@ -105,8 +105,7 @@ typedef struct
   _vo uint32_t ODR;
   _vo uint32_t BSRR ;
   _vo uint32_t LCKR;
-  _vo uint32_t AFRL;
-  _vo uint32_t AFRH;
+  _vo uint32_t AFR[2];
 
 }GPIO_Reg_t;
 /*
@@ -346,6 +345,34 @@ typedef struct
  */
 #define ENABLE  1
 #define DISABLE 0
+/*
+ *    Peripheral reset Macros
+ */
+#define GPIOA_REG_RESET()    do{\
+                                    RCC->AHB1RSTR |=  (1<<0);\
+	        	                    RCC->AHB1RSTR &= ~(1<<0);\
+	        	                    }while(0)
+#define GPIOB_REG_RESET()    do{\
+                                    RCC->AHB1RSTR |=  (1<<1);\
+	        	                    RCC->AHB1RSTR &= ~(1<<1);\
+	        	                    }while(0)
+#define GPIOC_REG_RESET()    do{\
+                                    RCC->AHB1RSTR |=  (1<<2);\
+	        	                    RCC->AHB1RSTR &= ~(1<<2);\
+	                                }while(0)
+#define GPIOD_REG_RESET()    do{\
+                                    RCC->AHB1RSTR |=  (1<<3);\
+	        	                    RCC->AHB1RSTR &= ~(1<<3);\
+	        	                    }while(0)
+#define GPIOE_REG_RESET()    do{\
+                                    RCC->AHB1RSTR |=  (1<<4);\
+	        	                    RCC->AHB1RSTR &= ~(1<<4);\
+	        	                    }while(0)
+#define GPIOH_REG_RESET()    do{\
+                                    RCC->AHB1RSTR |=  (1<<7);\
+	        	                    RCC->AHB1RSTR &= ~(1<<7);\
+	        	                    }while(0)
+
 
 
 #endif /* INC_STM32F401RE_H_ */
