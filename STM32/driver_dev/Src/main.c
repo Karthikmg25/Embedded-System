@@ -24,20 +24,51 @@
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
+void delay(){
+	for(uint32_t i=0;i<300000;i++);
+}
 int main(void)
 {
-	GPIO_PinConfig_t config={0}; // initialize as 0 for avoiding garbage values for unused fields
-	config.GPIO_PinMode=GPIO_MODE_OUT;
-	config.GPIO_PinNumber=GPIO_PIN_NO_5 ;
-	config.GPIO_PinOPType=GPIO_OP_TYPE_PUSHPULL;
+	GPIO_Handle_t GPIOled;// declare structure variable for handle structure
+	GPIO_Handle_t GPIOread;// for reading button press
 
-	GPIO_Handle_t handle={0};
-	handle.GPIO_PinConfig= config;
-	handle.pGPIOx= GPIOA;
+	GPIOled.pGPIOx=GPIOA;
+	GPIOled.GPIO_PinConfig.GPIO_PinNumber=GPIO_PIN_NO_5;
+	GPIOled.GPIO_PinConfig.GPIO_PinMode=GPIO_MODE_OUT;
+	GPIOled.GPIO_PinConfig.GPIO_PinSpeed=GPIO_SPEED_FAST;
+	GPIOled.GPIO_PinConfig.GPIO_PinOPType=GPIO_OP_TYPE_PUSHPULL;
+	GPIOled.GPIO_PinConfig.GPIO_PinPUPD=GPIO_NO_PUPD;        // set required configurations for PA5
 
-   GPIO_Init(&handle);
+	GPIO_Init(&GPIOled);// initialize PA5
 
-   GPIO_Write_OutputPin(GPIOA, 5, 1);
-	/* Loop forever */
-	for(;;);
+	GPIOread.pGPIOx=GPIOC;
+	GPIOread.GPIO_PinConfig.GPIO_PinNumber=GPIO_PIN_NO_13;
+	GPIOread.GPIO_PinConfig.GPIO_PinMode=GPIO_MODE_IN ;     // configure pin PC13, on-board button
+	GPIOread.GPIO_PinConfig.GPIO_PinPUPD = GPIO_PIN_PULLUP; // internal pull-up
+
+	//GPIOread.GPIO_PinConfig.GPIO_PinSpeed=GPIO_SPEED_FAST;
+
+	GPIO_Init(&GPIOread);// initialize PC13
+
+	while(1)
+	{
+		if(GPIO_Read_InputPin(GPIOC, 13)==0)// button press
+		{
+			 GPIO_Write_OutputPin(GPIOA, 5, 1);// set PA5 as HIGH
+		}
+		else
+		{
+			 GPIO_Write_OutputPin(GPIOA, 5, 0);// set PA5 as LOW
+		}
+
+	}
+
 }
+
+
+
+
+
+
+
+

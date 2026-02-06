@@ -113,6 +113,6 @@ void GPIO_Toggle_OutputPin(GPIO_Reg_t *pGPIOx, uint8_t PinNumber);
  *  GPIO PIN SET / RESET
  *
  */
-#define GPIO_PIN_SET      1
-#define GPIO_PIN_CLEAR    0
+#define GPIO_PIN_HIGH      1
+#define GPIO_PIN_LOW    0
 #endif /* STM32F401RE_GPIO_DRIVER_H_ */

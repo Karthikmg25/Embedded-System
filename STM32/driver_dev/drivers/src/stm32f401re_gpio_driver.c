@@ -95,7 +95,7 @@ uint8_t GPIO_Read_InputPin(GPIO_Reg_t *pGPIOx, uint8_t PinNumber)
 {
 	uint8_t value;
 
-	value= (uint8_t)((pGPIOx->IDR)&(1<<PinNumber));// read value from pin
+	value= (uint8_t)((pGPIOx->IDR)>>PinNumber)&1;// read value from pin
 
 	return value;
 }
@@ -135,7 +135,7 @@ uint16_t GPIO_Read_InputPort(GPIO_Reg_t *pGPIOx)
 
 void GPIO_Write_OutputPin(GPIO_Reg_t *pGPIOx, uint8_t PinNumber, uint8_t value)
 {
-	if(value==GPIO_PIN_SET)
+	if(value==GPIO_PIN_HIGH)
 	{
 		pGPIOx->ODR |= (1<< PinNumber);
 	}
