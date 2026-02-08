@@ -42,25 +42,52 @@ int main(void)
 	GPIO_Init(&GPIOled);// initialize PA5
 
 	GPIOread.pGPIOx=GPIOC;
-	GPIOread.GPIO_PinConfig.GPIO_PinNumber=GPIO_PIN_NO_13;
+	GPIOread.GPIO_PinConfig.GPIO_PinNumber=GPIO_PIN_NO_13;  // button is active low
 	GPIOread.GPIO_PinConfig.GPIO_PinMode=GPIO_MODE_IN ;     // configure pin PC13, on-board button
 	GPIOread.GPIO_PinConfig.GPIO_PinPUPD = GPIO_PIN_PULLUP; // internal pull-up
 
-	//GPIOread.GPIO_PinConfig.GPIO_PinSpeed=GPIO_SPEED_FAST;
 
 	GPIO_Init(&GPIOread);// initialize PC13
 
+	GPIO_Handle_t led1, led2;// external LED blink
+
+	led1.pGPIOx= GPIOA;
+	led2.pGPIOx= GPIOA;
+	led1.GPIO_PinConfig.GPIO_PinNumber= GPIO_PIN_NO_0;
+	led2.GPIO_PinConfig.GPIO_PinNumber= GPIO_PIN_NO_1;
+    led1.GPIO_PinConfig.GPIO_PinMode=GPIO_MODE_OUT;
+    led2.GPIO_PinConfig.GPIO_PinMode=GPIO_MODE_OUT;
+    led1.GPIO_PinConfig.GPIO_PinSpeed=GPIO_SPEED_FAST;
+    led2.GPIO_PinConfig.GPIO_PinSpeed=GPIO_SPEED_FAST;
+    led1.GPIO_PinConfig.GPIO_PinOPType=GPIO_OP_TYPE_PUSHPULL;
+    led2.GPIO_PinConfig.GPIO_PinOPType=GPIO_OP_TYPE_PUSHPULL;// set configurations for led1 and led2
+
+    GPIO_Init(&led1);
+    GPIO_Init(&led2);// initialize PA0 and PA1
+
+    GPIO_Write_OutputPin(GPIOA, GPIO_PIN_NO_0, 1);
+    GPIO_Write_OutputPin(GPIOA, GPIO_PIN_NO_1, 0);// set PA0 as HIGH and PA1 as LOW at first
+
+    uint8_t current_state=1, prev_state=1;
+    uint32_t count=0, time=0;// to set up a software counter
+
 	while(1)
 	{
-		if(GPIO_Read_InputPin(GPIOC, 13)==0)// button press
-		{
-			 GPIO_Write_OutputPin(GPIOA, 5, 1);// set PA5 as HIGH
-		}
-		else
-		{
-			 GPIO_Write_OutputPin(GPIOA, 5, 0);// set PA5 as LOW
-		}
+		current_state=GPIO_Read_InputPin(GPIOC, GPIO_PIN_NO_13);
 
+		if(prev_state==1 && current_state==0)// button press creates falling edge
+		{
+			GPIO_Toggle_OutputPin(GPIOA ,GPIO_PIN_NO_5);// toggle LED
+		}
+		prev_state= current_state;// update previous state
+
+		if(count-time > 200000)// non-blocking delay
+		{
+			GPIO_Toggle_OutputPin(GPIOA, GPIO_PIN_NO_0 );
+			GPIO_Toggle_OutputPin(GPIOA, GPIO_PIN_NO_1 );
+			time=count;// update time
+		}
+         count++;
 	}
 
 }
