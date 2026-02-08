@@ -17,31 +17,23 @@
  */
 
 #include <stdint.h>
-#include "STM32F401RE.h"
 #include "stm32f401re_gpio_driver.h"
 
-#if !defined(__SOFT_FP__) && defined(__ARM_FP)
-  #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
-#endif
-
-void delay(){
-	for(uint32_t i=0;i<300000;i++);
-}
 int main(void)
 {
 	GPIO_Handle_t GPIOled;// declare structure variable for handle structure
 	GPIO_Handle_t GPIOread;// for reading button press
 
 	GPIOled.pGPIOx=GPIOA;
-	GPIOled.GPIO_PinConfig.GPIO_PinNumber=GPIO_PIN_NO_5;
+	GPIOled.GPIO_PinConfig.GPIO_PinNumber=GPIO_PIN_NO_5;   // set required configurations for PA5
 	GPIOled.GPIO_PinConfig.GPIO_PinMode=GPIO_MODE_OUT;
 	GPIOled.GPIO_PinConfig.GPIO_PinSpeed=GPIO_SPEED_FAST;
 	GPIOled.GPIO_PinConfig.GPIO_PinOPType=GPIO_OP_TYPE_PUSHPULL;
-	GPIOled.GPIO_PinConfig.GPIO_PinPUPD=GPIO_NO_PUPD;        // set required configurations for PA5
+	GPIOled.GPIO_PinConfig.GPIO_PinPUPD=GPIO_NO_PUPD;
 
 	GPIO_Init(&GPIOled);// initialize PA5
 
-	GPIOread.pGPIOx=GPIOC;
+	GPIOread.pGPIOx=GPIOC;                                  // set configurations for PC13
 	GPIOread.GPIO_PinConfig.GPIO_PinNumber=GPIO_PIN_NO_13;  // button is active low
 	GPIOread.GPIO_PinConfig.GPIO_PinMode=GPIO_MODE_IN ;     // configure pin PC13, on-board button
 	GPIOread.GPIO_PinConfig.GPIO_PinPUPD = GPIO_PIN_PULLUP; // internal pull-up
@@ -68,8 +60,8 @@ int main(void)
     GPIO_Write_OutputPin(GPIOA, GPIO_PIN_NO_0, 1);
     GPIO_Write_OutputPin(GPIOA, GPIO_PIN_NO_1, 0);// set PA0 as HIGH and PA1 as LOW at first
 
-    uint8_t current_state=1, prev_state=1;
-    uint32_t count=0, time=0;// to set up a software counter
+    uint8_t current_state=1, prev_state=1; // to detect falling edge
+    uint32_t count=0, time=0;              // to set up a software counter
 
 	while(1)
 	{
