@@ -18,6 +18,26 @@
 #include <stdint.h>
 
 /*
+ *  Processor Details
+ */
+/*
+ *  ARM CORTEX M4 Processor NVIC base address
+ */
+#define NVIC_PERIPH_BASE_ADDR       0XE000E100U
+/*
+ *   NVIC Register addresses
+ */
+#define NVIC_ISER0                  ((_vo uint32_t*)0XE000E100)
+#define NVIC_ISER1                  ((_vo uint32_t*)0XE000E104)
+#define NVIC_ISER2                  ((_vo uint32_t*)0xE000E108)
+#define NVIC_ICER0                  ((_vo uint32_t*)0xE000E180)
+#define NVIC_ICER1                  ((_vo uint32_t*)0xE000E184)
+#define NVIC_ICER2                  ((_vo uint32_t*)0xE000E188)
+#define NVIC_PR_BASE ADDR           ((_vo uint32_t*)0xE000E188)
+
+
+#define NVIC_PERIPH_BASE_ADDR       0XE000E100U
+/*
  *  memory base address
  */
 #define ROM_BASE_ADDR                0x1FFF0000U
@@ -338,6 +358,63 @@ typedef struct
  *   ADC Clock Disable
  */
 #define ADC1_CLK_DI() (RCC->APB2ENR&=~(1<<8))//  Clear Bit8 for ADC1
+
+/*
+ *   SYSCFG Register definition
+ */
+typedef struct
+{
+	_vo uint32_t MEMRMP;
+	_vo uint32_t PMC;
+	_vo uint32_t EXTICR[4];
+	 uint32_t    RESERVED1[2];
+	_vo uint32_t CMPCR;
+
+}SYSCFG_Reg_t;
+
+#define SYSCFG  ((SYSCFG_Reg_t*)(SYSCFG_PERIPH_BASE_ADDR))
+/*
+ *   SYSCFG Clock Enable
+ */
+#define SYSCFG_CLK_EN()      (RCC->APB2ENR|=(1<<14))
+
+/*
+ *   EXTI Register definition
+ */
+typedef struct
+{
+	_vo uint32_t IMR;
+	_vo uint32_t EMR;
+	_vo uint32_t RTSR;
+	_vo uint32_t FTSR;
+	_vo uint32_t SWIER;
+	_vo uint32_t PR;
+
+}EXTI_Reg_t;
+
+#define EXTI ((EXTI_Reg_t*)(EXTI_PERIPH_BASE_ADDR))
+
+/*
+ *   NVIC Register definition
+ */
+typedef struct
+{
+	volatile uint32_t ISER[8];
+	volatile uint32_t RESERVE0[24];
+	volatile uint32_t ICER[8];
+	volatile uint32_t RESERVE1[24];
+	volatile uint32_t ISPR[8];
+	volatile uint32_t RESERVE2[24];
+	volatile uint32_t ICPR[8];
+	volatile uint32_t RESERVE3[24];
+	volatile uint32_t IABR[8];
+	volatile uint32_t RESERVE4[56];
+	volatile uint8_t IP[240];
+
+
+}NVIC_Reg_t;
+
+#define NVIC ((NVIC_Reg_t*)NVIC_PERIPH_BASE_ADDR)
 
 
 /*

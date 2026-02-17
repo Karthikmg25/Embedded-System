@@ -81,10 +81,13 @@ void GPIO_Toggle_OutputPin(GPIO_Reg_t *pGPIOx, uint8_t PinNumber);
  *  GPIO PIN MODES
  *
  */
-#define GPIO_MODE_IN          0
-#define GPIO_MODE_OUT         1
-#define GPIO_MODE_ALTFN       2
-#define GPIO_MODE_ANALOG      3
+#define GPIO_MODE_IN          0                 /* INPUT MODE*/
+#define GPIO_MODE_OUT         1                 /* OUTPUT MODE*/
+#define GPIO_MODE_ALTFN       2                 /* ALTERNATE FUNCTION MODE*/
+#define GPIO_MODE_ANALOG      3                 /* ANALOG MODE*/
+#define GPIO_MODE_IT_FT       4                 /* INTERRUPT MODE FALLING EDGE*/
+#define GPIO_MODE_IT_RT       5                 /* INTERRUPT MODE RISING EDGE*/
+#define GPIO_MODE_IT_RFT      6                 /* INTERRUPT MODE RISING & FALLING EDGE*/
 
 /*
  *  GPIO PIN SPEED
