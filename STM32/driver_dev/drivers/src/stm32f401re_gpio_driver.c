@@ -267,7 +267,7 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
     	   				         portcode=0x7;
     	   			          }
 
-    	         	    	     SYSCFG->EXTICR[temp1] |= (   0xF   << temp2*4);// clear before writing port code
+    	         	    	     SYSCFG->EXTICR[temp1] &=~ (   0xF   << temp2*4);// clear before writing port code
     	         	    	     SYSCFG->EXTICR[temp1] |= (portcode << temp2*4);
 
  /*

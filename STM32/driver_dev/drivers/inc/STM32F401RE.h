@@ -187,8 +187,8 @@ typedef struct
  */
 #define SPI1               ((SPI_Reg_t*)SPI1_PERIPH_BASE_ADDR)
 #define SPI4               ((SPI_Reg_t*)SPI4_PERIPH_BASE_ADDR)
-#define SPI2_I2S2          ((SPI_Reg_t*)SPI2_I2S2_PERIPH_BASE_ADDR)
-#define SPI3_I2S3          ((SPI_Reg_t*)SPI3_I2S3_PERIPH_BASE_ADDR)
+#define SPI2               ((SPI_Reg_t*)SPI2_I2S2_PERIPH_BASE_ADDR)
+#define SPI3               ((SPI_Reg_t*)SPI3_I2S3_PERIPH_BASE_ADDR)
 
 
 /*
@@ -312,7 +312,7 @@ typedef struct
 /*
  *   SPI Clock Disable
  */
-#define SP1_CLK_DI()  (RCC->APB2ENR&=~(1<<12))// Clear Bit12 for SPI1
+#define SPI1_CLK_DI()  (RCC->APB2ENR&=~(1<<12))// Clear Bit12 for SPI1
 #define SPI4_CLK_DI() (RCC->APB2ENR&=~(1<<13))// Clear Bit13 for SPI4
 #define SP12_CLK_DI() (RCC->APB1ENR&=~(1<<14))// Clear Bit14 for SPI2
 #define SPI3_CLK_DI() (RCC->APB1ENR&=~(1<<15))// Clear Bit15 for SPI3
