@@ -135,7 +135,7 @@ uint16_t GPIO_Read_InputPort(GPIO_Reg_t *pGPIOx)
 
 void GPIO_Write_OutputPin(GPIO_Reg_t *pGPIOx, uint8_t PinNumber, uint8_t value)
 {
-	if(value==GPIO_PIN_HIGH)
+	if(value==1)
 	{
 		pGPIOx->ODR |= (1<< PinNumber);
 	}
@@ -209,24 +209,77 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
     }
     else  // interrupt modes
     {
-    	      if((pGPIOHandle->GPIO_PinConfig.GPIO_PinMode==GPIO_MODE_IT_FT))
+    	EXTI->IMR |= (1<<pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);// Enable Interrupt using IMR
+
+    	      if((pGPIOHandle->GPIO_PinConfig.GPIO_PinMode==GPIO_MODE_IT_FT))// interrupt on falling edge
     			{
     		        EXTI->FTSR |=  (1<< pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
     		        EXTI->RTSR &= ~(1<< pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
     			}
     	      else
-    	    	  if((pGPIOHandle->GPIO_PinConfig.GPIO_PinMode==GPIO_MODE_IT_RT))
+    	    	  if((pGPIOHandle->GPIO_PinConfig.GPIO_PinMode==GPIO_MODE_IT_RT))// interrupt on rising edge
   			      {
   		           EXTI->RTSR |=  (1<< pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
   		           EXTI->FTSR &= ~(1<< pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
   			      }
     	      else
-    	    	  if((pGPIOHandle->GPIO_PinConfig.GPIO_PinMode==GPIO_MODE_IT_RFT))
+    	    	  if((pGPIOHandle->GPIO_PinConfig.GPIO_PinMode==GPIO_MODE_IT_RFT))// interrupt on rising and falling edge
        			  {
     	    	   EXTI->RTSR |=  (1<< pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
     	    	   EXTI->FTSR |=  (1<< pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
     	    	   }
 
+    	                                                           // Map GPIO pin to EXTI line using SYSCFG Register EXTICR
+
+    	      SYSCFG_CLK_EN() ;// Enable peripheral clock for SYSCFG
+
+    	      uint32_t temp1;   // for Register index
+    	      uint32_t temp2;   // for bit position
+    	      uint32_t portcode;// for selecting port
+
+    	      temp1= pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber / 4;// 4 interrupts    per register
+    	      temp2= pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber % 4;// 4 bit positions per interrupt
+
+    	                                                            // port code depends on port we use
+    	     if(pGPIOHandle->pGPIOx== GPIOA)
+    	   		              {
+    	    	                 portcode=0x0;
+    	   		              }
+    	   			  else  if(pGPIOHandle->pGPIOx== GPIOB)
+    	   			          {
+    	   			           	portcode=0x1;
+    	   			          }
+
+    	   			  else  if(pGPIOHandle->pGPIOx== GPIOC)
+    	   			          {
+    	   				         portcode=0x2;
+    	   			          }
+    	   			  else  if(pGPIOHandle->pGPIOx== GPIOD)
+    	   			          {
+    	   				         portcode=0x3;
+    	   			          }
+    	   			  else  if(pGPIOHandle->pGPIOx== GPIOE)
+    	   			          {
+    	   				         portcode=0x4;
+    	   			          }
+    	   			  else  if(pGPIOHandle->pGPIOx== GPIOH)
+    	   			          {
+    	   				         portcode=0x7;
+    	   			          }
+
+    	         	    	     SYSCFG->EXTICR[temp1] |= (   0xF   << temp2*4);// clear before writing port code
+    	         	    	     SYSCFG->EXTICR[temp1] |= (portcode << temp2*4);
+
+ /*
+  * Initial steps of
+  *
+  * 1) Mapping GPIO pin to EXTI line
+  * 2) Enabling EXTI line
+  * 3) Setting the Mode (Falling Edge/Rising Edge/Falling&Rising Edge)
+  *
+  *    are done inside GPIO_init
+  *
+  */
 
 
     }
@@ -258,7 +311,7 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
     {
     	uint8_t temp1, temp2;
 
-    	temp1= pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber / 8;// 0 for pins0-7, 1 for pins8-15
+    	temp1= pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber / 8;// 1 register for 8 pins (4 bits per pin)
     	temp2= pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber % 8;// common value to set bit positions
     	pGPIOHandle->pGPIOx->AFR[temp1] &=~(0x0F<<(4*temp2));  // clear bit positions
     	pGPIOHandle->pGPIOx->AFR[temp1] |=(pGPIOHandle->GPIO_PinConfig.GPIO_PINAlternate<< (4*temp2));// set ALT function
@@ -307,12 +360,69 @@ void GPIO_DeInit(GPIO_Reg_t *pGPIOx)
 
 }
 
+/*************************************************************************
+ * @fn                - GPIO_IRQInterruptControl(uint8_t IRQNumber, uint8_t EnorDi)
+ *
+ * @brief             - This function Enables or Disables an IRQ
+ *
+ * @param[in]         - IRQnumber
+ * @param[in]         - EnorDi : Enable or Disable
+ *
+ * @return            - none
+ *
+ * @Note              - none
+ */
+void GPIO_IRQInterruptControl(uint8_t IRQNumber, uint8_t EnorDi)
+{
+	uint32_t temp1;// for which ISER/ICER Register
+	uint32_t temp2;// for bit position
 
+	temp1= IRQNumber/ 32; /* 1 Register for 32 interrupts */
+	temp2= IRQNumber% 32; /* 1 Register for 32 interrupts */
 
-
-
-
-
+	if(EnorDi==ENABLE)
+	{
+	    NVIC->ISER[temp1] |= (1<< temp2);
+	}
+	else
+	{
+		NVIC->ICER[temp1] |= (1<< temp2);
+	}
+}
+/*************************************************************************
+ * @fn                - GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority)
+ *
+ * @brief             - This function Sets priority for an Interrupt
+ *
+ * @param[in]         - IRQnumber
+ * @param[in]         - IRQPriority
+ *
+ * @return            - none
+ *
+ * @Note              - none
+ */
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority)
+{
+	NVIC->IP[IRQNumber] = (IRQPriority << 4);
+}
+/*************************************************************************
+ * @fn                - GPIO_IRQHandling(uint8_t PinNumber)
+ *
+ * @brief             - This function clears Interrupt flag bit
+ *
+ * @param[in]         - PinNumber
+ *
+ * @return            - none
+ *
+ * @Note              - none
+ */
+void GPIO_IRQHandling(uint8_t PinNumber)
+{
+	if(EXTI->PR & (1<<PinNumber))
+	{
+		EXTI->PR |= (1<<PinNumber);
+	}
+}
 
 
 

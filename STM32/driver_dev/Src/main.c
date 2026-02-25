@@ -57,7 +57,7 @@ int main(void)
     GPIO_Init(&led1);
     GPIO_Init(&led2);// initialize PA0 and PA1
 
-    GPIO_Write_OutputPin(GPIOA, GPIO_PIN_NO_0, 1);
+    GPIO_Write_OutputPin(GPIOA, GPIO_PIN_NO_0, 0);
     GPIO_Write_OutputPin(GPIOA, GPIO_PIN_NO_1, 0);// set PA0 as HIGH and PA1 as LOW at first
 
     uint8_t current_state=1, prev_state=1; // to detect falling edge

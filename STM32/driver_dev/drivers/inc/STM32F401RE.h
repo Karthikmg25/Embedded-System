@@ -137,6 +137,33 @@ typedef struct
 #define GPIOD          ((GPIO_Reg_t*)GPIOD_PERIPH_BASE_ADDR)
 #define GPIOE          ((GPIO_Reg_t*)GPIOE_PERIPH_BASE_ADDR)
 #define GPIOH          ((GPIO_Reg_t*)GPIOH_PERIPH_BASE_ADDR)
+/*
+ *    GPIO Peripheral reset Macros
+ */
+#define GPIOA_REG_RESET()    do{\
+                                    RCC->AHB1RSTR |=  (1<<0);\
+	        	                    RCC->AHB1RSTR &= ~(1<<0);\
+	        	                    }while(0)
+#define GPIOB_REG_RESET()    do{\
+                                    RCC->AHB1RSTR |=  (1<<1);\
+	        	                    RCC->AHB1RSTR &= ~(1<<1);\
+	        	                    }while(0)
+#define GPIOC_REG_RESET()    do{\
+                                    RCC->AHB1RSTR |=  (1<<2);\
+	        	                    RCC->AHB1RSTR &= ~(1<<2);\
+	                                }while(0)
+#define GPIOD_REG_RESET()    do{\
+                                    RCC->AHB1RSTR |=  (1<<3);\
+	        	                    RCC->AHB1RSTR &= ~(1<<3);\
+	        	                    }while(0)
+#define GPIOE_REG_RESET()    do{\
+                                    RCC->AHB1RSTR |=  (1<<4);\
+	        	                    RCC->AHB1RSTR &= ~(1<<4);\
+	        	                    }while(0)
+#define GPIOH_REG_RESET()    do{\
+                                    RCC->AHB1RSTR |=  (1<<7);\
+	        	                    RCC->AHB1RSTR &= ~(1<<7);\
+	        	                    }while(0)
 
 
 /*
@@ -358,6 +385,22 @@ typedef struct
  *   ADC Clock Disable
  */
 #define ADC1_CLK_DI() (RCC->APB2ENR&=~(1<<8))//  Clear Bit8 for ADC1
+/*
+ * Important bits in ADC
+ */
+#define ADC1_CR1_RES               24      /* RESOLUTION BITS_24:25 */
+#define ADC1_CR1_SCAN              8       /* SCAN MODE */
+#define ADC1_CR1_EOCIE             5       /* INTERRUPT ENABLE AFTER CONVERSION */
+#define ADC1_CR2_ADON              0       /* ENABLE ADC */
+#define ADC1_CR2_CONT              1       /* CONTINUOUS CONVERSION MODE */
+#define ADC1_CR2_SWSTART           30      /* START CONVERSION */
+#define ADC1_SQR1_L                20      /* SEQUENCE LENGTH_20:23*/
+#define ADC1_SR_EOC                1       /* END OF CONVERSION*/
+
+/*
+ * IRQ Number of ADC Global interrupt
+ */
+#define IRQ_NO_ADC1          18
 
 /*
  *   SYSCFG Register definition
@@ -392,7 +435,21 @@ typedef struct
 
 }EXTI_Reg_t;
 
+/*
+ *  EXTI Pointer
+ */
+
 #define EXTI ((EXTI_Reg_t*)(EXTI_PERIPH_BASE_ADDR))
+/*
+ * IRQ Numbers for EXTI lines
+ */
+#define IRQ_NO_EXTI0          6
+#define IRQ_NO_EXTI1          7
+#define IRQ_NO_EXTI2          8
+#define IRQ_NO_EXTI3          9
+#define IRQ_NO_EXTI4          10
+#define IRQ_NO_EXTI9_5        23
+#define IRQ_NO_EXTI15_10      40
 
 /*
  *   NVIC Register definition
@@ -400,55 +457,129 @@ typedef struct
 typedef struct
 {
 	volatile uint32_t ISER[8];
-	volatile uint32_t RESERVE0[24];
+	         uint32_t RESERVE0[24];
 	volatile uint32_t ICER[8];
-	volatile uint32_t RESERVE1[24];
+	         uint32_t RESERVE1[24];
 	volatile uint32_t ISPR[8];
-	volatile uint32_t RESERVE2[24];
+	         uint32_t RESERVE2[24];
 	volatile uint32_t ICPR[8];
-	volatile uint32_t RESERVE3[24];
+	         uint32_t RESERVE3[24];
 	volatile uint32_t IABR[8];
-	volatile uint32_t RESERVE4[56];
+	         uint32_t RESERVE4[56];
 	volatile uint8_t IP[240];
 
 
 }NVIC_Reg_t;
 
 #define NVIC ((NVIC_Reg_t*)NVIC_PERIPH_BASE_ADDR)
+/*
+ *   TIMER2-5 Register definition
+ */
+typedef struct
+{
+	volatile uint32_t CR1;
+	volatile uint32_t CR2;
+	volatile uint32_t SMCR;
+	volatile uint32_t DIER;
+	volatile uint32_t SR;
+	volatile uint32_t EGR;
+	volatile uint32_t CCMR1;
+	volatile uint32_t CCMR2;
+	volatile uint32_t CCER;
+	volatile uint32_t CNT;
+	volatile uint32_t PSC;
+	volatile uint32_t ARR;
+	         uint32_t RESERVED1;
+	volatile uint32_t CCR1;
+	volatile uint32_t CCR2;
+	volatile uint32_t CCR3;
+	volatile uint32_t CCR4;
+	         uint32_t RESERVED2;
+	volatile uint32_t DCR;
+	volatile uint32_t DMAR;
+	volatile uint32_t OR;
 
+}TIMER2_5_Reg_t;
+/*
+ *   TIMER2-5 Pointers
+ */
+#define TIM2          ((TIMER2_5_Reg_t*)(TIM2_PERIPH_BASE_ADDR))
+#define TIM3          ((TIMER2_5_Reg_t*)(TIM3_PERIPH_BASE_ADDR))
+#define TIM4          ((TIMER2_5_Reg_t*)(TIM4_PERIPH_BASE_ADDR))
+#define TIM5          ((TIMER2_5_Reg_t*)(TIM5_PERIPH_BASE_ADDR))
+/*
+ *   TIMER2-5 clock enable
+ */
+#define TIM2_CLK_EN() (RCC->APB1ENR |= (1<<0))
+#define TIM3_CLK_EN() (RCC->APB1ENR |= (1<<1))
+#define TIM4_CLK_EN() (RCC->APB1ENR |= (1<<2))
+#define TIM5_CLK_EN() (RCC->APB1ENR |= (1<<3))
+/*
+ * IRQ Number of Timer Global Interrupts
+ */
+#define IRQ_NO_TIM1          25
+#define IRQ_NO_TIM2          28
+#define IRQ_NO_TIM3          29
+#define IRQ_NO_TIM4          30
+#define IRQ_NO_TIM5          50
+/*
+ * Important bits in General Purpose Timers
+ */
+#define TIMx_CR1_CEN                 0      /* COUNTER ENABLE                                : START COUNTING      */
+#define TIMx_CR1_DIR                 4      /* SETS DIRCTION                                 : UP OR DOWN COUNTING */
+#define TIMx_DIER_UIE                0      /* UPDATE INTERRUPT ENABLE                       : NORMAL MODE         */
+#define TIMx_DIER_CC1IE              1      /* COMPARE MODE INTERRUPT ENABLE                 : CHANNEL 1           */
+#define TIMx_DIER_CC2IE              2      /* COMPARE MODE INTERRUPT ENABLE                 : CHANNEL 2           */
+#define TIMx_DIER_CC3IE              3      /* COMPARE MODE INTERRUPT ENABLE                 : CHANNEL 3           */
+#define TIMx_DIER_CC4IE              4      /* COMPARE MODE INTERRUPT ENABLE                 : CHANNEL 4           */
+#define TIMx_SR_UIF                  0      /* UPDATE INTERRUPT FLAG (OVERFLOW)              : NORMAL MODE         */
+#define TIMx_SR_CC1IF                1      /* COMPARE MODE INTERRUPT FLAG                   : CHANNEL 1           */
+#define TIMx_SR_CC2IF                2      /* COMPARE MODE INTERRUPT FLAG                   : CHANNEL 2           */
+#define TIMx_SR_CC3IF                3      /* COMPARE MODE INTERRUPT FLAG                   : CHANNEL 3           */
+#define TIMx_SR_CC4IF                4      /* COMPARE MODE INTERRUPT FLAG                   : CHANNEL 4           */
+#define TIMx_CCMR1_OC1M              4      /* MODE SELECTION BITS 6:4                       : CHANNEL 1           */
+#define TIMx_CCMR1_OC2M              12     /* MODE SELECTION BITS 14:12                     : CHANNEL 2           */
+#define TIMx_CCMR2_OC1M              4      /* MODE SELECTION BITS 6:4                       : CHANNEL 3           */
+#define TIMx_CCMR2_OC2M              12     /* MODE SELECTION BITS 14:12                     : CHANNEL 4           */
+#define TIMx_CCER_CC1E               0      /* OUTPUT ENABLE                                 : CHANNEL 1           */
+#define TIMx_CCER_CC1P               1      /* OUPUT POLARITY (INVERTING / NON INVERTING)    : CHANNEL 1           */
+#define TIMx_CCER_CC2E               4      /* OUTPUT ENABLE                                 : CHANNEL 2           */
+#define TIMx_CCER_CC2P               5      /* OUPUT POLARITY (INVERTING / NON INVERTING)    : CHANNEL 2           */
+#define TIMx_CCER_CC3E               8      /* OUTPUT ENABLE                                 : CHANNEL 3           */
+#define TIMx_CCER_CC3P               9      /* OUPUT POLARITY (INVERTING / NON INVERTING)    : CHANNEL 3           */
+#define TIMx_CCER_CC4E               12     /* OUTPUT ENABLE                                 : CHANNEL 4           */
+#define TIMx_CCER_CC4P               13     /* OUPUT POLARITY (INVERTING / NON INVERTING)    : CHANNEL 4           */
+/*
+ *   SysTick Register definition
+ */
+typedef struct
+{
+	volatile uint32_t CTRL;
+	volatile uint32_t LOAD;
+	volatile uint32_t VAL;
+	volatile uint32_t CALIB;
 
+}SYSTICK_Reg_t;
+
+#define SYSTICK   ((SYSTICK_Reg_t*)0xE000E010)
+
+/*
+ * Important bits in SYSTICK
+ */
+
+#define SYSTICK_CTRL_ENABLE       0
+#define SYSTICK_CTRL_TICKINT      1
+#define SYSTICK_CTRL_CLKSOURCE    2
+#define SYSTICK_CTRL_COUNTFLAG    16
 /*
  *    Generic Macros
  */
-#define ENABLE  1
-#define DISABLE 0
-/*
- *    Peripheral reset Macros
- */
-#define GPIOA_REG_RESET()    do{\
-                                    RCC->AHB1RSTR |=  (1<<0);\
-	        	                    RCC->AHB1RSTR &= ~(1<<0);\
-	        	                    }while(0)
-#define GPIOB_REG_RESET()    do{\
-                                    RCC->AHB1RSTR |=  (1<<1);\
-	        	                    RCC->AHB1RSTR &= ~(1<<1);\
-	        	                    }while(0)
-#define GPIOC_REG_RESET()    do{\
-                                    RCC->AHB1RSTR |=  (1<<2);\
-	        	                    RCC->AHB1RSTR &= ~(1<<2);\
-	                                }while(0)
-#define GPIOD_REG_RESET()    do{\
-                                    RCC->AHB1RSTR |=  (1<<3);\
-	        	                    RCC->AHB1RSTR &= ~(1<<3);\
-	        	                    }while(0)
-#define GPIOE_REG_RESET()    do{\
-                                    RCC->AHB1RSTR |=  (1<<4);\
-	        	                    RCC->AHB1RSTR &= ~(1<<4);\
-	        	                    }while(0)
-#define GPIOH_REG_RESET()    do{\
-                                    RCC->AHB1RSTR |=  (1<<7);\
-	        	                    RCC->AHB1RSTR &= ~(1<<7);\
-	        	                    }while(0)
+#define ENABLE             1
+#define DISABLE            0
+#define SET                1
+#define RESET              0
+
+
 
 
 
