@@ -96,10 +96,12 @@ void SPI_Transmit(SPI_Reg_t *pSPIx, uint8_t *pTxBuffer, uint8_t Tx_len);
 void SPI_Recieve(SPI_Reg_t *pSPIx, uint8_t *pRxBuffer, uint8_t Rx_len);
 
 void SPI_PeripheralControl(SPI_Reg_t *pSPIx, uint8_t EnorDi);
+uint8_t SPI_Get_FlagStatus(SPI_Reg_t *pSPIx, uint8_t Flag);
+void SPI_ClearOVRFlag(SPI_Reg_t *pSPIx);
 /*
  * Important Bits in SPI
  */
-
+//@ Control bits
 #define SPI_CR1_CPHA              0   /* CLOCK PHASE                                  : SETS SPI CLOCK MODE                                         */
 #define SPI_CR1_CPOL              1   /* CLOCK POLARITY                               : SETS SPI CLOCK MODE                                         */
 #define SPI_CR1_MSTR              2   /* MASTER MODE                                  : SETS DEVICE MODE                                            */
@@ -110,10 +112,14 @@ void SPI_PeripheralControl(SPI_Reg_t *pSPIx, uint8_t EnorDi);
 #define SPI_CR1_SSM               9   /* SOFTWARE SLAVE MANAGEMENT                    : SLAVE SELECTION IN SOFTWARE                                 */
 #define SPI_CR1_RXONLY            10  /* RECEIVE ONLY                                 : MISO ACTIVE, MOSI IGNORED                                   */
 #define SPI_CR1_DFF               11  /* DATA FRAME FORMAT                            : 8 BIT OR 16 BIT                                             */
-#define SPI_CR1_BIBIMODE          15  /* BIDIRECTIONAL MODE                           : SETS HALF DUPLEX MODE                                       */
+#define SPI_CR1_BIDIMODE          15  /* BIDIRECTIONAL MODE                           : SETS HALF DUPLEX MODE                                       */
 #define SPI_CR1_BIDIOE            14  /* OUTPUT ENABLE IN HALF DUPLEX IMODE           : SELECT TRANSMIT OR RECEIVE                                  */
-#define SPI_SR_BSY                7   /* BUSY FLAG                                    : GOES LOW AFTER COMMUNICATION                                */
-#define SPI_SR_RXNE               0   /* RECEIVE BUFFER NOT EMPTY                     : GOES HIGH WHEN DATA RECEIVED                                */
+//@Flag bits
+#define SPI_SR_BSY                7   /* BUSY FLAG                                    : GOES LOW AFTER COMMUNICATION, CAN DISABLE SPI               */
+#define SPI_SR_RXNE               0   /* RECEIVE BUFFER NOT EMPTY                     : GOES HIGH WHEN DATA RECEIVED, CAN READ DATA                 */
 #define SPI_SR_TXE                1   /* TRANSMIT BUFFER EMPTY                        : GOES HIGH WHEN TRANSMIT BUFFER IS EMPTY, CAN WRITE NEW DATA */
+#define SPI_SR_OVR                6   /* OVERRUN FLAG                                 : GOES 1 WHEN NEW DATA ARRIVES BEFORE CLEARING RXNE           */
+#define SPI_SR_MODF               5   /* MODE FAULT                                   : GOES 1 WHEN NSS=0 IN HARDWARE MODE OR SSI=0 IN SOFTWARE MODE*/
+
 
 #endif /* INC_STM32F401RE_SPI_DRIVER_H_ */

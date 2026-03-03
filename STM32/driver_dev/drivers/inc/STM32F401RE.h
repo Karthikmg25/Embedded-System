@@ -113,7 +113,10 @@
 
 
 /*
+ *
  *   GPiO register definition
+ *
+ *
  */
 typedef struct
 {
@@ -137,6 +140,26 @@ typedef struct
 #define GPIOD          ((GPIO_Reg_t*)GPIOD_PERIPH_BASE_ADDR)
 #define GPIOE          ((GPIO_Reg_t*)GPIOE_PERIPH_BASE_ADDR)
 #define GPIOH          ((GPIO_Reg_t*)GPIOH_PERIPH_BASE_ADDR)
+
+/*
+ *   GPIO Clock Enable
+ */
+#define GPIOA_CLK_EN() (RCC->AHB1ENR|=(1<<0))// Set Bit0 for GPIOA
+#define GPIOB_CLK_EN() (RCC->AHB1ENR|=(1<<1))// Set Bit1 for GPIOB
+#define GPIOC_CLK_EN() (RCC->AHB1ENR|=(1<<2))// Set Bit2 for GPIOC
+#define GPIOD_CLK_EN() (RCC->AHB1ENR|=(1<<3))// Set Bit3 for GPIOD
+#define GPIOE_CLK_EN() (RCC->AHB1ENR|=(1<<4))// Set Bit4 for GPIOE
+#define GPIOH_CLK_EN() (RCC->AHB1ENR|=(1<<7))// Set Bit7 for GPIOH
+/*
+ *   GPIO Clock Disable
+ */
+#define GPIOA_CLK_DI() (RCC->AHB1ENR&=~(1<<0))// Clear Bit0 for GPIOA
+#define GPIOB_CLK_DI() (RCC->AHB1ENR&=~(1<<1))// Clear Bit1 for GPIOB
+#define GPIOC_CLK_DI() (RCC->AHB1ENR&=~(1<<2))// Clear Bit2 for GPIOC
+#define GPIOD_CLK_DI() (RCC->AHB1ENR&=~(1<<3))// Clear Bit3 for GPIOD
+#define GPIOE_CLK_DI() (RCC->AHB1ENR&=~(1<<4))// Clear Bit4 for GPIOE
+#define GPIOH_CLK_DI() (RCC->AHB1ENR&=~(1<<7))// Clear Bit7 for GPIOH
+
 /*
  *    GPIO Peripheral reset Macros
  */
@@ -167,7 +190,10 @@ typedef struct
 
 
 /*
+ *
  *   SPI register definition
+ *
+ *
  */
 typedef struct
 {
@@ -190,9 +216,27 @@ typedef struct
 #define SPI2               ((SPI_Reg_t*)SPI2_I2S2_PERIPH_BASE_ADDR)
 #define SPI3               ((SPI_Reg_t*)SPI3_I2S3_PERIPH_BASE_ADDR)
 
+/*
+ *   SPI Clock Enable
+ */
+#define SPI1_CLK_EN()  (RCC->APB2ENR|=(1<<12))// Set Bit12 for SPI1
+#define SPI4_CLK_EN()  (RCC->APB2ENR|=(1<<13))// Set Bit13 for SPI4
+#define SPI2_CLK_EN()  (RCC->APB1ENR|=(1<<14))// Set Bit14 for SPI2
+#define SPI3_CLK_EN()  (RCC->APB1ENR|=(1<<15))// Set Bit15 for SPI3
+/*
+ *   SPI Clock Disable
+ */
+#define SPI1_CLK_DI()  (RCC->APB2ENR&=~(1<<12))// Clear Bit12 for SPI1
+#define SPI4_CLK_DI() (RCC->APB2ENR&=~(1<<13))// Clear Bit13 for SPI4
+#define SPI2_CLK_DI() (RCC->APB1ENR&=~(1<<14))// Clear Bit14 for SPI2
+#define SPI3_CLK_DI() (RCC->APB1ENR&=~(1<<15))// Clear Bit15 for SPI3
 
 /*
+ *
+ *
  *   I2C register definition
+ *
+ *
  */
 typedef struct
 {
@@ -215,9 +259,25 @@ typedef struct
 #define I2C2               ((I2C_Reg_t*)I2C2_PERIPH_BASE_ADDR)
 #define I2C3               ((I2C_Reg_t*)I2C3_PERIPH_BASE_ADDR)
 
+/*
+ *   I2C Clock Enable
+ */
+#define I2C1_CLK_EN() (RCC->APB1ENR|=(1<<21))// Set Bit21 for I2C1
+#define I2C2_CLK_EN() (RCC->APB1ENR|=(1<<22))// Set Bit22 for I2C2
+#define I2C3_CLK_EN() (RCC->APB1ENR|=(1<<23))// Set Bit23 for I2C3
+/*
+ *   I2C Clock Disable
+ */
+#define I2C1_CLK_DI() (RCC->APB1ENR&=~(1<<21))// Clear Bit21 for I2C1
+#define I2C2_CLK_DI() (RCC->APB1ENR&=~(1<<22))// Clear Bit22 for I2C2
+#define I2C3_CLK_DI() (RCC->APB1ENR&=~(1<<23))// Clear Bit23 for I2C3
+
 
 /*
+ *
  *   USART register definition
+ *
+ *
  */
 typedef struct
 {
@@ -237,10 +297,25 @@ typedef struct
 #define USART1               ((USART_Reg_t*)USART1_PERIPH_BASE_ADDR)
 #define USART2               ((USART_Reg_t*)USART2_PERIPH_BASE_ADDR)
 #define USART6               ((USART_Reg_t*)USART6_PERIPH_BASE_ADDR)
-
+/*
+ *   USART Clock Enable
+ */
+#define USART1_CLK_EN() (RCC->APB2ENR|=(1<<4))//  Set Bit4 for USART1
+#define USART6_CLK_EN() (RCC->APB2ENR|=(1<<5))//  Set Bit5 for USART6
+#define USART2_CLK_EN() (RCC->APB1ENR|=(1<<17))// Set Bit17 for USART2
+/*
+ *   USART Clock Disable
+ */
+#define USART1_CLK_DI() (RCC->APB2ENR&=~(1<<4))//  Clear Bit4 for USART1
+#define USART6_CLK_DI() (RCC->APB2ENR&=~(1<<5))//  Clear Bit5 for USART6
+#define USART2_CLK_DI() (RCC->APB1ENR&=~(1<<17))// Clear Bit17 for USART2
 
 /*
+ *
+ *
  *   RCC register definition
+ *
+ *
  */
 
 typedef struct
@@ -283,69 +358,12 @@ typedef struct
  */
 #define RCC              ((RCC_Reg_t*)RCC_PERIPH_BASE_ADDR)
 
-/*
- *   GPIO Clock Enable
- */
-#define GPIOA_CLK_EN() (RCC->AHB1ENR|=(1<<0))// Set Bit0 for GPIOA
-#define GPIOB_CLK_EN() (RCC->AHB1ENR|=(1<<1))// Set Bit1 for GPIOB
-#define GPIOC_CLK_EN() (RCC->AHB1ENR|=(1<<2))// Set Bit2 for GPIOC
-#define GPIOD_CLK_EN() (RCC->AHB1ENR|=(1<<3))// Set Bit3 for GPIOD
-#define GPIOE_CLK_EN() (RCC->AHB1ENR|=(1<<4))// Set Bit4 for GPIOE
-#define GPIOH_CLK_EN() (RCC->AHB1ENR|=(1<<7))// Set Bit7 for GPIOH
-/*
- *   GPIO Clock Disable
- */
-#define GPIOA_CLK_DI() (RCC->AHB1ENR&=~(1<<0))// Clear Bit0 for GPIOA
-#define GPIOB_CLK_DI() (RCC->AHB1ENR&=~(1<<1))// Clear Bit1 for GPIOB
-#define GPIOC_CLK_DI() (RCC->AHB1ENR&=~(1<<2))// Clear Bit2 for GPIOC
-#define GPIOD_CLK_DI() (RCC->AHB1ENR&=~(1<<3))// Clear Bit3 for GPIOD
-#define GPIOE_CLK_DI() (RCC->AHB1ENR&=~(1<<4))// Clear Bit4 for GPIOE
-#define GPIOH_CLK_DI() (RCC->AHB1ENR&=~(1<<7))// Clear Bit7 for GPIOH
 
 /*
- *   SPI Clock Enable
- */
-#define SPI1_CLK_EN()  (RCC->APB2ENR|=(1<<12))// Set Bit12 for SPI1
-#define SPI4_CLK_EN()  (RCC->APB2ENR|=(1<<13))// Set Bit13 for SPI4
-#define SP12_CLK_EN()  (RCC->APB1ENR|=(1<<14))// Set Bit14 for SPI2
-#define SPI3_CLK_EN()  (RCC->APB1ENR|=(1<<15))// Set Bit15 for SPI3
-/*
- *   SPI Clock Disable
- */
-#define SPI1_CLK_DI()  (RCC->APB2ENR&=~(1<<12))// Clear Bit12 for SPI1
-#define SPI4_CLK_DI() (RCC->APB2ENR&=~(1<<13))// Clear Bit13 for SPI4
-#define SP12_CLK_DI() (RCC->APB1ENR&=~(1<<14))// Clear Bit14 for SPI2
-#define SPI3_CLK_DI() (RCC->APB1ENR&=~(1<<15))// Clear Bit15 for SPI3
-
-/*
- *   I2C Clock Enable
- */
-#define I2C1_CLK_EN() (RCC->APB1ENR|=(1<<21))// Set Bit21 for I2C1
-#define I2C2_CLK_EN() (RCC->APB1ENR|=(1<<22))// Set Bit22 for I2C2
-#define I2C3_CLK_EN() (RCC->APB1ENR|=(1<<23))// Set Bit23 for I2C3
-/*
- *   I2C Clock Disable
- */
-#define I2C1_CLK_DI() (RCC->APB1ENR&=~(1<<21))// Clear Bit21 for I2C1
-#define I2C2_CLK_DI() (RCC->APB1ENR&=~(1<<22))// Clear Bit22 for I2C2
-#define I2C3_CLK_DI() (RCC->APB1ENR&=~(1<<23))// Clear Bit23 for I2C3
-
-/*
- *   USART Clock Enable
- */
-#define USART1_CLK_EN() (RCC->APB2ENR|=(1<<4))//  Set Bit4 for USART1
-#define USART6_CLK_EN() (RCC->APB2ENR|=(1<<5))//  Set Bit5 for USART6
-#define USART2_CLK_EN() (RCC->APB1ENR|=(1<<17))// Set Bit17 for USART2
-/*
- *   USART Clock Disable
- */
-#define USART1_CLK_DI() (RCC->APB2ENR&=~(1<<4))//  Clear Bit4 for USART1
-#define USART6_CLK_DI() (RCC->APB2ENR&=~(1<<5))//  Clear Bit5 for USART6
-#define USART2_CLK_DI() (RCC->APB1ENR&=~(1<<17))// Clear Bit17 for USART2
-
-
-/*
+ *
  *   ADC register definition
+ *
+ *
  */
 typedef struct
 {
@@ -403,7 +421,11 @@ typedef struct
 #define IRQ_NO_ADC1          18
 
 /*
+ *
+ *
  *   SYSCFG Register definition
+ *
+ *
  */
 typedef struct
 {
@@ -422,7 +444,11 @@ typedef struct
 #define SYSCFG_CLK_EN()      (RCC->APB2ENR|=(1<<14))
 
 /*
+ *
+ *
  *   EXTI Register definition
+ *
+ *
  */
 typedef struct
 {
@@ -452,7 +478,11 @@ typedef struct
 #define IRQ_NO_EXTI15_10      40
 
 /*
+ *
+ *
  *   NVIC Register definition
+ *
+ *
  */
 typedef struct
 {
@@ -472,8 +502,13 @@ typedef struct
 }NVIC_Reg_t;
 
 #define NVIC ((NVIC_Reg_t*)NVIC_PERIPH_BASE_ADDR)
+
 /*
+ *
+ *
  *   TIMER2-5 Register definition
+ *
+ *
  */
 typedef struct
 {
@@ -549,8 +584,13 @@ typedef struct
 #define TIMx_CCER_CC3P               9      /* OUPUT POLARITY (INVERTING / NON INVERTING)    : CHANNEL 3           */
 #define TIMx_CCER_CC4E               12     /* OUTPUT ENABLE                                 : CHANNEL 4           */
 #define TIMx_CCER_CC4P               13     /* OUPUT POLARITY (INVERTING / NON INVERTING)    : CHANNEL 4           */
+
 /*
+ *
+ *
  *   SysTick Register definition
+ *
+ *
  */
 typedef struct
 {
