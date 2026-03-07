@@ -16,7 +16,7 @@
  *
  * @return            - none
  *
- * @Note              - Refer macros for GPIO configurations
+ * @Note              - none
  */
 void SPI_PeriClockControl(SPI_Reg_t *pSPIx, uint8_t EnorDi)
 {

@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "ESP-IDF",
+            "compilerPath": "C:\\Espressif\\tools\\xtensa-esp-elf\\esp-14.2.0_20251107\\xtensa-esp-elf\\bin\\xtensa-esp32-elf-gcc.exe",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compileCommands": [
+                "C:\\Users\\hp\\Desktop\\EMBEDDED SYSTEMS\\ESP32\\switch\\build\\compile_commands.json"
+            ],
+            "mergeConfigurations": true
+        }
+    ],
+    "version": 4
+}

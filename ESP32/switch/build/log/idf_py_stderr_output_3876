@@ -1,0 +1,3 @@
+Command: cmake -G Ninja -DPYTHON_DEPS_CHECKED=1 -DPYTHON=C:\Espressif\tools\python\v5.5.3\venv\Scripts\python.exe -DESP_PLATFORM=1 -DIDF_TARGET=esp32 -DCCACHE_ENABLE=0 C:\Users\hp\Desktop\EMBEDDED SYSTEMS\ESP32\switch
+fatal: bad config line 2 in file C:/esp/v5.5.3/esp-idf/.git/modules/components/bootloader/subproject/components/micro-ecc/micro-ecc/config
+fatal: bad config line 2 in file C:/esp/v5.5.3/esp-idf/.git/modules/components/openthread/openthread/config
