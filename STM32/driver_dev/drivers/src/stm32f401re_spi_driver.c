@@ -199,9 +199,9 @@ uint8_t SPI_Get_FlagStatus(SPI_Reg_t *pSPIx, uint8_t Flag)
 	return SET;
 }
 /*************************************************************************
- * @fn                - SPI_Transmit
+ * @fn                - SPI_Transmit_Buffer
  *
- * @brief             - This function Transmits data From Master to Slave
+ * @brief             - This function Transmits data buffer From Master to Slave
  *
  * @param[in]         - pSPIx
  * @param[in]         - pTxBuffer : Pointer to Transmit buffer
@@ -211,7 +211,7 @@ uint8_t SPI_Get_FlagStatus(SPI_Reg_t *pSPIx, uint8_t Flag)
  *
  * @Note              - none
  */
-void SPI_Transmit(SPI_Reg_t *pSPIx, uint8_t *pTxBuffer, uint8_t Tx_len)
+void SPI_Transmit_Buffer(SPI_Reg_t *pSPIx, uint8_t *pTxBuffer, uint8_t Tx_len)
 {
 	while(Tx_len>0)
 	{
@@ -240,9 +240,9 @@ void SPI_Transmit(SPI_Reg_t *pSPIx, uint8_t *pTxBuffer, uint8_t Tx_len)
 	    while((pSPIx->SPI_SR&(1<<SPI_SR_BSY)));
 }
 /*************************************************************************
- * @fn                - SPI_Recieve
+ * @fn                - SPI_Recieve_Buffer
  *
- * @brief             - This function receives data from Slave
+ * @brief             - This function receives data from Slave and stores into a buffer
  *
  * @param[in]         - pSPIx
  * @param[in]         - pRxBuffer : Pointer to receive buffer
@@ -252,7 +252,7 @@ void SPI_Transmit(SPI_Reg_t *pSPIx, uint8_t *pTxBuffer, uint8_t Tx_len)
  *
  * @Note              - none
  */
-void SPI_Recieve(SPI_Reg_t *pSPIx, uint8_t *pRxBuffer, uint8_t Rx_len)
+void SPI_Recieve_Buffer(SPI_Reg_t *pSPIx, uint8_t *pRxBuffer, uint8_t Rx_len)
 {
 	while(Rx_len>0)
 	{
