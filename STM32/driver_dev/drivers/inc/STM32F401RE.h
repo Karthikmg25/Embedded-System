@@ -395,6 +395,19 @@ typedef struct
 
 #define ADC1         ((ADC_Reg_t*)ADC1_PERIPH_BASE_ADDR)
 /*
+ * ADC Common Registers
+ */
+typedef struct
+{
+	_vo uint32_t REG_1;
+	_vo uint32_t CCR;
+    _vo uint32_t REG_3;
+
+}ADC_Common_Reg_t;
+
+#define ADC_COMMON      ((ADC_Common_Reg_t *)(ADC1_PERIPH_BASE_ADDR+0x300))
+
+/*
  *   ADC Clock Enable
  */
 #define ADC1_CLK_EN() (RCC->APB2ENR|=(1<<8))//  Set Bit8 for ADC1
@@ -403,17 +416,6 @@ typedef struct
  *   ADC Clock Disable
  */
 #define ADC1_CLK_DI() (RCC->APB2ENR&=~(1<<8))//  Clear Bit8 for ADC1
-/*
- * Important bits in ADC
- */
-#define ADC1_CR1_RES               24      /* RESOLUTION BITS_24:25 */
-#define ADC1_CR1_SCAN              8       /* SCAN MODE */
-#define ADC1_CR1_EOCIE             5       /* INTERRUPT ENABLE AFTER CONVERSION */
-#define ADC1_CR2_ADON              0       /* ENABLE ADC */
-#define ADC1_CR2_CONT              1       /* CONTINUOUS CONVERSION MODE */
-#define ADC1_CR2_SWSTART           30      /* START CONVERSION */
-#define ADC1_SQR1_L                20      /* SEQUENCE LENGTH_20:23*/
-#define ADC1_SR_EOC                1       /* END OF CONVERSION*/
 
 /*
  * IRQ Number of ADC Global interrupt
