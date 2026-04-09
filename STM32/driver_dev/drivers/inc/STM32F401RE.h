@@ -420,7 +420,7 @@ typedef struct
 /*
  * IRQ Number of ADC Global interrupt
  */
-#define IRQ_NO_ADC1          18
+#define ADC_IRQn          18
 
 /*
  *
