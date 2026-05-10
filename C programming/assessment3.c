@@ -1,18 +1,25 @@
 #include<stdio.h>
+#include<limits.h>
 int secondlargest(int *p,int n)
 {
-    int l=*p,sl=*p;
-    for(int i=0;i<n;i++)
-    {
-        if(l<*(p+i))
-        l=*(p+i);
-    }
+    int l=INT_MIN,sl=INT_MIN;
     for(int i=0;i<n;i++)
     {
         
-        if(sl<*(p+i) && *(p+i)!=l)
-        sl=*(p+i);
+        if(p[i]>l)
+        {
+            sl=l;
+            l=p[i];
+        }
+        else if( p[i]>sl && p[i]!=l)
+        {
+            sl= p[i];
+        }
+       
     }
+      // If second largest was never updated
+    if(sl == INT_MIN)
+    { return -1;}
     return sl;
 }
 void main()
