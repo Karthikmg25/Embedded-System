@@ -124,7 +124,7 @@ void ADC_Init(ADC_Handle_t* pADCHandle)
 		// Triggers after each conversions
 		// Enable NVIC
 
-		NVIC->ISER[0]|=(1<<IRQ_NO_ADC1 );
+		NVIC->ISER[0]|=(1<<18 );
 		ADC1->CR1 |= (1<<ADC1_CR1_EOCIE);
 
                                                                                                             /* SELECT CONVERSION MODE*/

@@ -33,6 +33,7 @@ int main()
 }
 ```
 ## 2.Write a C program that asks the user to enter a number and determines whether that number is prime or not.
+
 ### Logic:
 * Check if the given number have any factors between 2 and square root of number.
 * If no factors, number is Prime.
@@ -76,6 +77,7 @@ int main()
 }
 ```
 ## 3.Write a C program that takes a positive integer from the user and calculates its factorial.
+
 ### Logic:
 * Factorial of a number is equal to 1 * 2 * 3 *...* n.
 * Find product of numbers from 1 to n.
@@ -124,6 +126,7 @@ int main()
 }
 ```
 ## 4.Write a C program to generate the Fibonacci series up to a given number of terms.
+
 ### Logic:
 * Sequence starts with value 0,1.
 * Each next number is sum of last two numbers.
@@ -165,6 +168,7 @@ int main()
 }
 ```
 ## 5.Write a C program that uses a function to check whether a given number is a Perfect Number.
+
 ### Logic:
 * Perfect number means the sum of all proper factors(excluding the number itself) is equal to the number.
 * Find sum of all proper divisors of number except that number and compare with the number.
@@ -222,6 +226,7 @@ int main()
 }
 ```
 ## 6.Write a C program that uses a recursive function to find the GCD of two numbers using the Euclidean algorithm.
+
 ### Logic:
 * According to Euclidean algorithm, GCD(a,b) = GCD(b, a%b).
 * In recursion, pass first argument as `b` and second argument as `a%b`.
@@ -263,6 +268,7 @@ int main()
 }
 ```
 ## 7.Write a C program that uses a function to count the frequency of each digit (0–9) in a given integer.
+
 ### Logic:
 * Use an array to store frequency of each digits(0-9), `freq[10]`
 * Loop through each digits of the number to find frequency.
@@ -312,6 +318,7 @@ int main()
 }
 ```
 ## 8.Write a C program that uses functions to convert a decimal number to any base between 2 and 16.
+
 ### Logic:
 * Read decimal number and target base (2 to 16).
 * Repeatedly divide the number by the base.
