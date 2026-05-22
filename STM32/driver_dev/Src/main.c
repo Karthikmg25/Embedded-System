@@ -17,11 +17,26 @@
  */
 
 #include <stdint.h>
-#include "SPI_LoopBack_Test.h"
+#include "STM32F401RE.h"
 
 int main(void)
 {
-	SPI_LoopBack_Test();     /* ON LED ON PA0 IF SAME DATA TRANSMITTED IS RECEIVED SUCCESSFULLY */
+	// Enable clock for GPIOA
+	GPIOA_CLK_EN();
+
+	// Set PA0 as output
+	GPIOA->MODER |=(1<< 0);
+
+
+	GPIOA->ODR |= (1<<0);
+	while(1)
+	{
+
+
+		for(uint32_t i=0;i<10000;i++)
+			;
+	}
+
 
 
 

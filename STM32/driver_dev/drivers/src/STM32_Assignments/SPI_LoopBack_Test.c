@@ -5,6 +5,7 @@
  *      Author: hp
  */
 #include "SPI_LoopBack_Test.h"
+#include "stm32f401re_spi_driver.h"
 /*
  * SPI1 Pins:
  * NSS/CS  - PA4
