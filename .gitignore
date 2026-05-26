@@ -21,3 +21,5 @@ Release/
 # Ignore Atmel / Microchip Studio IDE cache folders
 .vs/
 **/.vs/
+# STM32CubeIDE generated temp files
+*.launch
