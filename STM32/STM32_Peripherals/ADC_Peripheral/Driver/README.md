@@ -14,7 +14,7 @@ The driver is designed with a focus on:
 -   Interrupt-driven operation
 -   Clean driver architecture
 -   Application-layer flexibility
-- 
+
 # Hardware
 
 -   Microcontroller: STM32F401RE
