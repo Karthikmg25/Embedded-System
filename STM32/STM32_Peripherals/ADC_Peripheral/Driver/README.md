@@ -67,7 +67,6 @@ Responsible for:
 -   Interrupt handling
 
 
-```
 ## 2. ISR/Event Layer
 
 Responsible for:
