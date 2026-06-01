@@ -6,7 +6,7 @@
  */
 
 
-#include "stm32f401re_spi_driver.h"
+#include "STM32F401RE_SPI_Driver.h"
 
 /*************************************************************************
  * @fn                - SPI_PeriClockControl
