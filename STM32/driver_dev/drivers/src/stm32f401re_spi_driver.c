@@ -281,8 +281,7 @@ void SPI_Recieve_Buffer(SPI_Reg_t *pSPIx, uint8_t *pRxBuffer, uint8_t Rx_len)
 
 
 	}
-	                                                                            /* WAIT TILL COMMUNICATION IS OVER (BUSY FLAG = LOW) */
-		 while((pSPIx->SPI_SR&(1<<SPI_SR_BSY)));
+
 }
 /*************************************************************************
  * @fn                - SPI_ClearOVRFlag

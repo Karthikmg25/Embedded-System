@@ -175,13 +175,13 @@ USART_Send_Number(seconds);
 ## Example Output
 
 ```text
-Current Time: 22: 27: 03
+Current Time: 23: 10: 03
 
-Current Time: 22: 27: 04
+Current Time: 23: 10: 04
 
-Current Time: 22: 27: 05
+Current Time: 23: 10: 05
 
-Current Time: 22: 27: 06
+Current Time: 23: 10: 06
 
 ```
 

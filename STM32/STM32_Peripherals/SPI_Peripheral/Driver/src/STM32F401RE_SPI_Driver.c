@@ -172,6 +172,8 @@ void SPI_Init(SPI_Handle_t *pSPIHandle)
 	else
 	{
 		// SLAVE SELECTED VIA HARDWARE
+                // SSOE MUST BE HIGH IN HARDWARE SLAVE SELECT MODE, ENABLES NSS OUTPUT
+                pSPIHandle->pSPIx->SPI_CR1 |=  (1<<SPI_CR1_SSOE);
 		pSPIHandle->pSPIx->SPI_CR1 &=~ (1<<SPI_CR1_SSM);
 	}
 	                                                                                            /* SET PRESCALAR*/

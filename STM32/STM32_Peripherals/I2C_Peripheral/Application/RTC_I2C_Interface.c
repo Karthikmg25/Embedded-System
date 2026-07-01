@@ -57,11 +57,11 @@ int app_main(void)
 	 buffer[0] = ((((seconds/10)<< 4)| (seconds%10) )& 0x7F);
 
 	 // minutes
-	 uint8_t minutes = 27;
+	 uint8_t minutes = 10;
 	 buffer[1] = ( ((minutes/10)<< 4)|(minutes%10) );
 
 	 // hours
-	 uint8_t hours = 22;
+	 uint8_t hours = 23;
 	 buffer[2] = ( (((hours/10)<< 4)|(hours%10)) & 0x3F );
 
 	 // Initialize RTC time by transmitting buffer
