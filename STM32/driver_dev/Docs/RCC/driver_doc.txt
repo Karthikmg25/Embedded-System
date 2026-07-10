@@ -1,0 +1,300 @@
+
+
+# STM32F401 RCC Driver
+
+A register-level Reset and Clock Control (RCC) driver for the STM32F401 microcontroller.
+
+The driver provides APIs to configure the system clock tree without usingSTM32 HAL or LL libraries. 
+It supports oscillator configuration, PLL configuration, bus prescalers, Flash latency management, and clock frequency calculation.
+
+# Features
+
+- Configure HSI and HSE oscillators
+- Support HSE Crystal and Bypass modes
+- Configure PLL source and multiplication/division factors
+- Configure SYSCLK source
+- Configure AHB, APB1 and APB2 prescalers
+- Automatic Flash wait-state configuration
+- Runtime clock frequency calculation
+- PLL parameter validation
+- VCO input/output validation
+- Bus clock validation
+- Prevent invalid oscillator disable operations
+
+# Supported MCU
+
+- STM32F401RE
+- Tested on NUCLEO-F401RE
+
+ **Default clock sources**:
+
+- HSI : 16 MHz
+- HSE : 8 MHz (ST-LINK MCO in bypass mode on NUCLEO board)
+
+# Clock Tree Diagram
+
+                 
+                       
+                      
+          HSI (16 MHz) |  HSE (8 MHz)
+                       │
+                       │
+                   PLL Source
+                       │
+                 ┌─────────────┐
+                 │   PLLM      │
+                 │   PLLN      │
+                 │   PLLP      │
+                 └─────────────┘
+                       │
+                     SYSCLK
+                       │
+                 AHB Prescaler
+                       │
+                     HCLK
+                    /    \
+                   /      \
+           APB1 Prescaler APB2 Prescaler
+                │              │
+             PCLK1          PCLK2
+
+
+# Driver Architecture
+
+The driver is organized into two layers:
+
+```
+               Application
+                   │
+                   ▼
+              Public RCC APIs
+        ┌─────────────────────────┐
+        │ RCC_OscConfig()         │
+        │ RCC_SysClockConfig()    │
+        │ RCC_GetSysClockFreq()   │
+        │ RCC_GetHCLKFreq()       │
+        │ RCC_GetPCLK1Freq()      │
+        │ RCC_GetPCLK2Freq()      │
+        │ RCC_GetPLLFreq()        │
+        └─────────────-───────────┘
+                     │
+                     ▼
+          Internal Helper Functions
+        ┌─────────────────────────┐
+        │ Oscillator Helpers      │
+        │ • RCC_EnableHSI()       │
+        │ • RCC_EnableHSE()       │
+        │ • RCC_DisableHSI()      │
+        │ • RCC_DisableHSE()      │
+        ├─────────────────────────┤
+        │ PLL Helpers             │
+        │ • RCC_EnablePLL()       │
+        │ • RCC_DisablePLL()      │
+        │ • RCC_SetPLLM()         │
+        │ • RCC_SetPLLN()         │
+        │ • RCC_SetPLLP()         │
+        │ • RCC_SetPLLSource()    │
+        ├─────────────────────────┤
+        │ Clock Helpers           │
+        │ • RCC_CalculateFutureHCLK() │
+        │ • RCC_SetFlashWaitstates()  │
+        ├─────────────────────────┤
+        │ Prescaler Helpers       │
+        │ • RCC_SetAHBPrescaler() │
+        │ • RCC_SetAPB1Prescaler()│
+        │ • RCC_SetAPB2Prescaler()│
+        └─────────────────────────┘
+                    │
+                    ▼
+             STM32 RCC Registers
+```
+
+The application interacts only with the public APIs. Register manipulation is encapsulated within private (`static`) helper functions, keeping the public APIs concise and separating high-level clock configuration from low-level register operations.
+
+### Design Philosophy
+
+The driver separates **high-level clock configuration** from **low-level register manipulation**.
+
+- Public APIs perform configuration validation, sequencing, and error handling.
+- Private helper functions perform direct register access for oscillator, PLL, Flash, and prescaler configuration.
+- This separation improves readability, maintainability, and code reuse while keeping hardware-specific operations localized.
+
+# Public APIs
+
+| API | Description |
+| ----------------------- | ----------------------------------- |
+| `RCC_OscConfig()` | Configure oscillators and PLL |
+| `RCC_SysClockConfig()` | Configure SYSCLK and bus prescalers |
+| `RCC_GetSysClockFreq()` | Get current SYSCLK |
+| `RCC_GetHCLKFreq()` | Get current HCLK |
+| `RCC_GetPCLK1Freq()` | Get current APB1 clock |
+| `RCC_GetPCLK2Freq()` | Get current APB2 clock |
+| `RCC_GetPLLFreq()` | Calculate PLL output frequency |
+
+
+# Configuration sequence
+
+### `RCC_SysClockConfig()` Configuration Flow
+
+```text
+RCC_SysClockConfig()
+        │
+        ▼
+Calculate future clocks
+        │
+        ▼
+Validate APB frequencies
+        │
+        ▼
+Increase Flash latency
+(if required)
+        │
+        ▼
+Configure AHB/APB prescalers
+        │
+        ▼
+Switch SYSCLK
+        │
+        ▼
+Reduce Flash latency
+(if required)
+        │
+        ▼
+     Return
+```
+
+
+
+### `RCC_OscConfig()` Configuration Flow
+
+```text
+  RCC_OscConfig()
+        │
+        ▼
+Validate PLL source configuration
+        │
+        ▼
+Enable requested oscillators
+    (HSI/HSE)
+        │
+        ▼
+Is PLL enabled?
+        │
+   ┌────┴────┐
+   │         │
+  No        Yes
+   │         │
+   │         ▼
+   │   Verify PLL source and PLL parameters
+   |   (PLLM, PLLN, PLLP,
+   │    VCO input/output,
+   │    PLL output)
+   │         │
+   │         ▼
+   │   Disable PLL (if enabled)
+   │         │
+   │         ▼
+   │   Configure PLL
+   │         │
+   │         ▼
+   │   Enable PLL
+   │         │
+   └────┬────┘
+        │
+        ▼
+Disable unwanted oscillators
+   (if permitted)
+        │
+        ▼
+     Return
+
+```
+
+## PLL Frequency Calculation
+
+When the PLL is selected as the system clock source, the driver computes the PLL output frequency using the STM32F401 PLL equations.
+
+```text
+VCO Input Frequency  = PLL Source / PLLM
+
+VCO Output Frequency = VCO Input × PLLN
+
+PLL Output Frequency = VCO Output / PLLP
+```
+
+Where:
+
+| Parameter | Description |
+|-----------|-------------|
+| **PLL Source** | HSI (16 MHz) or HSE (8 MHz) |
+| **PLLM** | Input divider (2–63) |
+| **PLLN** | VCO multiplication factor (2–432) |
+| **PLLP** | System clock divider (2, 4, 6, or 8) |
+
+The driver validates the calculated frequencies against the STM32F401 device
+limits before enabling the PLL.
+
+| Frequency | Valid Range |
+|-----------|------------:|
+| **VCO Input** | 1 MHz – 2 MHz |
+| **VCO Output** | 192 MHz – 432 MHz |
+| **PLL Output (SYSCLK)** | ≤ 84 MHz |
+
+
+# Flash latency
+
+Flash memory cannot operate at arbitrarily high CPU frequencies.
+
+## Flash Wait States
+
+The driver automatically configures the required Flash wait states based on
+the target HCLK frequency to ensure reliable Flash memory access.
+
+| HCLK Frequency | Flash Wait States |
+|---------------:|------------------:|
+| ≤ 30 MHz       | 0                 |
+| ≤ 60 MHz       | 1                 |
+| ≤ 84 MHz       | 2                 |
+
+
+# Example configuration
+
+```
+// Configure PLL for 84MHz frequency
+
+RCC_OscConfig_t Osc;
+
+Osc.HSI_State = RCC_HSI_ON;
+Osc.HSE_State = RCC_HSE_OFF;
+Osc.PLL.PLL_State  = RCC_PLL_ON;
+Osc.PLL.PLL_Source = RCC_PLLSOURCE_HSI;
+Osc.PLL.PLLM = 16;
+Osc.PLL.PLLN = 336;
+Osc.PLL.PLLP = RCC_PLLP_DIV4;
+
+RCC_OscConfig(&Osc);
+
+RCC_ClockConfig_t Clk;
+
+Clk.SysClock      = RCC_SYSCLKSOURCE_PLL;
+Clk.AHBPrescaler  = RCC_AHB_DIV1;
+Clk.APB1Prescaler = RCC_APB_DIV2;
+Clk.APB2Prescaler = RCC_APB_DIV1;
+
+RCC_SysClockConfig(&Clk);
+
+```
+
+
+# Limitations
+
+
+Current limitations
+
+- No PLLQ/USB clock configuration
+- No CSS (Clock Security System)
+- No RTC/LSE/LSI configuration
+- No MCO output configuration
+- No interrupt support
+
+

@@ -75,9 +75,9 @@ void SPI_LoopBack_Test()
 		 uint8_t tx_buff = 0x56;
 		 uint8_t rx_buff;
 
-		 SPI_Transmit(SPI1, &tx_buff, 1);           /* TRANSMIT BYTE 0X56 */
+		 SPI_Transmit_Buffer(SPI1, &tx_buff, 1);           /* TRANSMIT BYTE 0X56 */
 
-		 SPI_Recieve(SPI1, &rx_buff, 1);            /* RECEIVE BYTE INTO rx_buff*/
+		 SPI_Recieve_Buffer(SPI1, &rx_buff, 1);            /* RECEIVE BYTE INTO rx_buff*/
 
 		 GPIO_init();
 

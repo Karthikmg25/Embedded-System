@@ -272,6 +272,7 @@ static void LED1_Handler(void*pvParameters)
 	{
 		printf("\nTask1");
 		HAL_GPIO_TogglePin(GPIOA, LED_1_Pin);
+		//This Task comes into READY state on each 100ms (ticks) : blocked for 100 ticks
 		vTaskDelay(pdMS_TO_TICKS(100));
 
 	}
@@ -282,6 +283,7 @@ static void LED2_Handler(void*pvParameters)
 	{
 		printf("\nTask2");
 	    HAL_GPIO_TogglePin(GPIOA, LED_2_Pin);
+	    //This Task comes into READY state on each 500ms (ticks) : blocked for 500 ticks
 		vTaskDelay(pdMS_TO_TICKS(500));
 
 	}
@@ -292,6 +294,7 @@ static void LED3_Handler(void*pvParameters)
 	{
 		printf("\nTask3");
 		HAL_GPIO_TogglePin(GPIOA, LED_3_Pin);
+		//This Task comes into READY state on each 1000ms (ticks) : blocked for 1000 ticks
 		vTaskDelay(pdMS_TO_TICKS(1000));
 	}
 }

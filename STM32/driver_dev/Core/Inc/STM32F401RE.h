@@ -322,7 +322,7 @@ typedef struct
 {
   _vo uint32_t   CR;
   _vo uint32_t   PLLCFGR;
-  _vo uint32_t   RCC_CFGR;
+  _vo uint32_t   CFGR;
   _vo uint32_t   RCC_CIR;
   _vo uint32_t   AHB1RSTR;
   _vo uint32_t   AHB2RSTR;
@@ -613,6 +613,33 @@ typedef struct
 #define SYSTICK_CTRL_TICKINT      1
 #define SYSTICK_CTRL_CLKSOURCE    2
 #define SYSTICK_CTRL_COUNTFLAG    16
+
+
+/*
+ *
+ *
+ *   FLSAH Interface Register definition
+ *
+ *
+ */
+typedef struct
+{
+	volatile uint32_t ACR;
+	volatile uint32_t KEYR;
+	volatile uint32_t OPTKEYR;
+	volatile uint32_t SR;
+	volatile uint32_t CR;
+	volatile uint32_t OPTCR;
+
+}FLASH_Reg_t;
+
+#define FLASH   ((FLASH_Reg_t*)0x40023C00)
+
+/*
+ * FLASH Interface bits
+ */
+
+
 /*
  *    Generic Macros
  */
@@ -620,9 +647,5 @@ typedef struct
 #define DISABLE            0
 #define SET                1
 #define RESET              0
-
-
-
-
 
 #endif /* INC_STM32F401RE_H_ */

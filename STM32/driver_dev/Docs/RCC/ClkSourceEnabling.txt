@@ -1,0 +1,41 @@
+
+
+
+
+
+-> PLL Enabling:
+
+               1. Enable PLL source (HSI or HSE)
+                           ↓
+                2. Wait until source is ready
+                           ↓
+                3. Disable PLL (if it was already enabled)
+                           ↓
+                4. Configure PLLCFGR (PLLM, PLLN, PLLP, PLLQ, Source)
+                           ↓
+                5. Enable PLL
+                           ↓
+                6. Wait for PLLRDY
+                           ↓
+                7. Switch SYSCLK to PLL
+                           ↓
+                8. Wait until SWS = PLL
+-> HSE Enabling:
+             
+                1. Enable HSE (CR register:HSEON)
+
+                2. Wait till HSE is locked (enabled and stable | HSERDY)
+
+-> HSI Enabling:
+             
+                1. Enable HSI (CR register:HSION)
+
+                2. Wait till HSI is locked (enabled and stable | HSIRDY)
+
+
+
+For switching clock source after Enabling the source (HSI/HSE/PLL), 
+
+              - check if source is READY (again for safety)
+              - write into SW bits for selection
+              - wait till SWS becomes clock source bits( eg: wait till SWS == 0 for HSI selection)
