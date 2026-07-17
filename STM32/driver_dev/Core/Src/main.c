@@ -19,29 +19,28 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "stm32f401re_rcc_driver.h"
+
 int main(void)
 {
-
 	// Initialize RCC oscillators
-	RCC_OscConfig_t Osc;
-	Osc.HSE_State     = RCC_HSE_OFF;
-	Osc.HSI_State     = RCC_HSI_ON;
-	Osc.PLL.PLL_State = RCC_PLL_ON;
-	Osc.PLL.PLL_Source = RCC_PLLSOURCE_HSI;
-	Osc.PLL.PLLM = 8;
-	Osc.PLL.PLLN = 160;
-	Osc.PLL.PLLP = RCC_PLLP_DIV8;  // this means: (16MHz/8)*(160/8) = 40MHz
+		RCC_OscConfig_t Osc;
+		Osc.HSE_State     = RCC_HSE_OFF;
+		Osc.HSI_State     = RCC_HSI_ON;
+		Osc.PLL.PLL_State = RCC_PLL_OFF;
 
-	RCC_Status_t Oscstatus = RCC_OscConfig(&Osc);
+		RCC_Status_t Oscstatus = RCC_OscConfig(&Osc);
 
-	// Initialize CPU, AHB and APB bus clocks
-	RCC_ClockConfig_t   clk;
-	clk.SysClock      = RCC_SYSCLKSOURCE_PLL;
-	clk.AHBPrescaler  = RCC_AHB_DIV1;
-	clk.APB1Prescaler = RCC_APB_DIV2;
-	clk.APB2Prescaler = RCC_APB_DIV1;
 
-	RCC_Status_t clkstatus =RCC_SysClockConfig(&clk);
+		// Initialize CPU, AHB and APB bus clocks
+		RCC_ClockConfig_t   clk;
+		clk.SysClock      = RCC_SYSCLKSOURCE_HSI;
+		clk.AHBPrescaler  = RCC_AHB_DIV1;
+		clk.APB1Prescaler = RCC_APB_DIV2;
+		clk.APB2Prescaler = RCC_APB_DIV1;
+
+		RCC_Status_t clkstatus = RCC_SysClockConfig(&clk);
+
+
 
 	uint32_t sysclk  = RCC_GetSysClockFreq();
 	uint32_t ahbclk  = RCC_GetHCLKFreq();
@@ -65,12 +64,12 @@ int main(void)
 		printf("\n    ClockConfiguration status      : %d", clkstatus);
 
 		printf("\n\nRegister status bits:");
-		printf("\n    SWS        : %lu", (RCC->CFGR >> 2)&0x3);// 00-HSI, 01-HSE, 10-PLL
-		printf("\n    HSE state  : %lu", ((RCC->CR>>16)&1));   // 0- OFF, 1-ON
-		printf("\n    HSE bypass : %lu", ((RCC->CR>>18)&1));   // 0- OFF, 1-ON
-		printf("\n    HSI state  : %lu", ((RCC->CR>>0)&1));    // 0- OFF, 1-ON
-		printf("\n    PLL state  : %lu", ((RCC->CR>>24)&1));   // 0- OFF, 1-ON
-		printf("\n    PLL ready  : %lu", ((RCC->CR>>25)&1));   // 0- Not Locked, 1-READY
+		printf("\n    SWS        : %lu", (RCC->CFGR >> 2)&0x3); // 00-HSI, 01-HSE, 10-PLL
+		printf("\n    HSE state  : %lu", ((RCC->CR>>16)&1));    // 0- OFF, 1-ON
+		printf("\n    HSE bypass : %lu", ((RCC->CR>>18)&1));    // 0- OFF, 1-ON
+		printf("\n    HSI state  : %lu", ((RCC->CR>>0)&1));     // 0- OFF, 1-ON
+		printf("\n    PLL state  : %lu", ((RCC->CR>>24)&1));    // 0- OFF, 1-ON
+		printf("\n    PLL ready  : %lu", ((RCC->CR>>25)&1));    // 0- Not Locked, 1-READY
 		printf("\n    PLL source : %lu", ((RCC->PLLCFGR>>22)&1));// 0-HSI, 1-HSE
 
 		printf("\n\nRegister values:");
@@ -86,7 +85,6 @@ int main(void)
 	}
 
 }
-
 
 
 
