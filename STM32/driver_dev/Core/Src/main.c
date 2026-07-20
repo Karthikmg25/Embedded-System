@@ -22,25 +22,28 @@
 
 int main(void)
 {
+
+	// set system clock as 50Mhz
+
 	// Initialize RCC oscillators
 		RCC_OscConfig_t Osc;
 		Osc.HSE_State     = RCC_HSE_OFF;
 		Osc.HSI_State     = RCC_HSI_ON;
-		Osc.PLL.PLL_State = RCC_PLL_OFF;
-
-		RCC_Status_t Oscstatus = RCC_OscConfig(&Osc);
+		Osc.PLL.PLL_State = RCC_PLL_ON;
+		Osc.PLL.PLL_Source = RCC_PLLSOURCE_HSI;
+		Osc.PLL.PLLM = 16;
+		Osc.PLL.PLLN = 200;
+		Osc.PLL.PLLP = RCC_PLLP_DIV4;
+        RCC_OscConfig(&Osc);
 
 
 		// Initialize CPU, AHB and APB bus clocks
 		RCC_ClockConfig_t   clk;
-		clk.SysClock      = RCC_SYSCLKSOURCE_HSI;
+		clk.SysClock      = RCC_SYSCLKSOURCE_PLL;
 		clk.AHBPrescaler  = RCC_AHB_DIV1;
 		clk.APB1Prescaler = RCC_APB_DIV2;
 		clk.APB2Prescaler = RCC_APB_DIV1;
-
-		RCC_Status_t clkstatus = RCC_SysClockConfig(&clk);
-
-
+        RCC_SysClockConfig(&clk);
 
 	uint32_t sysclk  = RCC_GetSysClockFreq();
 	uint32_t ahbclk  = RCC_GetHCLKFreq();
@@ -53,32 +56,12 @@ int main(void)
 		printf("\n\n\n      RCC Driver Testing");
 	    printf("\n****************************************");
 		printf("\n\nCPU, AHB and APB bus clocks:");
-		printf("\n    SYSCLK  = %lu ",   sysclk);
-		printf("\n    AHBCLK  = %lu ",   ahbclk);
-		printf("\n    APB1CLK = %lu ",   apb1clk);
-		printf("\n    APB2CLK = %lu ",   apb2clk);
-		printf("\n    PLLCLK  = %lu ",   pllclk);
+		printf("\n\n    SYSCLK  = %lu ",   sysclk);
+		printf("\n\n    AHBCLK  = %lu ",   ahbclk);
+		printf("\n\n    APB1CLK = %lu ",   apb1clk);
+		printf("\n\n    APB2CLK = %lu ",   apb2clk);
+		printf("\n\n    PLLCLK  = %lu ",   pllclk);
 
-		printf("\n\nAPI status:");
-		printf("\n    OscillatorConfiguration status : %d", Oscstatus);// 1 - RCC_OK, 0 - RCC_ERROR
-		printf("\n    ClockConfiguration status      : %d", clkstatus);
-
-		printf("\n\nRegister status bits:");
-		printf("\n    SWS        : %lu", (RCC->CFGR >> 2)&0x3); // 00-HSI, 01-HSE, 10-PLL
-		printf("\n    HSE state  : %lu", ((RCC->CR>>16)&1));    // 0- OFF, 1-ON
-		printf("\n    HSE bypass : %lu", ((RCC->CR>>18)&1));    // 0- OFF, 1-ON
-		printf("\n    HSI state  : %lu", ((RCC->CR>>0)&1));     // 0- OFF, 1-ON
-		printf("\n    PLL state  : %lu", ((RCC->CR>>24)&1));    // 0- OFF, 1-ON
-		printf("\n    PLL ready  : %lu", ((RCC->CR>>25)&1));    // 0- Not Locked, 1-READY
-		printf("\n    PLL source : %lu", ((RCC->PLLCFGR>>22)&1));// 0-HSI, 1-HSE
-
-		printf("\n\nRegister values:");
-		printf("\n    CR         : 0x%08lX", RCC->CR);
-		printf("\n    CFGR       : 0x%08lX", RCC->CFGR);
-		printf("\n    PLLCFGR    : 0x%08lX", RCC->PLLCFGR);
-
-		printf("\n\nFlash Interface:");
-		printf("\n    FLASH Latency: %lu", (FLASH->ACR & 0xF));// number of wait states
 
 		//force delay
 		for(int i=0; i<200000;i++);
@@ -86,6 +69,50 @@ int main(void)
 
 }
 
+
+void helper()
+{
+
+
+	// Initialize RCC oscillators
+			RCC_OscConfig_t Osc;
+			Osc.HSE_State     = RCC_HSE_OFF;
+			Osc.HSI_State     = RCC_HSI_ON;
+			Osc.PLL.PLL_State = RCC_PLL_OFF;
+
+			RCC_Status_t Oscstatus = RCC_OscConfig(&Osc);
+
+
+			// Initialize CPU, AHB and APB bus clocks
+			RCC_ClockConfig_t   clk;
+			clk.SysClock      = RCC_SYSCLKSOURCE_HSI;
+			clk.AHBPrescaler  = RCC_AHB_DIV1;
+			clk.APB1Prescaler = RCC_APB_DIV2;
+			clk.APB2Prescaler = RCC_APB_DIV1;
+
+			RCC_Status_t clkstatus = RCC_SysClockConfig(&clk);
+
+	printf("\n\nAPI status:");
+	printf("\n    OscillatorConfiguration status : %d", Oscstatus);// 1 - RCC_OK, 0 - RCC_ERROR
+	printf("\n    ClockConfiguration status      : %d", clkstatus);
+
+	printf("\n\nRegister status bits:");
+	printf("\n    SWS        : %lu", (RCC->CFGR >> 2)&0x3); // 00-HSI, 01-HSE, 10-PLL
+	printf("\n    HSE state  : %lu", ((RCC->CR>>16)&1));    // 0- OFF, 1-ON
+	printf("\n    HSE bypass : %lu", ((RCC->CR>>18)&1));    // 0- OFF, 1-ON
+	printf("\n    HSI state  : %lu", ((RCC->CR>>0)&1));     // 0- OFF, 1-ON
+	printf("\n    PLL state  : %lu", ((RCC->CR>>24)&1));    // 0- OFF, 1-ON
+	printf("\n    PLL ready  : %lu", ((RCC->CR>>25)&1));    // 0- Not Locked, 1-READY
+	printf("\n    PLL source : %lu", ((RCC->PLLCFGR>>22)&1));// 0-HSI, 1-HSE
+
+	printf("\n\nRegister values:");
+	printf("\n    CR         : 0x%08lX", RCC->CR);
+	printf("\n    CFGR       : 0x%08lX", RCC->CFGR);
+	printf("\n    PLLCFGR    : 0x%08lX", RCC->PLLCFGR);
+
+	printf("\n\nFlash Interface:");
+	printf("\n    FLASH Latency: %lu", (FLASH->ACR & 0xF));// number of wait states
+}
 
 
 
