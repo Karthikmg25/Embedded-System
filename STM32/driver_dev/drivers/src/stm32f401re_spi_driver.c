@@ -233,12 +233,21 @@ void SPI_Transmit_Buffer(SPI_Reg_t *pSPIx, uint8_t *pTxBuffer, uint8_t Tx_len)
 			Tx_len--;
 		}
 	                                                                         /* READ DATA REGISTER TO CLEAR RXNE FLAG : PREVENTING OVERRUN ERROR */
-		//while(!(pSPIx->SPI_SR&(1<<SPI_SR_RXNE)));
-		//(void)pSPIx->SPI_DR;// Dummy read
+		while(!(pSPIx->SPI_SR&(1<<SPI_SR_RXNE)));
+		(void)pSPIx->SPI_DR;// Dummy read
 	}
 	                                                                         /* WAIT TILL COMMUNICATION IS OVER (BUSY FLAG = LOW)                */
 	    while((pSPIx->SPI_SR&(1<<SPI_SR_BSY)));
 }
+void SPI_Transmit_Byte(SPI_Reg_t *pSPIx, uint8_t byte)
+{
+	while(!(pSPIx->SPI_SR&(1<<SPI_SR_TXE)));
+    pSPIx->SPI_DR = byte;
+		                                                                         /* READ DATA REGISTER TO CLEAR RXNE FLAG : PREVENTING OVERRUN ERROR */
+	while(!(pSPIx->SPI_SR&(1<<SPI_SR_RXNE)));
+	(void)pSPIx->SPI_DR;// Dummy read
+}
+
 /*************************************************************************
  * @fn                - SPI_Recieve_Buffer
  *
@@ -252,13 +261,13 @@ void SPI_Transmit_Buffer(SPI_Reg_t *pSPIx, uint8_t *pTxBuffer, uint8_t Tx_len)
  *
  * @Note              - none
  */
-void SPI_Recieve_Buffer(SPI_Reg_t *pSPIx, uint8_t *pRxBuffer, uint8_t Rx_len)
+void SPI_Receive_Buffer(SPI_Reg_t *pSPIx, uint8_t *pRxBuffer, uint8_t Rx_len)
 {
 	while(Rx_len>0)
 	{
 		                                                                        /* SEND DUMMY DATA TO GENERATE CLOCK       */
-		//while(!(pSPIx->SPI_SR&(1<<SPI_SR_TXE)));
-		//pSPIx->SPI_DR = 0xFF;//WILL AUTO-SEND 0X00FF IF DFF=1
+		while(!(pSPIx->SPI_SR&(1<<SPI_SR_TXE)));
+		pSPIx->SPI_DR = 0xFF;//WILL AUTO-SEND 0X00FF IF DFF=1
 
 		                                                                        /* WAIT TILL DATA RECEIVED (RXNE is set)   */
 	    while(!(pSPIx->SPI_SR&(1<<SPI_SR_RXNE)));
@@ -281,6 +290,15 @@ void SPI_Recieve_Buffer(SPI_Reg_t *pSPIx, uint8_t *pRxBuffer, uint8_t Rx_len)
 
 
 	}
+
+}
+uint8_t SPI_Receive_Byte(SPI_Reg_t *pSPIx)
+{                                                              //SEND DUMMY BYTES TO GENERATE CLOCK
+	while(!(pSPIx->SPI_SR&(1<<SPI_SR_TXE)));
+	pSPIx->SPI_DR = 0xFF;//WILL AUTO-SEND 0X00FF IF DFF=1
+                                                                        /* WAIT TILL DATA RECEIVED (RXNE is set)   */
+    while(!(pSPIx->SPI_SR&(1<<SPI_SR_RXNE)));
+    return  pSPIx->SPI_DR;// READ DATA
 
 }
 /*************************************************************************

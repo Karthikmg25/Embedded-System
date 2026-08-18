@@ -1,0 +1,11 @@
+
+
+/* Creating an account in Thingspeak */
+
+- login icon in home page
+- sign in -> create account (if not have one)
+- create account -> mail-id
+- create passwaord -> confirm password
+- verify e-mail // enter code in mail
+- create new channel -> select field -> write value in field for read from esp32
+- Note down channel number

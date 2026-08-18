@@ -18,104 +18,114 @@
 
 #include <stdint.h>
 #include <stdio.h>
-#include "stm32f401re_rcc_driver.h"
+#include "BMP280.h"
+
+//Apllication is using SPI1 for interfacing the sensor
+
+
+static void SPI1_Configurations();
+
+static void SPI1_GPIO_Configurations();
+
+static void force_delay();
+
+
 
 int main(void)
 {
+	//Configure GPIO pins for SPI1
+	SPI1_GPIO_Configurations();
 
-	// set system clock as 50Mhz
+	//Configure SPI1 for communication
+	SPI1_Configurations();
 
-	// Initialize RCC oscillators
-		RCC_OscConfig_t Osc;
-		Osc.HSE_State     = RCC_HSE_OFF;
-		Osc.HSI_State     = RCC_HSI_ON;
-		Osc.PLL.PLL_State = RCC_PLL_ON;
-		Osc.PLL.PLL_Source = RCC_PLLSOURCE_HSI;
-		Osc.PLL.PLLM = 16;
-		Osc.PLL.PLLN = 200;
-		Osc.PLL.PLLP = RCC_PLLP_DIV4;
-        RCC_OscConfig(&Osc);
+	//declare a BMP280 instance
 
+	BMP280_t bmp;
 
-		// Initialize CPU, AHB and APB bus clocks
-		RCC_ClockConfig_t   clk;
-		clk.SysClock      = RCC_SYSCLKSOURCE_PLL;
-		clk.AHBPrescaler  = RCC_AHB_DIV1;
-		clk.APB1Prescaler = RCC_APB_DIV2;
-		clk.APB2Prescaler = RCC_APB_DIV1;
-        RCC_SysClockConfig(&clk);
+	bmp.interface.spi = SPI1;
+	bmp.interface.ss_port = GPIOB;
+	bmp.interface.ss_pin  = 6;
 
-	uint32_t sysclk  = RCC_GetSysClockFreq();
-	uint32_t ahbclk  = RCC_GetHCLKFreq();
-	uint32_t apb1clk = RCC_GetPCLK1Freq();
-	uint32_t apb2clk = RCC_GetPCLK2Freq();
-	uint32_t pllclk  = RCC_GetPLLFreq();
+	BMP280_Init(&bmp);
 
 	while(1)
 	{
-		printf("\n\n\n      RCC Driver Testing");
-	    printf("\n****************************************");
-		printf("\n\nCPU, AHB and APB bus clocks:");
-		printf("\n\n    SYSCLK  = %lu ",   sysclk);
-		printf("\n\n    AHBCLK  = %lu ",   ahbclk);
-		printf("\n\n    APB1CLK = %lu ",   apb1clk);
-		printf("\n\n    APB2CLK = %lu ",   apb2clk);
-		printf("\n\n    PLLCLK  = %lu ",   pllclk);
+		BMP280_ReadTemperature(&bmp);
+		BMP280_ReadPressure(&bmp);
 
+		printf("\nBMP_Interfacing\n");
+		printf("_____________________\n\n");
+		//For production/reusable driver code,use PRIu16, PRId16 as format specifiers(<inttype.h>)
+		printf("Chip ID : 0x%0X\n"          , (int)bmp.ID);
+		printf("Temperature : %.2f C\n"     , bmp.temperature);
+		printf("Pressure    : %.2f Pascal\n", bmp.pressure);
 
-		//force delay
-		for(int i=0; i<200000;i++);
+		force_delay();
 	}
 
 }
 
 
-void helper()
+
+static void SPI1_Configurations()
+{
+	//Configure SPI1
+		SPI_Handle_t spi1;
+
+		spi1.pSPIx = SPI1;
+		spi1.SPI_Config.SPI_Bus_Config  = SPI_BUS_CONFIG_FD;
+		spi1.SPI_Config.SPI_CLK_Speed   = SPI_PRESCALAR_16;
+		spi1.SPI_Config.SPI_Device_Mode = SPI_DEVICE_MODE_MASTER;
+		spi1.SPI_Config.SPI_SSM         = SPI_SSM_EN;
+		spi1.SPI_Config.SPI_DataFrame   = SPI_DFF_8BIT;
+
+		SPI_Init(&spi1);
+
+		SPI_PeripheralControl(SPI1, ENABLE);
+}
+
+//Configure GPIO pins for SPI1 and BMP280 chip select
+		// - SPI1_MOSI -> PA7 (D11)
+		// - SPI1_MISO -> PA6 (D12)
+		// - SPI1_SCK  -> PA5 (D13)
+		// - SPI1_SS   -> PB6 (D10)
+
+static void SPI1_GPIO_Configurations()
 {
 
+			// - use alternate function AF5
+			// - set SS pin as GPIO output for software toggle
+			// - set SS as default HIGH (inactive)
+			// - set HIGH speed (SPI is fast)
 
-	// Initialize RCC oscillators
-			RCC_OscConfig_t Osc;
-			Osc.HSE_State     = RCC_HSE_OFF;
-			Osc.HSI_State     = RCC_HSI_ON;
-			Osc.PLL.PLL_State = RCC_PLL_OFF;
+	GPIOA_CLK_EN();
+	GPIOB_CLK_EN();
+	// set alternate function mode ater clearing bits
+	GPIOA->MODER   &= ~((0x3<< 7*2)| (0x3<< 6*2)|(0x3<< 5*2));
+	GPIOA->MODER   |= (0x2<< 7*2)| (0x2<< 6*2)|(0x2<< 5*2);
+	// set alternate function for PA7,PA6,PA5
+	GPIOA->AFR[0]  &= ~((0xF<< 7*4)|(0xF<< 6*4)|(0xF<< 5*4));
+	GPIOA->AFR[0]  |= (0x5<< 7*4)|(0x5<< 6*4)|(0x5<< 5*4);
 
-			RCC_Status_t Oscstatus = RCC_OscConfig(&Osc);
 
+	// set PB6 as output pin for slave control
+	GPIOB->MODER   &= ~(0x3<< 6*2);
+	GPIOB->MODER   |= (1<< 6*2);
+	// set PB6 as default high
+	GPIOB->ODR     |= (1<< 6);
 
-			// Initialize CPU, AHB and APB bus clocks
-			RCC_ClockConfig_t   clk;
-			clk.SysClock      = RCC_SYSCLKSOURCE_HSI;
-			clk.AHBPrescaler  = RCC_AHB_DIV1;
-			clk.APB1Prescaler = RCC_APB_DIV2;
-			clk.APB2Prescaler = RCC_APB_DIV1;
+	// set HIGH speed for SPI pins
+	GPIOA->OSPEEDR &= ~((0x3<< 7*2)| (0x3<< 6*2)|(0x3<< 5*2));
+	GPIOA->OSPEEDR |= (0x3<< 7*2)| (0x3<< 6*2)|(0x3<< 5*2);
 
-			RCC_Status_t clkstatus = RCC_SysClockConfig(&clk);
-
-	printf("\n\nAPI status:");
-	printf("\n    OscillatorConfiguration status : %d", Oscstatus);// 1 - RCC_OK, 0 - RCC_ERROR
-	printf("\n    ClockConfiguration status      : %d", clkstatus);
-
-	printf("\n\nRegister status bits:");
-	printf("\n    SWS        : %lu", (RCC->CFGR >> 2)&0x3); // 00-HSI, 01-HSE, 10-PLL
-	printf("\n    HSE state  : %lu", ((RCC->CR>>16)&1));    // 0- OFF, 1-ON
-	printf("\n    HSE bypass : %lu", ((RCC->CR>>18)&1));    // 0- OFF, 1-ON
-	printf("\n    HSI state  : %lu", ((RCC->CR>>0)&1));     // 0- OFF, 1-ON
-	printf("\n    PLL state  : %lu", ((RCC->CR>>24)&1));    // 0- OFF, 1-ON
-	printf("\n    PLL ready  : %lu", ((RCC->CR>>25)&1));    // 0- Not Locked, 1-READY
-	printf("\n    PLL source : %lu", ((RCC->PLLCFGR>>22)&1));// 0-HSI, 1-HSE
-
-	printf("\n\nRegister values:");
-	printf("\n    CR         : 0x%08lX", RCC->CR);
-	printf("\n    CFGR       : 0x%08lX", RCC->CFGR);
-	printf("\n    PLLCFGR    : 0x%08lX", RCC->PLLCFGR);
-
-	printf("\n\nFlash Interface:");
-	printf("\n    FLASH Latency: %lu", (FLASH->ACR & 0xF));// number of wait states
+	// no pullup or pulldown
+	GPIOA->PUPDR &=~((0x3<< 5*2)|(0x3<< 6*2)|(0x3<< 7*2));
 }
 
 
-
-
-
+static void force_delay()
+{
+	for(int i=0; i<200000;i++);
+}
 

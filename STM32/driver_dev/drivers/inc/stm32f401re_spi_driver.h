@@ -92,8 +92,10 @@ void SPI_PeriClockControl(SPI_Reg_t *pSPIx, uint8_t EnorDi);
 void SPI_Init(SPI_Handle_t *pSPIHandle);
 void SPI_DeInit(SPI_Reg_t *pSPIx);
 
+void SPI_Transmit_Byte(SPI_Reg_t *pSPIx, uint8_t byte);
+uint8_t SPI_Receive_Byte(SPI_Reg_t *pSPIx);
 void SPI_Transmit_Buffer(SPI_Reg_t *pSPIx, uint8_t *pTxBuffer, uint8_t Tx_len);
-void SPI_Recieve_Buffer(SPI_Reg_t *pSPIx, uint8_t *pRxBuffer, uint8_t Rx_len);
+void SPI_Receive_Buffer(SPI_Reg_t *pSPIx, uint8_t *pRxBuffer, uint8_t Rx_len);
 
 void SPI_PeripheralControl(SPI_Reg_t *pSPIx, uint8_t EnorDi);
 uint8_t SPI_Get_FlagStatus(SPI_Reg_t *pSPIx, uint8_t Flag);

@@ -10,12 +10,10 @@
 #include <stdio.h>
 #include <stdint.h>
 // ITM and SerialWireVeiwer Hardware for debugging
-// note that SWV depends on HCLK
 
 /*Instead of sending characters over a UART, you write them into the ITM,
  *  which forwards them to the debugger through the SWO pin*/
-
-// REGISTER DEFINITIONS
+// key registers
 
 //Debug Exception and Monitor Control Register : Enables or Disables debug hardware
 #define DEMCR (*(volatile uint32_t *)0xE000EDFC)

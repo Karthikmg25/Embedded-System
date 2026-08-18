@@ -1,0 +1,23 @@
+client.println("<!DOCTYPE html>");
+client.println("<html>");
+
+client.println("<head>");
+client.println("<title>ESP32 LED Control</title>");
+client.println("</head>");
+
+client.println("<body>");
+
+client.println("<h2>ESP32 Web Server</h2>");
+
+client.println("<a href=\"/LED/ON\">");
+client.println("<button>LED ON</button>");
+client.println("</a>");
+
+client.println("<br><br>");
+
+client.println("<a href=\"/LED/OFF\">");
+client.println("<button>LED OFF</button>");
+client.println("</a>");
+
+client.println("</body>");
+client.println("</html>");
