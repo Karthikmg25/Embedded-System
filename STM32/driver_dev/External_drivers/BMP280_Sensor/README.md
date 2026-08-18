@@ -73,7 +73,7 @@ BMP280_Init(&bmp);
 ```
 ### Configuration Example
 
-Before calling BMP280_Init() or after, you can override the default settings. To apply custom settings, modify the BMP280_Configurables_t fields and call BMP280_Configure().
+BMP280_Init() applies the default configuration. To use custom settings, modify the configuration fields after initialization and call BMP280_Configure().
 
 c
 
