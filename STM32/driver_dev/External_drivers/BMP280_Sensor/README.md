@@ -1,11 +1,11 @@
-BMP280 SPI Driver for STM32F401RE
+# BMP280 SPI Driver for STM32F401RE
 
 
-Overview
+## Overview
 
 This driver provides a lightweight, hardware-abstracted interface for reading temperature and pressure from the Bosch BMP280 sensor over SPI. It is designed for STM32F401RE bare-metal projects using any SPI peripheral and any GPIO line as chip select (CS). The driver handles chip identification, calibration coefficient loading, digital compensation, and configurable oversampling/mode settings.
 
-Features
+## Features
 
 Chip ID verification – reads and stores the device ID from register 0xD0.
 Automatic calibration – loads all temperature and pressure compensation coefficients during initialization.
@@ -20,30 +20,31 @@ Dependencies: Custom SPI driver (stm32f401re_spi_driver.h), custom GPIO driver (
 Sensor: Bosch BMP280
 
 
-Setup
+## Setup
 
-Add BMP280.c and BMP280.h to your project.
-Ensure you have implementations for the following functions from your SPI driver:
+* Add BMP280.c and BMP280.h to your project.
+* Ensure you have implementations for the following functions from your SPI driver:
 	SPI_Transmit_Byte(SPI_Reg_t*, uint8_t)
 	SPI_Receive_Byte(SPI_Reg_t*)
 	SPI_Receive_Buffer(SPI_Reg_t*, uint8_t*, uint8_t)
-Initialize your SPI peripheral and the GPIO pin used as chip select before calling the driver.
-Include BMP280.h in your application code.
+* Initialize your SPI peripheral and the GPIO pin used as chip select before calling the driver.
+* Include BMP280.h in your application code.
 
 Note: The driver does not initialize SPI or GPIO. You must configure them separately per your project’s requirements.
 
-Usage
+## Usage
 
 Minimal Flow: 
 
-Create a BMP280_t structure.
-Assign the SPI instance and SS pin to bmp.interface.
-Call BMP280_Init().
-Call BMP280_ReadTemperature().
-Call BMP280_ReadPressure() (must follow temperature reading).
+* Create a BMP280_t structure.
+* Assign the SPI instance and SS pin to bmp.interface.
+* Call BMP280_Init().
+* Call BMP280_ReadTemperature().
+* Call BMP280_ReadPressure() (must follow temperature reading).
 
-code:
+## code:
 
+```
 #include "BMP280.h"
 
 int main(){
@@ -69,8 +70,8 @@ BMP280_Init(&bmp);
     float pressure = bmp.pressure; // Pa
   }
 }
-
-Configuration Example
+```
+### Configuration Example
 
 Before calling BMP280_Init() or after, you can override the default settings. To apply custom settings, modify the BMP280_Configurables_t fields and call BMP280_Configure().
 
@@ -84,35 +85,35 @@ bmp.configurations.BMP_MeasurementMode         = BMP280_MODE_FORCED;
 BMP280_Configure(&bmp);  // optional, if you don't want defaults
 
 
-Default settings (applied by BMP280_Init):
+### Default settings (applied by BMP280_Init):
 
 Temperature oversampling: ×1
 Pressure oversampling: ×1
 Mode: normal
 
 
-API Documentation:
+## API Documentation:
 
-void BMP280_Init(BMP280_t *bmp)
+* void BMP280_Init(BMP280_t *bmp)
 	Reads chip ID, loads calibration coefficients, and applies default configuration to ctrl_meas register.
 
-void BMP280_Configure(BMP280_t *bmp)
+* void BMP280_Configure(BMP280_t *bmp)
 	Writes the user-defined configuration to the ctrl_meas register. Call after updating bmp.configurations.
 
-void BMP280_ReadTemperature(BMP280_t *bmp)
+* void BMP280_ReadTemperature(BMP280_t *bmp)
 	Reads raw ADC temperature, computes compensated value, stores it in bmp.temperature (float, °C). Also stores bmp.t_fine for pressure compensation.
 
-void BMP280_ReadPressure(BMP280_t *bmp)
+* void BMP280_ReadPressure(BMP280_t *bmp)
 	Reads raw ADC pressure, computes compensated value, stores it in bmp.pressure (float, Pa).
 
 Important: BMP280_ReadTemperature() must be called before BMP280_ReadPressure() because pressure compensation requires t_fine.
 
-Testing
+## Testing
 
 No formal test suite is included. Basic verification steps:
 
-Check bmp.ID after init: should read 0x58.
-Compare temperature reading with a known reference sensor.
-Check pressure reading within expected atmospheric range (± few hPa).
-Deployment
+* Check bmp.ID after init: should read 0x58.
+* Compare temperature reading with a known reference sensor.
+* Check pressure reading within expected atmospheric range (± few hPa).
+  Deployment
 This driver is intended for bare-metal embedded use. It compiles with standard C89/C99 and has no OS dependencies.
