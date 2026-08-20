@@ -77,11 +77,12 @@ BMP280_Init() applies the default configuration. To use custom settings, modify 
 
 c
 
-// Example: ×4 temperature oversampling, ×2 pressure oversampling, forced mode
+// Example:` ×4 temperature oversampling, ×2 pressure oversampling, forced mode`
+```
 bmp.configurations.BMP_TemperatureOversampling = BMP280_OVERSAMPLING_X04;
 bmp.configurations.BMP_PressureOversampling    = BMP280_OVERSAMPLING_X02;
 bmp.configurations.BMP_MeasurementMode         = BMP280_MODE_FORCED;
-
+```
 BMP280_Configure(&bmp);  // optional, if you don't want defaults
 
 
