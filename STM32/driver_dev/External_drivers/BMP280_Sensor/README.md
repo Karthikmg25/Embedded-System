@@ -7,12 +7,12 @@ This driver provides a lightweight, hardware-abstracted interface for reading te
 
 ## Features
 
-Chip ID verification – reads and stores the device ID from register 0xD0.
-Automatic calibration – loads all temperature and pressure compensation coefficients during initialization.
-Compensated readings – returns temperature in °C and pressure in Pa using Bosch’s recommended algorithms.
-Flexible configuration – choose from oversampling options (skip, ×1, ×2, ×4, ×8, ×16) and operation modes (sleep, forced, normal).
-Interface agnostic – works with any SPI instance and SS pin by passing pointer to SPI registers and GPIO port/pin.
-Simple API – three main functions for init, temperature, and pressure reading.
+**Chip ID verification** – reads and stores the device ID from register 0xD0.  
+**Automatic calibration** – loads all temperature and pressure compensation coefficients during initialization.  
+**Compensated readings** – returns temperature in °C and pressure in Pa using Bosch’s recommended algorithms.  
+**Flexible configuration** – choose from oversampling options (skip, ×1, ×2, ×4, ×8, ×16) and operation modes (sleep, forced, normal).  
+**Interface agnostic** – works with any SPI instance and SS pin by passing pointer to SPI registers and GPIO port/pin.  
+**Simple APIs** – three main functions for init, temperature, and pressure reading.  
 
 Language: C (C99)
 Target: STM32F401RE
