@@ -1,0 +1,156 @@
+/*
+ * RTC_Interfacing.c
+ *
+ *  Created on: Aug 20, 2026
+ *      Author: hp
+ */
+
+
+
+#include <stdio.h>
+#include "stm32f401re_gpio_driver.h"
+#include "stm32f401re_i2c_driver.h"
+
+//define device address
+#define RTC_ADDRESS 0x68
+
+//define enums for day of the week
+typedef enum
+{
+	sunday = 1,
+	monday = 2,
+	tuesday= 3,
+	wednesday=4,
+	thursaday=5,
+	friday=6,
+	saturday=7
+
+}DayOfWeek_t;
+
+const char *day[] = { "invalid day",
+		               "sunday",
+					   "monday",
+					   "tuesday",
+					   "wednesday",
+					   "thursday",
+					   "friday",
+					   "saturday" };
+
+static void force_delay();
+static void GPIO_Configurations_SCL_SDA();
+static void I2C1_Configurations();
+
+static uint8_t RTC_BCD_To_Decimal(uint8_t bcd)
+{
+	//converting 0x25 to 25
+	uint8_t dec = ((bcd>>4)*10) + (bcd&0x0F);
+
+	return dec;
+}
+static uint8_t RTC_Decimal_To_BCD(uint8_t dec)
+{
+	//converting 25 to 0x25
+	uint8_t bcd = ((dec/10) << 4) | (dec%10);
+
+	return bcd;
+}
+int APP2_main(void)
+{
+	GPIO_Configurations_SCL_SDA();
+
+	I2C1_Configurations();
+
+	//Initialize RTC time and date
+	/******************************************************************************/
+
+	 // Setup data buffer to transmit time and date
+	 // - stores seconds, minutes, hours
+	 // - stores data in BCD format
+	 // - MSB of seconds must be 0
+	 // - Bit_6 of hours must be 0
+
+	uint8_t buffer[7];
+	buffer[0] = RTC_Decimal_To_BCD(0 & 0x7F);//seconds
+	buffer[1] = RTC_Decimal_To_BCD(10);      //minutes
+	buffer[2] = RTC_Decimal_To_BCD(15 & 0x3F);//hours
+
+	buffer[3] = RTC_Decimal_To_BCD(wednesday);//day of week
+
+	buffer[4] = RTC_Decimal_To_BCD(19);
+	buffer[5] = RTC_Decimal_To_BCD(8);
+	buffer[6] = RTC_Decimal_To_BCD(26);
+
+	I2C_Transmit_Buffer(I2C1, RTC_ADDRESS, 0x00, buffer, 7);
+
+
+
+	while(1)
+	{
+		//Read RTC data continuously inside the loop
+		/*********************************************************************************************/
+
+		I2C_Receive_Buffer(I2C1, RTC_ADDRESS, 0x00, buffer, 7);
+		uint8_t seconds    = RTC_BCD_To_Decimal(buffer[0]);
+		uint8_t minutes    = RTC_BCD_To_Decimal(buffer[1]);
+		uint8_t hours      = RTC_BCD_To_Decimal(buffer[2]);
+		uint8_t day_number = RTC_BCD_To_Decimal(buffer[3]);
+		uint8_t date       = RTC_BCD_To_Decimal(buffer[4]);
+		uint8_t month      = RTC_BCD_To_Decimal(buffer[5]);
+		uint8_t year       = RTC_BCD_To_Decimal(buffer[6]);
+
+		printf("\n   RTC Time and date \n");
+		printf("_________________________\n\n");
+		printf("Time      - %d : %d : %d\n", (int)hours, (int)minutes, (int)seconds);
+		printf("Day of the week: %s\n", day[day_number]);
+		printf("Date      - %d : %d : %d\n\n", (int)date,  (int)month,  (int)year);
+
+		force_delay();
+
+	}
+}
+
+static void force_delay()
+{
+	for(int i=0; i<200000;i++);
+}
+void GPIO_Configurations_SCL_SDA()
+{
+
+	// Set GPIO Configurations
+	// - PB8 and PB9 are used as SCl and SDA of I2C1 instance
+	// - Use alternate function AF4
+	// - SCL and SDA are open drain with pull up
+	GPIOB_CLK_EN();
+	GPIOB->MODER  &=~((0x3<< 8*2)|(0x3<< 9*2));
+	GPIOB->MODER  |= (0x2<< 8*2)|(0x2<< 9*2);
+	GPIOB->AFR[1] &=~((0xF<<0*4)|(0xF<< 1*4));
+	GPIOB->AFR[1] |= ((0x4<<0*4)|(0x4<< 1*4));
+	GPIOB->OTYPER |= (1<< 8)|(1<< 9);
+	GPIOB->PUPDR &=~((0x3<< 8*2)|(0x3<< 9*2));
+	GPIOB->PUPDR |= ((0x1<< 8*2)|(0x1<< 9*2));
+	GPIOB->OSPEEDR &=~((0x3<< 8*2)|(0x3<< 9*2));
+	GPIOB->OSPEEDR |=((0x3<< 8*2)|(0x3<< 9*2));
+
+}
+static void I2C1_Configurations()
+{
+	I2C_Handle_t i2c1;
+
+	i2c1.pI2Cx = I2C1;
+	i2c1.I2C_Config.I2C_SCL_Speed = I2C_SCL_SPEED_SM;
+
+	I2C_Init(&i2c1);
+
+	I2C_PeripheralControl(I2C1, ENABLE);
+}
+
+
+
+
+
+
+
+
+
+
+
