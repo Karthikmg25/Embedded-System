@@ -114,10 +114,15 @@ typedef enum
 #define BMP280_SPI_READ     0x80
 #define BMP280_SPI_WRITE    0x7F
 
-//define Higher level APIs
-
+/*
+ *
+ * define Higher level APIs
+ *
+ */
 void BMP280_Init(BMP280_t *bmp);
+
 void BMP280_ReadTemperature(BMP280_t *bmp);
+
 void BMP280_ReadPressure(BMP280_t *bmp);
 
 //API for user to implement custom configurations

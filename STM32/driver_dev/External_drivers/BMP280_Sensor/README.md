@@ -91,6 +91,20 @@ Temperature oversampling: ×1
 Pressure oversampling: ×1
 Mode: normal
 
+## SPI Register Access
+
+For SPI communication, the MSB of the register address determines
+the operation:
+
+- Bit 7 = 1 → Read
+- Bit 7 = 0 → Write
+
+For multi-byte reads, only the starting register address is sent.
+The BMP280 automatically increments the register address while
+the chip-select line remains active.
+
+Dummy bytes are transmitted to generate the SPI clock required
+to receive data from the sensor.
 
 ## API Documentation:
 

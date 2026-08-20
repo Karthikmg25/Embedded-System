@@ -16,7 +16,7 @@
  */
 typedef struct
 {
-	uint32_t I2C_SCL_Speed;  /* STANDARD OR FAST MODE*/
+	uint32_t I2C_SCL_Speed;      /* STANDARD OR FAST MODE*/
 	uint8_t  I2C_Device_Address; /* IN SLAVE MODE */
 	uint8_t  I2C_SCL_DutyCycle;  /* IN FAST MODE*/
 

@@ -1,0 +1,40 @@
+
+ 
+ FROM STM32 PERIPHERAL DRIVERS TO LINUX DEVICE DRIVERS
+
+
+
+	STM32 registers
+
+ 		↓
+	STM32 peripheral drivers
+
+ 		↓
+	SPI / I2C
+
+ 		↓
+	External sensor driver ← YOU ARE HERE
+
+ 		↓
+	Driver abstraction / layering
+
+ 		↓
+	RTOS concepts
+
+ 		↓
+	Linux fundamentals
+
+ 		↓
+	Linux device model
+
+ 		↓
+	Linux kernel modules
+
+ 		↓
+	Linux character drivers
+
+ 		↓
+	Linux GPIO / I2C / SPI frameworks
+
+ 		↓
+	Linux sensor drivers
