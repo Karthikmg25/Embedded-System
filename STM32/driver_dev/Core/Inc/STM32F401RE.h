@@ -16,7 +16,7 @@
 
 #define _vo              volatile
 #include <stdint.h>
-
+#include <stdbool.h>
 /*
  *  Processor Details
  */

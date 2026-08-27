@@ -44,7 +44,7 @@ void I2C_PeripheralControl(I2C_Reg_t *pI2Cx, uint8_t EnorDi);                   
 void I2C_Init(I2C_Handle_t *pI2C_Handle);                                                                               /* INITIALIZE CONFIGURATIONS */
 void I2C_Transmit_Byte(I2C_Reg_t *pI2Cx, uint8_t slv_addr,uint8_t Reg_addr, uint8_t byte);                              /* TRANSMITS A BYTE */
 uint8_t I2C_Receive_Byte(I2C_Reg_t *pI2Cx, uint8_t slv_addr,uint8_t Reg_addr);                                          /* RECEIVES A BYTE*/
-void I2C_Transmit_Buffer(I2C_Reg_t *pI2Cx, uint8_t slv_addr,uint8_t Reg_addr, uint8_t *Tx_Buffer, uint8_t Tx_Len);      /* TRANSMITS A BUFFER*/
+void I2C_Transmit_Buffer(I2C_Reg_t *pI2Cx, uint8_t slv_addr,uint8_t Reg_addr, uint8_t *Tx_Buffer, uint16_t Tx_Len);      /* TRANSMITS A BUFFER*/
 void I2C_Receive_Buffer(I2C_Reg_t *pI2Cx, uint8_t slv_addr,uint8_t Reg_addr, uint8_t *Rx_Buffer, uint8_t Rx_Len);       /* RECEIVES A BUFFER*/
 /*
  * Other Peripheral control APIs

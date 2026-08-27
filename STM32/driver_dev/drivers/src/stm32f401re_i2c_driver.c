@@ -276,7 +276,7 @@ void I2C_Transmit_Byte(I2C_Reg_t *pI2Cx, uint8_t slv_addr,uint8_t Reg_addr, uint
  *
  * @Note              - none
  */
-void I2C_Transmit_Buffer(I2C_Reg_t *pI2Cx, uint8_t slv_addr,uint8_t Reg_addr, uint8_t *Tx_Buffer, uint8_t Tx_Len)
+void I2C_Transmit_Buffer(I2C_Reg_t *pI2Cx, uint8_t slv_addr,uint8_t Reg_addr, uint8_t *Tx_Buffer, uint16_t Tx_Len)
 {
 	I2C_Generate_Start( pI2Cx);
 

@@ -153,7 +153,7 @@ void OLED_init()
 	
 	I2c_send_byte(0xD9);// set visible,stable and correctly mapped display
 	I2c_send_byte(0xF1);
-	I2c_send_byte(0xDA);
+	I2c_send_byte(0xDA);// com-pin configuration
 	I2c_send_byte(0x12);
 	I2c_send_byte(0xDB);
 	I2c_send_byte(0x40);

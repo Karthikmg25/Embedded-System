@@ -1,3 +1,9 @@
+/*
+ * SSD1306_DisplayInterface.c
+ *
+ *  Created on: Aug 26, 2026
+ *      Author: hp
+ */
 /**
  ******************************************************************************
  * @file           : main.c
@@ -46,7 +52,7 @@ int main(void)
 
 	SSD1306_Update(&oled);
 
-	SSD1306_DisplayInvert(&oled, true);
+	SSD1306_InvertDisplay(&oled, false);
 
 	uint32_t contrast=0;
 	while(1)
@@ -93,6 +99,8 @@ static void I2C1_Configurations()
 
 	I2C_PeripheralControl(I2C1, ENABLE);
 }
+
+
 
 
 
