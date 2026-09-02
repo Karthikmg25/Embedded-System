@@ -20,49 +20,16 @@
 #include <stdio.h>
 
 #include "SSD1306.h"
+#include "SSD1306_Graphics.h"
+
 
 //Application is using I2C1 instance for communication
-static void I2C1_Configurations();
-static void GPIO_Configurations_SCL_SDA();
-static void force_delay();
-
-int main(void)
-{
-	GPIO_Configurations_SCL_SDA();
-
-	I2C1_Configurations();
-
-	SSD1306_t oled;
-	oled.I2C_Address = OLED_ADDRESS;
-	oled.I2C_interface = I2C1;
-	oled.contrast = 0xFF;
-	oled.orientation = OLED_ORIENTATION_ROTATE180;
-
-	SSD1306_Init(&oled);
-
-	SSD1306_ClearDisplay(&oled);
-
-	SSD1306_PrintString(&oled, "Happy Onam to all malayalees", 10, 3);
-
-	SSD1306_Update(&oled);
-
-	SSD1306_DisplayInvert(&oled, true);
-
-	uint32_t contrast=0;
-	while(1)
-	{
-		SSD1306_SetContrast(&oled, contrast);
-
-		contrast+=20;
-		force_delay();
-	}
-}
 
 static void force_delay()
 {
 	for(int i=0; i<700000;i++);
 }
-void GPIO_Configurations_SCL_SDA()
+static void GPIO_Configurations_SCL_SDA()
 {
 
 	// Set GPIO Configurations
@@ -92,6 +59,54 @@ static void I2C1_Configurations()
 	I2C_Init(&i2c1);
 
 	I2C_PeripheralControl(I2C1, ENABLE);
+}
+
+
+int main(void)
+{
+	GPIO_Configurations_SCL_SDA();
+
+	I2C1_Configurations();
+
+	SSD1306_t oled;
+	oled.I2C_Address = OLED_ADDRESS;
+	oled.I2C_interface = I2C1;
+	oled.contrast = 0xFF;
+	oled.orientation = OLED_ORIENTATION_ROTATE180;
+
+	SSD1306_Init(&oled);
+
+	GFX_Clear(&oled);
+
+	//SSD1306_DisplayInvert(&oled, false);
+
+	//GFX_DrawPixel(&oled, 40, 10, GFX_PIXEL_ON);
+
+	//GFX_FillRectangle(&oled, 30, 15, 30, 10, GFX_PIXEL_ON);
+
+	//GFX_DrawRectangle(&oled, 20, 10, 50, 20, GFX_PIXEL_ON);
+
+	GFX_DrawLine(&oled, 5, 20, 60, 30, GFX_PIXEL_ON);
+
+	SSD1306_Update(&oled);
+	while(0)
+	{
+
+		for(uint16_t i=0;i<64;i++)
+		{
+			OLED_Status_t status = GFX_FillRectangle(&oled, 30, 5, i, i, GFX_PIXEL_ON);
+
+			if(status != OLED_OKAY)
+			{
+				GFX_Clear(&oled);
+				break;
+			}
+			SSD1306_Update(&oled);
+
+			force_delay();
+		}
+
+	}
 }
 
 

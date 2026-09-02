@@ -5,7 +5,7 @@
  *      Author: hp
  */
 
-#include "../../SSD1306_Display/inc/SSD1306.h"
+#include "SSD1306.h"
 
 // define font array for printing characters
 const uint8_t font_array[96][5] = {            // 5x7 ASCII font array,96 characters ASCII 32–127
@@ -258,8 +258,8 @@ void SSD1306_Update(SSD1306_t *oled)
 {
 	//set column and row range (128*64)
 			uint8_t addr_cmds[] = {
-			    0x21, 0, SSD1306_WIDTH-1,   // set column address : 0-127
-			    0x22, 0, SSD1306_PAGES-1    // set page address   : 0-7
+					SSD1306_CMD_SET_COLUMN_ADDRESS , 0, SSD1306_WIDTH-1,   // set column address : 0-127
+					SSD1306_CMD_SET_PAGE_ADDRESS   , 0, SSD1306_PAGES-1    // set page address   : 0-7
 			};
 			SSD1306_SendCommandBuffer(oled, addr_cmds, sizeof(addr_cmds));
 
