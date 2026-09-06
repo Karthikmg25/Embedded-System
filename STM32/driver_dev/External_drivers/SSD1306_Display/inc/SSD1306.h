@@ -8,6 +8,22 @@
 #ifndef SSD1306_DISPLAY_INC_SSD1306_H_
 #define SSD1306_DISPLAY_INC_SSD1306_H_
 
+
+/**
+ * @file SSD1306.h
+ * @brief Low-level bare-metal driver for the SSD1306 128x64 monochrome
+ *        OLED controller, communicating over I2C.
+ *
+ * Responsible for: controller initialization, orientation/contrast
+ * configuration, display on/off/invert control, and pushing the local
+ * framebuffer (SSD1306_t.frame_buffer) to the display's RAM. Does not
+ * contain any drawing primitives (pixels/lines/shapes/bitmaps/text) -
+ * see SSD1306_Graphics.h for those.
+ *
+ * Depends on a project-supplied I2C driver (stm32f401re_i2c_driver.h,
+ * providing I2C_Reg_t / I2C_Transmit_Byte() / I2C_Transmit_Buffer()).
+ */
+
 #include "stm32f401re_i2c_driver.h"
 #include <stdio.h>
 
@@ -19,7 +35,10 @@
 #define SSD1306_PAGES        (SSD1306_HEIGHT / 8)
 #define SSD1306_FRAME_SIZE   (SSD1306_WIDTH * SSD1306_HEIGHT / 8)
 
-//define an enum for orientation type
+/**
+ * @brief Display rotation/mirroring options, set once in SSD1306_t.orientation
+ *        before calling SSD1306_Init().
+ */
 typedef enum
 {
 	OLED_ORIENTATION_NORMAL,
@@ -28,8 +47,15 @@ typedef enum
 	OLED_ORIENTATION_ROTATE180,
 
 }OLED_Orientation_t;
-
-//define device structure for display
+/**
+ * @brief Device/instance handle for one SSD1306 OLED display.
+ *
+ *        One SSD1306_t exists per physical display. All SSD1306_*/GFX_*
+ *        APIs take a pointer to this structure. I2C_interface, I2C_Address,
+ *        orientation and contrast must be set by the caller before
+ *        SSD1306_Init() is called; frame_buffer is managed internally by
+ *        the driver/graphics layer and should not be written directly.
+ */
 typedef struct
 {
 	I2C_Reg_t *I2C_interface;
@@ -52,7 +78,10 @@ typedef enum
 	OLED_ERROR_BUFFER_OVERFLOW
 }OLED_Status_t;
 
-//define OLED device i2c address
+
+/**
+ * @brief Common status/error codes returned by the SSD1306 and GFX APIs.
+ */
 #define OLED_ADDRESS 0x3C
 
 typedef uint8_t column;   // 0-127 columns

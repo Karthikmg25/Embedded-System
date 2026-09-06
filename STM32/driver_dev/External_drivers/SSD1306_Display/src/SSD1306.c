@@ -98,25 +98,6 @@ OLED_Status_t SSD1306_Init(SSD1306_t *oled)
 	return OLED_OKAY;
 
 }
-/**
- * @brief:		 Writes a single character to the OLED framebuffer.
- *
- * 				Renders a character using the built-in 5x7 font and stores the
- * 				corresponding pixel data in the framebuffer. The display is not
- * 				updated until SSD1306_Update() is called.
- *
- * @param:		 oled - Pointer to the SSD1306 device structure.
- * @param:		 ch   - Character to be displayed (ASCII 32 to 127).
- * @param:		 col  - Starting column position (0 to 123).
- * @param:		 page - Page position (0 to 7).
- *
- * @return: 	 OLED_OKAY if the character is written successfully.
- * @return:		 OLED_ERROR_INVALID_CHARACTER if the character is outside
- *         			the supported ASCII range.
- * @return:		 OLED_ERROR_INVALID_COLUMN if the character would exceed
- *         			the display width.
- * @return:		 OLED_ERROR_INVALID_PAGE if the specified page is invalid.
- */
 
 /**
  * @brief:	 Updates the OLED display with the contents of the framebuffer.
@@ -162,57 +143,6 @@ void SSD1306_ClearDisplay(SSD1306_t *oled)
 	//SSD1306_Update();
 
 }
-/**
- * @brief:	 Writes a string to the OLED framebuffer.
- *
- * 				Renders each character using the built-in 5x7 font and stores
- * 				the resulting pixel data in the framebuffer. A 2-column space
- * 				is left between consecutive characters. When the remaining
- * 				space on a page is insufficient for the next character, text
- * 				continues from the beginning of the next page.
- *
- * @param:  oled - Pointer to the SSD1306 device structure.
- * @param:  str  - Pointer to the null-terminated string.
- * @param:  col  - Starting column position.
- * @param:  page - Starting page position.
- *
- * @return:  OLED_OKAY if the string is written successfully.
- * @return:  OLED_ERROR_INVALID_COLUMN if the starting column is invalid.
- * @return:  OLED_ERROR_INVALID_PAGE if the starting or next page is invalid.
- * @return:  OLED_ERROR_INVALID_CHARACTER if an unsupported character
- *           is encountered.
- */
-
-/**
- * @brief:	 Writes a signed integer to the OLED framebuffer.
- *
- * 				Converts the integer to a character string and renders it using
- * 				the SSD1306_PrintString() API.
- *
- * @param:  oled - Pointer to the SSD1306 device structure.
- * @param:  num  - Integer value to be displayed.
- * @param:  col  - Starting column position.
- * @param:  page - Starting page position.
- *
- * @return: Status returned by SSD1306_PrintString().
- */
-
-
-/**
- * @brief:  Writes a floating-point value to the OLED framebuffer.
- *
- * 				Converts the floating-point value to a character string with the
- * 				requested number of decimal places and renders it using
- * 				SSD1306_PrintString().
- *
- * @param: oled     - Pointer to the SSD1306 device structure.
- * @param: num      - Floating-point value to be displayed.
- * @param: decimals - Number of digits to display after the decimal point.
- * @param: col      - Starting column position.
- * @param: page     - Starting page position.
- *
- * @return Status returned by SSD1306_PrintString().
- */
 
 /**
  * @brief Sets the display contrast.

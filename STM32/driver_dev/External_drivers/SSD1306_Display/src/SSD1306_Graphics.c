@@ -6,6 +6,12 @@
  */
 #include "SSD1306_Graphics.h"
 
+/**
+ * @file SSD1306_Graphics.c
+ * @brief Implementation of the graphics primitives layer.
+ *        See SSD1306_Graphics.h for the full API documentation.
+ */
+
 
 // define font array for printing characters
 const uint8_t Font_array[96][5] = {            // 5x7 ASCII font array,96 characters ASCII 32–127
