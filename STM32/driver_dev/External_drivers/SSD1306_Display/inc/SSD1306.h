@@ -62,14 +62,6 @@ typedef uint8_t page_number ; // 0-7  pages
 
 OLED_Status_t SSD1306_Init(SSD1306_t *oled);
 
-OLED_Status_t SSD1306_PrintChar(SSD1306_t *oled, char ch, column col, page_number page);
-
-OLED_Status_t SSD1306_PrintString(SSD1306_t *oled, char *str, column col, page_number page);
-
-OLED_Status_t SSD1306_PrintInt(SSD1306_t *oled, int num, column col, page_number page);
-
-OLED_Status_t SSD1306_PrintFloat(SSD1306_t *oled, float num,uint8_t decimals, column col, page_number page);
-
 void SSD1306_ClearDisplay(SSD1306_t *oled);
 
 void SSD1306_Update(SSD1306_t *oled);// Updates the display after frame buffer modification

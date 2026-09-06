@@ -23,11 +23,13 @@
 #include "SSD1306_Graphics.h"
 
 
+
+
 //Application is using I2C1 instance for communication
 
 static void force_delay()
 {
-	for(int i=0; i<700000;i++);
+	for(int i=0; i<200000;i++);
 }
 static void GPIO_Configurations_SCL_SDA()
 {
@@ -62,11 +64,19 @@ static void I2C1_Configurations()
 }
 
 
+
+
+
+
+
 int main(void)
 {
-	GPIO_Configurations_SCL_SDA();
+	// Configure I2C1 for communication:
 
+	GPIO_Configurations_SCL_SDA();
 	I2C1_Configurations();
+
+	// Configure the OLED display
 
 	SSD1306_t oled;
 	oled.I2C_Address = OLED_ADDRESS;
@@ -76,36 +86,23 @@ int main(void)
 
 	SSD1306_Init(&oled);
 
-	GFX_Clear(&oled);
-
-	//SSD1306_DisplayInvert(&oled, false);
-
-	//GFX_DrawPixel(&oled, 40, 10, GFX_PIXEL_ON);
-
-	//GFX_FillRectangle(&oled, 30, 15, 30, 10, GFX_PIXEL_ON);
-
-	//GFX_DrawRectangle(&oled, 20, 10, 50, 20, GFX_PIXEL_ON);
-
-	GFX_DrawLine(&oled, 5, 20, 60, 30, GFX_PIXEL_ON);
-
-	SSD1306_Update(&oled);
-	while(0)
+	while(1)
 	{
 
-		for(uint16_t i=0;i<64;i++)
+		for(uint8_t i=0 ; i<NUMBER_OF_FRAMES; i++)
 		{
-			OLED_Status_t status = GFX_FillRectangle(&oled, 30, 5, i, i, GFX_PIXEL_ON);
+			// Clear the local framebuffer
+			GFX_Clear(&oled);
 
-			if(status != OLED_OKAY)
-			{
-				GFX_Clear(&oled);
-				break;
-			}
+			// Draw the current frame into the framebuffer
+			GFX_DrawBitmap(&oled, 0, 0, ballFrames[i], 120, 60, GFX_PIXEL_ON);
+
+			// Push the framebuffer to the OLED over I2C
 			SSD1306_Update(&oled);
 
+			// Hold this frame before advancing
 			force_delay();
 		}
-
 	}
 }
 
