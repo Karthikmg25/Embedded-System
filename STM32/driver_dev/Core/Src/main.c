@@ -18,91 +18,40 @@
 
 
 #include <stdio.h>
-
-#include "SSD1306.h"
-#include "SSD1306_Graphics.h"
-
-
-
-
-//Application is using I2C1 instance for communication
-
-static void force_delay()
-{
-	for(int i=0; i<200000;i++);
-}
-static void GPIO_Configurations_SCL_SDA()
-{
-
-	// Set GPIO Configurations
-	// - PB8 and PB9 are used as SCl and SDA of I2C1 instance
-	// - Use alternate function AF4
-	// - SCL and SDA are open drain with pull up
-	GPIOB_CLK_EN();
-	GPIOB->MODER  &=~((0x3<< 8*2)|(0x3<< 9*2));
-	GPIOB->MODER  |= (0x2<< 8*2)|(0x2<< 9*2);
-	GPIOB->AFR[1] &=~((0xF<<0*4)|(0xF<< 1*4));
-	GPIOB->AFR[1] |= ((0x4<<0*4)|(0x4<< 1*4));
-	GPIOB->OTYPER |= (1<< 8)|(1<< 9);
-	GPIOB->PUPDR &=~((0x3<< 8*2)|(0x3<< 9*2));
-	GPIOB->PUPDR |= ((0x1<< 8*2)|(0x1<< 9*2));
-	GPIOB->OSPEEDR &=~((0x3<< 8*2)|(0x3<< 9*2));
-	GPIOB->OSPEEDR |=((0x3<< 8*2)|(0x3<< 9*2));
-
-}
-static void I2C1_Configurations()
-{
-	I2C_Handle_t i2c1;
-
-	i2c1.pI2Cx = I2C1;
-	i2c1.I2C_Config.I2C_SCL_Speed = I2C_SCL_SPEED_FM;
-	i2c1.I2C_Config.I2C_SCL_DutyCycle = I2C_FM_DUTY_2;
-
-	I2C_Init(&i2c1);
-
-	I2C_PeripheralControl(I2C1, ENABLE);
-}
-
-
-
-
-
-
+#include "stm32f401re_systick_driver.h"
 
 int main(void)
 {
-	// Configure I2C1 for communication:
 
-	GPIO_Configurations_SCL_SDA();
-	I2C1_Configurations();
+	SysTick_Status_t status = SysTick_Init(1000, SYSTICK_CLK_AHB);// generate 1000 ticks per second (1 tick = 1ms), use core frequency as clock source
 
-	// Configure the OLED display
 
-	SSD1306_t oled;
-	oled.I2C_Address = OLED_ADDRESS;
-	oled.I2C_interface = I2C1;
-	oled.contrast = 0xFF;
-	oled.orientation = OLED_ORIENTATION_ROTATE180;
+	uint32_t seconds = 0;
 
-	SSD1306_Init(&oled);
+	// record starting time
+	uint32_t start_1s = SysTick_GetTick();
+	uint32_t start_2s = SysTick_GetTick();  // Multiple independant timers formsame timebase
 
 	while(1)
 	{
+		// non blocking delay
+			if(SysTick_HasElapsedTicks(start_1s, 1000))// print only if 1000 ticks has passed (1 second)
+			{
+				printf("\n1 second elapsed %d ", (int)seconds++);
 
-		for(uint8_t i=0 ; i<NUMBER_OF_FRAMES; i++)
-		{
-			// Clear the local framebuffer
-			GFX_Clear(&oled);
+				//Update start after timeout
+				start_1s = SysTick_GetTick();
+			}
 
-			// Draw the current frame into the framebuffer
-			GFX_DrawBitmap(&oled, 0, 0, ballFrames[i], 120, 60, GFX_PIXEL_ON);
+			// non blocking delay
+				if(SysTick_HasElapsedTicks(start_2s, 2000))// print only if 2000 ticks has passed (2 seconds)
+				{
+					printf("\n2 seconds elapsed %d ", (int)seconds++);
 
-			// Push the framebuffer to the OLED over I2C
-			SSD1306_Update(&oled);
+					//Update start after timeout
+					start_2s = SysTick_GetTick();
+				}
 
-			// Hold this frame before advancing
-			force_delay();
-		}
 	}
 }
 

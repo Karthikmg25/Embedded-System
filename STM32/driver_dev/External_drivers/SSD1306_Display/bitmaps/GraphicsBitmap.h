@@ -26,6 +26,7 @@ extern const uint8_t walter_64x64[];
 extern const uint8_t gus_bitmap_120x60[];
 extern const uint8_t gus_bitmap_120x60_V2[];
 extern const uint8_t gus_bitmap_contratst2_4[];
+extern const uint8_t tuttu_bitmap_60x64[] ;
 
 //      ball animation frames            /
 /****************************************/

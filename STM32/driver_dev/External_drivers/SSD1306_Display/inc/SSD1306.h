@@ -50,7 +50,7 @@ typedef enum
 /**
  * @brief Device/instance handle for one SSD1306 OLED display.
  *
- *        One SSD1306_t exists per physical display. All SSD1306_*/GFX_*
+ *        One SSD1306_t exists per physical display. All SSD1306_GFX_
  *        APIs take a pointer to this structure. I2C_interface, I2C_Address,
  *        orientation and contrast must be set by the caller before
  *        SSD1306_Init() is called; frame_buffer is managed internally by

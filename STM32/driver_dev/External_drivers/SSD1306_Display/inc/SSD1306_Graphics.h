@@ -32,7 +32,7 @@
 
 
 /**
- * @brief Logical pixel state used by every GFX_Draw*/GFX_Fill* API.
+ * @brief Logical pixel state used by every GFX_Draw GFX_Fill* API.
  */
 
 typedef enum
@@ -76,7 +76,7 @@ void GFX_Fill(SSD1306_t *oled);
 /**
  * @brief   Sets or clears a single pixel in the framebuffer.
  *
- *          This is the primitive that every other GFX_Draw*/GFX_Fill*
+ *          This is the primitive that every other GFX_Draw GFX_Fill*
  *          function is built on.
  *
  * @param[in,out] oled   Pointer to the SSD1306 device structure.
