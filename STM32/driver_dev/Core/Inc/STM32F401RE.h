@@ -590,7 +590,7 @@ typedef struct
 /*
  *
  *
- *   SysTick Register definition
+ *  SysTick Register definition
  *
  *
  */
