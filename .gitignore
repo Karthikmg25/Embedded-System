@@ -23,3 +23,41 @@ Release/
 **/.vs/
 # STM32CubeIDE generated temp files
 *.launch
+
+# =========================
+# VLM project
+# =========================
+
+# Third-party VLM repositories
+C++Projects/VLM/whisper.cpp/
+C++Projects/VLM/llama.cpp-current/
+
+# VLM build directories
+**/build/
+**/build-*/
+
+# Executables and libraries
+*.exe
+*.dll
+*.lib
+*.a
+
+# Generated images and audio
+*.jpg
+*.jpeg
+*.png
+*.wav
+
+# AI model files
+*.gguf
+*.onnx
+*.ort
+
+# Model directories
+**/models/
+
+# Generated output
+**/output/
+
+# Piper runtime data
+C++Projects/VLM/Piper/espeak-ng-data/
