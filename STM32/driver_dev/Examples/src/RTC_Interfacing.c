@@ -80,7 +80,7 @@ int APP2_main(void)
 	buffer[5] = RTC_Decimal_To_BCD(8);
 	buffer[6] = RTC_Decimal_To_BCD(26);
 
-	I2C_Transmit_Buffer(I2C1, RTC_ADDRESS, 0x00, buffer, 7);
+	I2C_Transmit_Buffer(I2C1, RTC_ADDRESS, 0x00, buffer, 7);// setting initial time...
 
 
 
@@ -89,7 +89,9 @@ int APP2_main(void)
 		//Read RTC data continuously inside the loop
 		/*********************************************************************************************/
 
-		I2C_Receive_Buffer(I2C1, RTC_ADDRESS, 0x00, buffer, 7);
+		I2C_Receive_Buffer(I2C1, RTC_ADDRESS, 0x00, buffer, 7);// reading data from RTC registers...
+
+
 		uint8_t seconds    = RTC_BCD_To_Decimal(buffer[0]);
 		uint8_t minutes    = RTC_BCD_To_Decimal(buffer[1]);
 		uint8_t hours      = RTC_BCD_To_Decimal(buffer[2]);

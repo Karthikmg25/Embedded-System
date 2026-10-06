@@ -94,15 +94,16 @@ void USART_Set_BaudRate(USART_Reg_t *pUSARTx, uint32_t BaudRate)
 {
 	uint32_t int_part, fra_part, usartdiv;
 	uint32_t pCLK= 16000000;
+
 	if(pUSARTx->USART_CR1&(1<<USART_CR1_OVER8))  // over-sampling 8 times
 	{
-		  usartdiv= (100*pCLK)/(8*BaudRate);
+		  usartdiv = (100*pCLK)/(8*BaudRate);
 
-		  int_part= usartdiv/100; // mantissa part
+		  int_part = usartdiv/100; // mantissa part
 
-    	  fra_part= usartdiv- (int_part*100);// fraction part
+    	  fra_part = usartdiv- (int_part*100);// fraction part
 
-		  fra_part= ((fra_part*8)+50)/100;// over-sampling 8 times
+		  fra_part = ((fra_part*8)+50)/100;            // over-sampling 8 times
 					                                  // add 50 to avoid loosing precision
 		  pUSARTx->USART_BRR = (int_part<<4) | (fra_part & 0x7);
 	}
@@ -151,7 +152,7 @@ void USART_Init(USART_Handle_t *pUSART_Handle)
 	}
 	else if(pUSART_Handle->USART_Config.USART_Mode==USART_MODE_TX_ONLY)
 	{
-		pUSART_Handle->pUSARTx->USART_CR1 &=~ (1<<USART_CR1_RE);// RX Disable
+		pUSART_Handle->pUSARTx->USART_CR1 &=~(1<<USART_CR1_RE);// RX Disable
 		pUSART_Handle->pUSARTx->USART_CR1 |= (1<<USART_CR1_TE); // TX Enable
 	}
 	else if(pUSART_Handle->USART_Config.USART_Mode==USART_MODE_RXTX)

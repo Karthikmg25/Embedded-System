@@ -100,7 +100,7 @@ void I2C_Init(I2C_Handle_t *pI2C_Handle)
 	pI2C_Handle->pI2Cx->I2C_CR2 |= (((F_PCLK /1000000)&0X3F) << I2C_CR2_FREQ );// 16MHz
 
 	pI2C_Handle->pI2Cx->I2C_OAR1 |= (1<< 14);// always keep 14th bit HIGH : sends ACK when a master calls
-	pI2C_Handle->pI2Cx->I2C_OAR1 &=~(0X7F << I2C_OAR1_ADD);// CLAER BITS                                /* SETS DEVICE ADDRESS : SLAVE MODE */
+	pI2C_Handle->pI2Cx->I2C_OAR1 &=~(0X7F << I2C_OAR1_ADD);// CLEAR BITS                                /* SETS DEVICE ADDRESS : SLAVE MODE */
 	pI2C_Handle->pI2Cx->I2C_OAR1 |= (pI2C_Handle->I2C_Config.I2C_Device_Address<< I2C_OAR1_ADD);
 
 	uint32_t ccr=0;
@@ -353,12 +353,17 @@ uint8_t I2C_Receive_Byte(I2C_Reg_t *pI2Cx, uint8_t slv_addr,uint8_t Reg_addr)
  */
 void I2C_Receive_Buffer(I2C_Reg_t *pI2Cx, uint8_t slv_addr,uint8_t Reg_addr, uint8_t *Rx_Buffer, uint8_t Rx_Len)
 {
-	if(Rx_Len == 1)                                                        // single byte receive
+
+
+	if(Rx_Len == 1)                                                        // < SINGLE BYTE RECEPTION > //
+		                                                                   ///////////////////////////////
 	{
 		*Rx_Buffer =  I2C_Receive_Byte( pI2Cx, slv_addr, Reg_addr);
 	}
-	else if(Rx_Len == 2)                                                    // Dual byte receive
+	else if(Rx_Len == 2)                                                    // < DUAL BYTE RECEPTION >   //
+		                                                                    ///////////////////////////////
 	{
+
 		I2C_Generate_Start( pI2Cx);                                     /* GENERATE START */
 
 		I2C_Send_Address_Write( pI2Cx, slv_addr);                       /* SEND SLAVE ADDRESS WRITE*/
@@ -386,7 +391,10 @@ void I2C_Receive_Buffer(I2C_Reg_t *pI2Cx, uint8_t slv_addr,uint8_t Reg_addr, uin
 
 		I2C_Clear_POS( pI2Cx);                                          /* CLEAR POS FOR FUTURE READS : NORMAL ACK/NACK TIMING*/
 	}
-	else if(Rx_Len >2)                                                         // Multi-Byte receive
+
+
+	else if(Rx_Len >2)                                                          // < MULTI BYTE RECEPTION >   //
+                                                                                ///////////////////////////////
 	{
 		I2C_Generate_Start( pI2Cx);                                     /* GENERATE START */
 

@@ -332,22 +332,23 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
  */
 void GPIO_DeInit(GPIO_Reg_t *pGPIOx)
 {
+
 	            if(pGPIOx== GPIOA)
 	              {
 	        	     GPIOA_REG_RESET();
 	              }
 		  else  if(pGPIOx== GPIOB)
 		          {
-			            GPIOB_REG_RESET();
+			         GPIOB_REG_RESET();
 		          }
 
 		  else  if(pGPIOx== GPIOC)
 		          {
-			            GPIOC_REG_RESET();
+			         GPIOC_REG_RESET();
 		          }
 		  else  if(pGPIOx== GPIOD)
 		          {
-			            GPIOD_REG_RESET();
+			         GPIOD_REG_RESET();
 		          }
 		  else  if(pGPIOx== GPIOE)
 		          {

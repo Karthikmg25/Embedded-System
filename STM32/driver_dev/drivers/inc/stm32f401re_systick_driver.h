@@ -44,6 +44,9 @@ void SysTick_Delay_ms(uint32_t ms);
 // Non-blocking elapsed-time check
 bool SysTick_HasElapsedTicks(uint32_t start, uint32_t timeout);
 
+// to register callback function
+void SysTick_RegisterCallback(void (*callback)(void));
+
 
 
 

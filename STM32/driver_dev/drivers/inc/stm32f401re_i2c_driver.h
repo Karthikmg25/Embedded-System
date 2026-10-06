@@ -21,6 +21,7 @@ typedef struct
 	uint8_t  I2C_SCL_DutyCycle;  /* IN FAST MODE*/
 
 }I2C_Config_t;
+
 /*
  * Handle structure for I2C Instance
  *

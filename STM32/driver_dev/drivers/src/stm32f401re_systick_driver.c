@@ -7,6 +7,7 @@
 
 
 #include "stm32f401re_systick_driver.h"
+#include <stddef.h>
 
 /*
  * Private tick counter.
@@ -20,6 +21,16 @@ static volatile uint32_t tick_count =0;
  * Used for converting milliseconds to SysTick ticks.
  */
 static uint32_t tick_f;
+
+/*
+ * Private callback function pointer.
+ *
+ * Stores the address of the application callback function
+ * that is executed from the SysTick interrupt handler.
+ *
+ * NULL indicates that no callback function is registered.
+ */
+static void (*callback_function)(void) = NULL;
 
 /********************************************************************************************************************/
 /* Public APIs*/
@@ -118,6 +129,13 @@ SysTick_Status_t SysTick_Init(uint32_t tick_frequency, SysTick_ClkSrc_t clk_src)
 void SysTick_Handler()
 {
 	tick_count++;
+
+	// invoke callback function on each tick (if registered)
+	if(callback_function != NULL)
+	{
+		callback_function();
+	}
+
 }
 
 /*
@@ -196,6 +214,22 @@ bool SysTick_HasElapsedTicks(uint32_t start, uint32_t timeout)
 
 }
 
+/*
+ * SysTick_RegisterCallback()
+ *
+ * Register a callback function to be executed on every
+ * SysTick interrupt.
+ *
+ * param[]: callback : Pointer to a function that takes no
+ *                     arguments and returns void.
+ *
+ * If callback is NULL, the previously registered callback
+ * is disabled.
+ */
+void SysTick_RegisterCallback(void (*callback)(void))
+{
+	callback_function = callback;
+}
 
 
 

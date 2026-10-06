@@ -506,6 +506,26 @@ typedef struct
 #define NVIC ((NVIC_Reg_t*)NVIC_PERIPH_BASE_ADDR)
 
 /*
+ * Priority configuration macros
+ */
+#define TIM_IRQ_PRIORITY_0     0
+#define TIM_IRQ_PRIORITY_1     1
+#define TIM_IRQ_PRIORITY_2     2
+#define TIM_IRQ_PRIORITY_3     3
+#define TIM_IRQ_PRIORITY_4     4
+#define TIM_IRQ_PRIORITY_5     5
+#define TIM_IRQ_PRIORITY_6     6
+#define TIM_IRQ_PRIORITY_7     7
+#define TIM_IRQ_PRIORITY_8     8
+#define TIM_IRQ_PRIORITY_9     9
+#define TIM_IRQ_PRIORITY_10    10
+#define TIM_IRQ_PRIORITY_11    11
+#define TIM_IRQ_PRIORITY_12    12
+#define TIM_IRQ_PRIORITY_13    13
+#define TIM_IRQ_PRIORITY_14    14
+#define TIM_IRQ_PRIORITY_15    15
+
+/*
  *
  *
  *   TIMER2-5 Register definition
@@ -537,6 +557,8 @@ typedef struct
 	volatile uint32_t OR;
 
 }TIMER2_5_Reg_t;
+
+typedef TIMER2_5_Reg_t TIM_Reg_t ; // use either name
 /*
  *   TIMER2-5 Pointers
  */
@@ -552,41 +574,96 @@ typedef struct
 #define TIM4_CLK_EN() (RCC->APB1ENR |= (1<<2))
 #define TIM5_CLK_EN() (RCC->APB1ENR |= (1<<3))
 /*
+ *   TIMER2-5 clock disable
+ */
+#define TIM2_CLK_DI() (RCC->APB1ENR &=~ (1<<0))
+#define TIM3_CLK_DI() (RCC->APB1ENR &=~ (1<<1))
+#define TIM4_CLK_DI() (RCC->APB1ENR &=~ (1<<2))
+#define TIM5_CLK_DI() (RCC->APB1ENR &=~ (1<<3))
+/*
  * IRQ Number of Timer Global Interrupts
  */
-#define IRQ_NO_TIM1          25
-#define IRQ_NO_TIM2          28
-#define IRQ_NO_TIM3          29
-#define IRQ_NO_TIM4          30
-#define IRQ_NO_TIM5          50
+
+#define TIM1_IRQ_NUMBER      (25)
+#define TIM2_IRQ_NUMBER      (28)
+#define TIM3_IRQ_NUMBER      (29)
+#define TIM4_IRQ_NUMBER      (30)
+#define TIM5_IRQ_NUMBER      (50)
+
+#define TIM1_IRQ_ENABLE          (1<< TIM1_IRQ_NUMBER % 32)
+#define TIM2_IRQ_ENABLE          (1<< TIM2_IRQ_NUMBER % 32)
+#define TIM3_IRQ_ENABLE          (1<< TIM3_IRQ_NUMBER % 32)
+#define TIM4_IRQ_ENABLE          (1<< TIM4_IRQ_NUMBER % 32)
+#define TIM5_IRQ_ENABLE          (1<< TIM5_IRQ_NUMBER % 32)
+
+#define TIM1_IRQ_ISER_INDEX   (TIM1_IRQ_NUMBER / 32)
+#define TIM2_IRQ_ISER_INDEX   (TIM2_IRQ_NUMBER / 32)
+#define TIM3_IRQ_ISER_INDEX   (TIM3_IRQ_NUMBER / 32)
+#define TIM4_IRQ_ISER_INDEX   (TIM4_IRQ_NUMBER / 32)
+#define TIM5_IRQ_ISER_INDEX   (TIM5_IRQ_NUMBER / 32)
+
 /*
  * Important bits in General Purpose Timers
  */
+// CR1
 #define TIMx_CR1_CEN                 0      /* COUNTER ENABLE                                : START COUNTING      */
 #define TIMx_CR1_DIR                 4      /* SETS DIRCTION                                 : UP OR DOWN COUNTING */
+#define TIMx_CR1_OPM                 3      /* ONE PULSE MODE : FOR SINGLE SHOT                                    */
+#define TIMx_CR1_APRE                7      /* AUTO RELOAD PRELOAD ENABLE : FOR ARR BUFFERING                      */
+#define TIMx_CR1_CMS                 5      /* CENTRE ALIGNED MODE SELECTION                                       */
+// DIER
 #define TIMx_DIER_UIE                0      /* UPDATE INTERRUPT ENABLE                       : NORMAL MODE         */
 #define TIMx_DIER_CC1IE              1      /* COMPARE MODE INTERRUPT ENABLE                 : CHANNEL 1           */
 #define TIMx_DIER_CC2IE              2      /* COMPARE MODE INTERRUPT ENABLE                 : CHANNEL 2           */
 #define TIMx_DIER_CC3IE              3      /* COMPARE MODE INTERRUPT ENABLE                 : CHANNEL 3           */
 #define TIMx_DIER_CC4IE              4      /* COMPARE MODE INTERRUPT ENABLE                 : CHANNEL 4           */
+// SR
 #define TIMx_SR_UIF                  0      /* UPDATE INTERRUPT FLAG (OVERFLOW)              : NORMAL MODE         */
 #define TIMx_SR_CC1IF                1      /* COMPARE MODE INTERRUPT FLAG                   : CHANNEL 1           */
 #define TIMx_SR_CC2IF                2      /* COMPARE MODE INTERRUPT FLAG                   : CHANNEL 2           */
 #define TIMx_SR_CC3IF                3      /* COMPARE MODE INTERRUPT FLAG                   : CHANNEL 3           */
 #define TIMx_SR_CC4IF                4      /* COMPARE MODE INTERRUPT FLAG                   : CHANNEL 4           */
-#define TIMx_CCMR1_OC1M              4      /* MODE SELECTION BITS 6:4                       : CHANNEL 1           */
-#define TIMx_CCMR1_OC2M              12     /* MODE SELECTION BITS 14:12                     : CHANNEL 2           */
-#define TIMx_CCMR2_OC1M              4      /* MODE SELECTION BITS 6:4                       : CHANNEL 3           */
-#define TIMx_CCMR2_OC2M              12     /* MODE SELECTION BITS 14:12                     : CHANNEL 4           */
+// CCMR1
+#define TIMx_CCMR1_CC1S              0      /* CHANNEL DIRECTION OF CHANNEL 1 (OUTPUT / INPUT) BITS 1:0            */
+#define TIMx_CCMR1_OC1PE             3      /* PRELOAD ENABLE FOR CHANNEL 1                                        */
+#define TIMx_CCMR1_OC1M              4      /* COMPARE MODE SELECTION BITS 6:4               : CHANNEL 1           */
+#define TIMx_CCMR1_IC1F              4      /* DEFINES FILTERING OF INPUT SIGNAL BITS 7:4    : CHANNEL 1           */
+#define TIMx_CCMR1_IC1PSC            2      /* DEFINES INPUT CAPTURE PRESCALER BITS 3:2      : CHANNEL 1           */
+#define TIMx_CCMR1_CC2S              8      /* CHANNEL DIRECTION OF CHANNEL 2 (OUTPUT / INPUT)                     */
+#define TIMx_CCMR1_OC2PE             11     /* PRELOAD ENABLE FOR CHANNEL 2                                        */
+#define TIMx_CCMR1_OC2M              12     /* MODE SELECTION BITS 14:12                      : CHANNEL 2          */
+#define TIMx_CCMR1_IC2F              12      /* DEFINES FILTERING OF INPUT SIGNAL BITS 15:12  : CHANNEL 2          */
+#define TIMx_CCMR1_IC2PSC            10      /* DEFINES INPUT CAPTURE PRESCALER   BITS 11:10  : CHANNEL 2          */
+// CCMR2
+#define TIMx_CCMR2_CC3S              0      /* CHANNEL DIRECTION OF CHANNEL 1 (OUTPUT / INPUT)                     */
+#define TIMx_CCMR2_OC3PE             3      /* PRELOAD ENABLE FOR CHANNEL 1                                        */
+#define TIMx_CCMR2_OC3M              4      /* MODE SELECTION BITS 6:4                       : CHANNEL 3           */
+#define TIMx_CCMR2_IC3F              4      /* DEFINES FILTERING OF INPUT SIGNAL             : CHANNEL 3           */
+#define TIMx_CCMR2_IC3PSC            2      /* DEFINES INPUT CAPTURE PRESCALER               : CHANNEL 3           */
+#define TIMx_CCMR2_CC4S              8      /* CHANNEL DIRECTION OF CHANNEL 1 (OUTPUT / INPUT)                     */
+#define TIMx_CCMR2_OC4PE             11     /* PRELOAD ENABLE FOR CHANNEL 1                                        */
+#define TIMx_CCMR2_OC4M              12     /* MODE SELECTION BITS 14:12                     : CHANNEL 4           */
+#define TIMx_CCMR2_IC4F              12     /* DEFINES FILTERING OF INPUT SIGNAL             : CHANNEL 4           */
+#define TIMx_CCMR2_IC4PSC            10     /* DEFINES INPUT CAPTURE PRESCALER               : CHANNEL 4           */
+// CCER
 #define TIMx_CCER_CC1E               0      /* OUTPUT ENABLE                                 : CHANNEL 1           */
 #define TIMx_CCER_CC1P               1      /* OUPUT POLARITY (INVERTING / NON INVERTING)    : CHANNEL 1           */
+#define TIMx_CCER_CCN1P              3      /* USED IN INPUT CAPTURE MODE TO SELECT EDGE     : CHANNEL 1           */
 #define TIMx_CCER_CC2E               4      /* OUTPUT ENABLE                                 : CHANNEL 2           */
 #define TIMx_CCER_CC2P               5      /* OUPUT POLARITY (INVERTING / NON INVERTING)    : CHANNEL 2           */
+#define TIMx_CCER_CCN2P              7      /* USED IN INPUT CAPTURE MODE TO SELECT EDGE     : CHANNEL 2           */
 #define TIMx_CCER_CC3E               8      /* OUTPUT ENABLE                                 : CHANNEL 3           */
 #define TIMx_CCER_CC3P               9      /* OUPUT POLARITY (INVERTING / NON INVERTING)    : CHANNEL 3           */
+#define TIMx_CCER_CCN3P              11     /* USED IN INPUT CAPTURE MODE TO SELECT EDGE     : CHANNEL 3           */
 #define TIMx_CCER_CC4E               12     /* OUTPUT ENABLE                                 : CHANNEL 4           */
 #define TIMx_CCER_CC4P               13     /* OUPUT POLARITY (INVERTING / NON INVERTING)    : CHANNEL 4           */
-
+#define TIMx_CCER_CCN4P              15     /* USED IN INPUT CAPTURE MODE TO SELECT EDGE     : CHANNEL 4           */
+// EGR
+#define TIMx_EGR_UG                  0      /* USED TO GENERATE AN UPDATE EVENT VIA SOFTWARE*/
+#define TIMx_EGR_CC1G                1      /* GENERATES A COMPARE/CAPTURE EVENT : CH1      */
+#define TIMx_EGR_CC2G                2      /* GENERATES A COMPARE/CAPTURE EVENT : CH2      */
+#define TIMx_EGR_CC3G                3      /* GENERATES A COMPARE/CAPTURE EVENT : CH3      */
+#define TIMx_EGR_CC4G                4      /* GENERATES A COMPARE/CAPTURE EVENT : CH4      */
 /*
  *
  *
