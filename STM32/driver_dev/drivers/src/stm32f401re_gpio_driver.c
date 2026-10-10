@@ -209,6 +209,18 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
     }
     else  // interrupt modes
     {
+
+    	 /*
+    	  * Initial steps of
+    	  *
+    	  * 1) Enabling EXTI line
+    	  * 2) Setting the Mode (Falling Edge/Rising Edge/Falling&Rising Edge)
+    	  * 3) Mapping GPIO pin to EXTI line
+    	  *    are done inside GPIO_init
+    	  *
+    	  */
+
+
     	EXTI->IMR |= (1<<pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);// Enable Interrupt using IMR
 
     	      if((pGPIOHandle->GPIO_PinConfig.GPIO_PinMode==GPIO_MODE_IT_FT))// interrupt on falling edge
@@ -270,17 +282,8 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
     	         	    	     SYSCFG->EXTICR[temp1] &=~ (   0xF   << temp2*4);// clear before writing port code
     	         	    	     SYSCFG->EXTICR[temp1] |= (portcode << temp2*4);
 
- /*
-  * Initial steps of
-  *
-  * 1) Mapping GPIO pin to EXTI line
-  * 2) Enabling EXTI line
-  * 3) Setting the Mode (Falling Edge/Rising Edge/Falling&Rising Edge)
-  *
-  *    are done inside GPIO_init
-  *
-  */
-
+    	         	    	     // Clear MODER bits so that pin acts as input
+    	         	    	     pGPIOHandle->pGPIOx->MODER &=~ (0x3 << (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber*2));
 
     }
     // Configure speed : 32 bit register, 2 bits for each pin
@@ -381,13 +384,24 @@ void GPIO_IRQInterruptControl(uint8_t IRQNumber, uint8_t EnorDi)
 	temp1= IRQNumber/ 32; /* 1 Register for 32 interrupts */
 	temp2= IRQNumber% 32; /* 1 Register for 32 interrupts */
 
+	    /*
+	     * ISER/ICER are write-1-to-act registers: writing 1 acts on that
+	     * interrupt, writing 0 has no effect.
+	     *
+	     * Do NOT use |= (Read-Modify-Write) here.
+	     * Reading ICER returns the current enable state
+	     * of every interrupt in the register, so |= would write 1 back to all
+	     * the currently enabled ones and disable them along with this one.
+	     * Use plain = so only the selected bit is written as 1.
+	     */
+
 	if(EnorDi==ENABLE)
 	{
-	    NVIC->ISER[temp1] |= (1<< temp2);
+	    NVIC->ISER[temp1] = (1<< temp2);
 	}
 	else
 	{
-		NVIC->ICER[temp1] |= (1<< temp2);
+		NVIC->ICER[temp1] = (1<< temp2);
 	}
 }
 /*************************************************************************
@@ -421,7 +435,11 @@ void GPIO_IRQHandling(uint8_t PinNumber)
 {
 	if(EXTI->PR & (1<<PinNumber))
 	{
-		EXTI->PR |= (1<<PinNumber);
+		    /*
+		     * PR is write-1-to-clear. Use = instead of |=, since reading PR returns
+		     * all pending lines and |= would clear the other pending lines too.
+		     */
+		EXTI->PR = (1<<PinNumber);
 	}
 }
 

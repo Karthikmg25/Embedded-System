@@ -15,6 +15,7 @@
  */
 
 #define _vo              volatile
+#define __vo             _vo
 #include <stdint.h>
 #include <stdbool.h>
 /*
@@ -508,22 +509,22 @@ typedef struct
 /*
  * Priority configuration macros
  */
-#define TIM_IRQ_PRIORITY_0     0
-#define TIM_IRQ_PRIORITY_1     1
-#define TIM_IRQ_PRIORITY_2     2
-#define TIM_IRQ_PRIORITY_3     3
-#define TIM_IRQ_PRIORITY_4     4
-#define TIM_IRQ_PRIORITY_5     5
-#define TIM_IRQ_PRIORITY_6     6
-#define TIM_IRQ_PRIORITY_7     7
-#define TIM_IRQ_PRIORITY_8     8
-#define TIM_IRQ_PRIORITY_9     9
-#define TIM_IRQ_PRIORITY_10    10
-#define TIM_IRQ_PRIORITY_11    11
-#define TIM_IRQ_PRIORITY_12    12
-#define TIM_IRQ_PRIORITY_13    13
-#define TIM_IRQ_PRIORITY_14    14
-#define TIM_IRQ_PRIORITY_15    15
+#define IRQ_PRIORITY_0     0
+#define IRQ_PRIORITY_1     1
+#define IRQ_PRIORITY_2     2
+#define IRQ_PRIORITY_3     3
+#define IRQ_PRIORITY_4     4
+#define IRQ_PRIORITY_5     5
+#define IRQ_PRIORITY_6     6
+#define IRQ_PRIORITY_7     7
+#define IRQ_PRIORITY_8     8
+#define IRQ_PRIORITY_9     9
+#define IRQ_PRIORITY_10    10
+#define IRQ_PRIORITY_11    11
+#define IRQ_PRIORITY_12    12
+#define IRQ_PRIORITY_13    13
+#define IRQ_PRIORITY_14    14
+#define IRQ_PRIORITY_15    15
 
 /*
  *
