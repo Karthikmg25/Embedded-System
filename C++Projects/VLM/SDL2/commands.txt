@@ -1,0 +1,5 @@
+// command to configure the buil
+cmake -S . -B build
+
+// command to build voice_text program
+cmake --build build --target voice_text
